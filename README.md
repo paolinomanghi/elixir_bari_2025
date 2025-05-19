@@ -128,6 +128,36 @@ merge_metaphlan_tables.py *_profile.txt > merged_abundance_table.txt
 ```
 
 ### Topic n.3: Kraken + Bracken: taxonomic profiling using k-mers
+
+### Step n.1: Check everything is set up and move to the right directory
+```
+conda deactivate
+source ${path}/activate
+
+source ${path}/activate kraken
+```
+
+### Step n.2: Create kraken database
+```
+kraken_db="/home/ubuntu/shotgun_course/kraken2_database_gtdb_r220"
+
+kraken2-build --db kraken2_gtdb_r220 --add-to-library gtdb_sequences.fna
+kraken2-build --build --db kraken2_gtdb_r220
+```
+
+### Step n.3: Let's have a look at Kraken parameters
+```
+kraken -h
+```
+
+### Step n.4: Kraken database build
+```
+
+```
+
+### Step n.5: Run Kraken + Braken
+
+
 ### Topic n.4: HUMAnN 4: functional profiling at the community level
 ### Step n.1: Get into the right directory
 ```
