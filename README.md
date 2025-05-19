@@ -1,12 +1,12 @@
 ## Elixir Course, Bari, Italy, 2025
 
 ### Hands-on n.1 - Taxonomic and functional profiling using shotgun data
-#### Topic n.1: Preprocessing
-##### Step n.1: get into the right place
+### Topic n.1: Preprocessing
+### Step n.1: get into the right place
 ```
 cd /home/user<YOUR USER NAME>
 ```
-##### Step n.2: set up anaconda and check whether your environment is visible
+### Step n.2: set up anaconda and check whether your environment is visible
 ```
 DON'T INSTALL IT...
 ##wget https://repo.anaconda.com/archive/Anaconda3-2024.10-1-Linux-x86_64.sh
@@ -17,7 +17,7 @@ source ${path}/activate
 
 conda info --envs
 ```
-##### Step n.3: raw data pre-processing on fastq example files "seq_1.fastq.gz" and "seq_2.fastq.gz" from https://github.com/biobakery/biobakery/wiki/kneaddata
+### Step n.3: raw data pre-processing on fastq example files "seq_1.fastq.gz" and "seq_2.fastq.gz" from https://github.com/biobakery/biobakery/wiki/kneaddata
 ```
 ##conda create -n <trimmomatic> -c bioconda trimmomatic ## DON'T DO IT. WE DID ALREADY
 ##conda create -n <bowtie2> -c bioconda bowtie2 ## DON'T DO IT. WE DID ALREADY
@@ -31,7 +31,7 @@ unzip input.zip
 cd input
 ```
 
-##### Step n.4: Define variable "s" with the sampleID and run TRIMMOMATIC
+### Step n.4: Define variable "s" with the sampleID and run TRIMMOMATIC
 ```
 s="seq"
 
@@ -45,7 +45,7 @@ LEADING:20 TRAILING:20 SLIDINGWINDOW:4:15 MINLEN:75
 for i in *.fastq; do echo -ne "${i}\t"; cat "$i" | wc -l; done
 ```
 
-##### Step n. 5: Generate bowtie2 index of the human genome GCF_009914755.1_T2T-CHM13v2.0.fna (https://www.ncbi.nlm.nih.gov/datasets/genome/GCF_009914755.1/GCF_009914755.1_T2T-CHM13v2.0.fna)
+### Step n. 5: Generate bowtie2 index of the human genome GCF_009914755.1_T2T-CHM13v2.0.fna (https://www.ncbi.nlm.nih.gov/datasets/genome/GCF_009914755.1/GCF_009914755.1_T2T-CHM13v2.0.fna)
 ```
 human_gen_path="/home/ubuntu/shotgun_course/human_genome/"
 conda deactivate
@@ -70,10 +70,10 @@ samtools fastq ${s}.bothunmapped.sorted.bam -1 >(gzip > ${s}_filtered.final_1.fa
 
 for i in *.gz; do echo -ne "${i}\t"; zcat "$i" | wc -l; done
 ```
-##### Did the preprocessing produce the same exact number of reads in R1 and R2 ?
+### Did the preprocessing produce the same exact number of reads in R1 and R2 ?
 
-#### Topic n.2: MetaPhlAn 4: taxonomic profiling using marker genes
-##### Step n.1: Setup correct variables, activate environment and navigate to the right folders
+### Topic n.2: MetaPhlAn 4: taxonomic profiling using marker genes
+### Step n.1: Setup correct variables, activate environment and navigate to the right folders
 ```
 cd /home/user<YOUR USER NAME>
 path="/home/ubuntu/shotgun_course/anaconda3course/bin/"
@@ -88,7 +88,7 @@ mkdir 2_metaphlan
 cd 2_metaphlan
 ```
 
-##### Step n.2: Download metagenomic samples
+### Step n.2: Download metagenomic samples
 ```
 mpa_db="/home/ubuntu/shotgun_course/metaphlan_databases/"
 db_version="mpa_vJun23_CHOCOPhlAnSGB_202403"
@@ -103,12 +103,12 @@ wget https://github.com/biobakery/MetaPhlAn/releases/download/4.0.2/SRS014472-Bu
 s="SRS014476-Supragingival_plaque"
 ```
 
-##### Step n.3: Let's have a look at the MetaPhlAn parameters
+### Step n.3: Let's have a look at the MetaPhlAn parameters
 ```
 metaphlan -h
 ```
 
-##### Step n.4: Run MetaPhlAn 4
+### Step n.4: Run MetaPhlAn 4
 ```
 metaphlan ${s}.fasta.gz --input_type fasta --bowtie2out ${s}.bowtie2.bz2 --samout ${s}.sam.bz2 -o ${s}_profile.txt \
     --stat_q 0.1 --nproc 8 --bowtie2db ${mpa_db} --index ${db_version}
@@ -127,20 +127,99 @@ s="SRS014472-Buccal_mucosa"; metaphlan ${s}.fasta.gz --input_type fasta --bowtie
 merge_metaphlan_tables.py *_profile.txt > merged_abundance_table.txt
 ```
 
-##### Step n.6:
-##### Step n.7:
+### Topic n.3: Kraken + Bracken: taxonomic profiling using k-mers
+### Topic n.4: HUMAnN 4: functional profiling at the community level
+### Step n.1: Get into the right directory
+```
+conda deactivate
+source ${path}/activate
 
+## conda create -n <humann> -c bioconda python=3.9 ## DON'T DO IT. WE DID ALREADY
+source ${path}/activate humann
+## conda install -c biobakery <humann> ## DON'T DO IT. WE DID ALREADY
 
-#### Topic n.3: Kraken + Bracken: taxonomic profiling using k-mers
-#### Topic n.4: HUMAnN 4: functional profiling at the community level
+mkdir 6_humann
+cd 6_humann
+```
 
+### Step n.2: test that HUMAnN runs properly and have a look at the HUMAnN parameters
+```
+humann_test
+humann_config
 
+humann -h
+```
 
+### Step n.3: get a sample from EBI
+```
+wget ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR154/096/SRR15408396/SRR15408396.fastq.gz
+```
+
+### Step n.4: RUN humann
+```
+s="SRR15408396"
+
+## NOW YOU CAN RUN:
+## humann --input ${s}.fastq.gz --output ${s} --threads 8
+
+## BUT IT TAKES THREE HOURS... OR YOU CAN RUN:
+mkdir -p ${s}
+
+cp /home/ubuntu/course_backup/course/6_humann/${s}/${s}_genefamilies.tsv ${s}/
+cp /home/ubuntu/course_backup/course/6_humann/${s}/${s}_pathabundance.tsv ${s}/
+cp /home/ubuntu/course_backup/course/6_humann/${s}/${s}_pathcoverage.tsv ${s}/
+```
+
+### Step n.5: Manipulate and normalize HUMAnN output
+```
+humann_renorm_table -i ${s}/${s}_genefamilies.tsv -o ${s}/${s}_genefamilies-relab.tsv -u relab
+humann_renorm_table -i ${s}/${s}_pathabundance.tsv -o ${s}/${s}_pathabundance-relab.tsv -u relab
+```
+
+### Step n.6: Regrouping genes to other functional categories
+```
+humann_regroup_table -i ${s}/${s}_genefamilies-relab.tsv -o ${s}/${s}_rxn-relab.tsv --groups uniref90_rxn
+```
+
+### Step n.7: Run HUMAnN on a second sample
+```
+s="SRR15408398"
+
+## SAME:
+## wget ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR154/098/SRR15408398/SRR15408398.fastq.gz
+## humann --input ${s}.fastq.gz --output ${s} --threads 8
+
+## FOR NOW, RUN:
+mkdir ${s}
+
+cp /home/ubuntu/course_backup/course/6_humann/${s}/${s}_genefamilies.tsv ${s}/
+cp /home/ubuntu/course_backup/course/6_humann/${s}/${s}_pathabundance.tsv ${s}/
+cp /home/ubuntu/course_backup/course/6_humann/${s}/${s}_pathcoverage.tsv ${s}/
+
+humann_renorm_table -i ${s}/${s}_genefamilies.tsv -o ${s}/${s}_genefamilies-relab.tsv -u relab
+humann_renorm_table -i ${s}/${s}_pathabundance.tsv -o ${s}/${s}_pathabundance-relab.tsv -u relab
+```
+
+### Step n.8: Merge together community profiles under different ontologies
+```
+mkdir -p merged
+
+cp SRR15408396/SRR15408396_genefamilies-relab.tsv merged/
+cp SRR15408398/SRR15408398_genefamilies-relab.tsv merged/
+cp SRR15408396/SRR15408396_pathabundance-relab.tsv merged/
+cp SRR15408398/SRR15408398_pathabundance-relab.tsv merged/
+cp SRR15408396/SRR15408396_pathcoverage.tsv merged/
+cp SRR15408398/SRR15408398_pathcoverage.tsv merged/
+
+humann_join_tables -i merged -o merged/merged_genefamilies-relab.tsv --file_name genefamilies-relab
+humann_join_tables -i merged -o merged/merged_pathabundance-relab.tsv --file_name pathabundance-relab
+humann_join_tables -i merged -o merged/merged_pathcoverage.tsv --file_name pathcoverage
+```
 
 ### Hands-on n.2 - Taxonomic profiling beyond the level of species
-#### Step n.1:
+### Step n.1:
 
-#### Step n.2: Getting example files (6 fastq files) from https://github.com/biobakery/MetaPhlAn/wiki/StrainPhlAn-4.1
+### Step n.2: Getting example files (6 fastq files) from https://github.com/biobakery/MetaPhlAn/wiki/StrainPhlAn-4.1
 ```
 wget http://cmprod1.cibio.unitn.it/biobakery4/github_strainphlan4/fastq/SRS013951.fastq.bz2
 wget http://cmprod1.cibio.unitn.it/biobakery4/github_strainphlan4/fastq/SRS014613.fastq.bz2
@@ -150,8 +229,8 @@ wget http://cmprod1.cibio.unitn.it/biobakery4/github_strainphlan4/fastq/SRS05598
 wget http://cmprod1.cibio.unitn.it/biobakery4/github_strainphlan4/fastq/SRS064276.fastq.bz2
 ```
 
-#### Step n.3: Running MetaPhlAn 4
-##### Approach n. 1 ==> Running MetaPhlAn 4 to obtain the .sam files of the marker genes' alignments
+### Step n.3: Running MetaPhlAn 4
+### Approach n. 1 ==> Running MetaPhlAn 4 to obtain the .sam files of the marker genes' alignments
 ```
 ## mpa_db="/home/ubuntu/shotgun_course/metaphlan_databases/"
 ## db_version="mpa_vJun23_CHOCOPhlAnSGB_202403"
@@ -170,7 +249,7 @@ wget http://cmprod1.cibio.unitn.it/biobakery4/github_strainphlan4/fastq/SRS06427
 ##     --bowtie2db ${mpa_db} --index ${db_version}
 ```
 
-##### Approach n. 2 ==> Copy the .sam alignments from a pre-existing repository
+### Approach n. 2 ==> Copy the .sam alignments from a pre-existing repository
 ```
 cp /home/ubuntu/course_backup/course/4_strainphlan/SRS013951.sam.bz2 .
 cp /home/ubuntu/course_backup/course/4_strainphlan/SRS014613.sam.bz2 .
@@ -180,44 +259,44 @@ cp /home/ubuntu/course_backup/course/4_strainphlan/SRS055982.sam.bz2 .
 cp /home/ubuntu/course_backup/course/4_strainphlan/SRS064276.sam.bz2 .
 ```
 
-#### Step n.4: Extract for each sample the alignments over its markers
+### Step n.4: Extract for each sample the alignments over its markers
 ```
 mpa_database="/home/ubuntu/shotgun_course/metaphlan_databases/mpa_vJun23_CHOCOPhlAnSGB_202403.pkl"
 sample2markers.py -i *.sam.bz2 -o ./ -n 8 -d ${mpa_database}
 ```
 
-#### Step n.5: Extract marker genes for a species of interest
+### Step n.5: Extract marker genes for a species of interest
 ```
 mkdir -p db_markers
 ```
-##### Approach n. 1 ==> run the dedicate command
+### Approach n. 1 ==> run the dedicate command
 ```
 extract_markers.py -c t__SGB1877 -o db_markers/ -d ${mpa_database} ## TOO LONG,
 ```
 
-##### Approach n. 2 ==> Copy the pre-built marker files
+### Approach n. 2 ==> Copy the pre-built marker files
 ```
 cp /home/ubuntu/course_backup/course/4_strainphlan/db_markers/t__SGB1877.fna db_markers/
 ```
 
-#### Step n.6: Also include a reference genome ("GCF000273725")
+### Step n.6: Also include a reference genome ("GCF000273725")
 ```
 mkdir -p reference_genomes
 wget -P reference_genomes/ http://cmprod1.cibio.unitn.it/biobakery4/github_strainphlan4/reference_genomes/G000273725.fna.bz2
 ```
 
-#### Step n.7: Let's look the StrainPhlAn params
+### Step n.7: Let's look the StrainPhlAn params
 ```
 strainphlan -h
 ```
 
-#### Step n.8: Run StrainPhlAn 4
+### Step n.8: Run StrainPhlAn 4
 ```
 mkdir -p strainphlan_output
 strainphlan -s *.json.bz2 -m db_markers/t__SGB1877.fna -r reference_genomes/G000273725.fna.bz2 -o strainphlan_output -c t__SGB1877 -n 8 -d ${mpa_database}
 ```
 
-#### Step n.9: Let's visualize it ! 
+### Step n.9: Let's visualize it ! 
 ```
 wget http://cmprod1.cibio.unitn.it/biobakery4/github_strainphlan4/fastq/metadata.txt
 add_metadata_tree.py -t output/RAxML_bestTree.t__SGB1877.StrainPhlAn4.tre -f metadata.txt -m subjectID --string_to_remove .fastq.bz2
@@ -227,10 +306,98 @@ source ${path}/activate graphlan
 ${path}/../envs/mpa/bin/plot_tree_graphlan.py -t output/RAxML_bestTree.t__SGB1877.StrainPhlAn4.tre.metadata -m subjectID
 ```
 
-
-
 ### Hands-on n.3 - Metagenome assembly and binning
-#### Step n.1:
-#### Step n.2:
-#### Step n.3:
-#### Step n.4:
+### Approach n. 1: follow the protocol
+### Step n.1: check everything is set up, download a sample, and run Megahit
+```
+cd /home/user<YOUR USER NAME>
+path="/home/ubuntu/shotgun_course/anaconda3course/bin/"
+
+conda deactivate
+source ${path}/activate
+
+## conda create -n <megahit> -c bioconda megahit ## DON'T DO IT. WE DID ALREADY
+source ${path}/activate megahit
+
+mkdir 7_assembly
+cd 7_assembly
+
+wget ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR341/SRR341725/SRR341725_[12].fastq.gz
+
+megahit -h
+
+s="SRR341725"
+## MEGAHIT WILL TAKE A FEW HOURS:
+## megahit -1 ${s}_1.fastq.gz -2 ${s}_2.fastq.gz -o ${s}.megahit_asm -t 8
+
+## FOR NOW WE CAN COPY THE RESULTS FROM MEGAHIT
+mkdir -p ${s}.megahit_asm/
+
+cp /home/ubuntu/course_backup/course/7_assembly/${s}.megahit_asm/final.contigs.fa  ${s}.megahit_asm/
+cp /home/ubuntu/course_backup/course/7_assembly/${s}.megahit_asm/contigs.fasta  ${s}.megahit_asm/
+
+## WE ALSO NEED TWO CUSTOM SCRIPT:
+cp /home/ubuntu/course_backup/course/7_assembly/filter_contigs.py .
+cp /home/ubuntu/course_backup/course/7_assembly/megahit2spades.py .
+```
+
+### Step n.2: Binning, i.e. grouping assemblies into genomes using MetaBat2
+```
+source ${path}/activate
+ 
+## conda create -n <metabat2> -c bioconda metabat2 ## DON'T DO IT. WE DID ALREADY
+source ${path}/activate metabat2
+
+## conda install -c bioconda <bowtie2> ## DON'T DO IT. WE DID ALREADY
+## conda install -c bioconda <samtools> ## DON'T DO IT. WE DID ALREADY
+
+mkdir 8_MAG-reconstruction
+cd 8_MAG-reconstruction
+
+s="SRR341725"
+
+cp ../7_assembly/SRR341725.megahit_asm/contigs_filtered.fasta ./
+cp ../7_assembly/SRR341725_1.fastq.gz ./
+cp ../7_assembly/SRR341725_2.fastq.gz ./
+
+bowtie2-build contigs_filtered.fasta contigs_filtered
+bowtie2 -x contigs_filtered -1 ${s}_1.fastq.gz -2 ${s}_2.fastq.gz -S ${s}.sam -p 8 2> ${s}.bowtie2.log
+
+### THE FOLLOWING MIGHT RAISE DISK ISSUE:
+## samtools view -bS ${s}.sam > ${s}.bam
+## samtools sort ${s}.bam -o sorted_${s}.bam
+
+## COPY THE RESULT FOR NOW:
+cp /home/ubuntu/course_backup/course/8_MAG-reconstruction/sorted_SRR341725.bam .
+
+jgi_summarize_bam_contig_depths --outputDepth ${s}_depth.txt sorted_${s}.bam 2> ${s}_depth.log
+```
+
+### Step n.3: Run MetaBat 2 for binning
+```
+metabat2 -i contigs_filtered.fasta -a ${s}_depth.txt -o ${s}_bins/bin -m 1500 --unbinned -t 8 > ${s}_metabat2.log
+```
+
+### Step n.4: Estimate MAG quality using checkM2
+```
+conda deactivate
+
+## conda create -n <checkm2> -c bioconda checkm2 ## DON'T DO IT. WE DID ALREADY
+
+source ${path}/activate checkm2
+## pip install absl-py==1.1.0 ## DON'T DO IT. WE DID ALREADY
+
+## LET'S NOT DOWNLOAD THE DATABASE
+## checkm2 database --download --path ./
+
+## WE CAN USE A COPY
+checkm2_db="/home/ubuntu/course_backup/course/8_MAG-reconstruction/CheckM2_database/uniref100.KO.1.dmnd"
+checkm2 testrun --database_path ${checkm2_db} --threads 8
+
+checkm2 predict -i SRR341725_bins -o SRR341725_checkm2 -x .fa --database_path ${checkm2_db} --threads 8
+
+awk -F'\t' '$2 > 50 && $3 < 5' SRR341725_checkm2/quality_report.tsv > SRR341725_checkm2/quality_report_filtered.tsv
+
+mkdir -p ${s}_bins_filtered
+cut -f1 SRR341725_checkm2/quality_report_filtered.tsv | while read -r value; do cp ${s}_bins/${value}.fa ${s}_bins_filtered/; done
+```
