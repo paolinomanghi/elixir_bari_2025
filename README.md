@@ -1,4 +1,4 @@
-## Elixir Course, Bari, Italy, 2025jdash
+## Elixir Course, Bari, Italy, 2025
 
 ### Hands-on n.1 - Taxonomic and functional profiling using shotgun data
 ### Topic n.1: Preprocessing
