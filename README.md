@@ -1,10 +1,11 @@
+# Elixir Course, Bari, Italy, 2025
 ## Elixir Course, Bari, Italy, 2025
 ### Elixir Course, Bari, Italy, 2025
 #### Elixir Course, Bari, Italy, 2025
 ##### Elixir Course, Bari, Italy, 2025
 ###### [ !! nome del liunk per la pipeline di Davide !! ](https://github.com/metashot/mag-illumina)
 
-### Hands-on n.1 - Taxonomic and functional profiling using shotgun data
+## Hands-on n.1 - Taxonomic and functional profiling using shotgun data
 ### Topic n.1: Preprocessing
 ### Step n.1: get into the right place
 ```
@@ -250,7 +251,7 @@ humann_join_tables -i merged -o merged/merged_pathabundance-relab.tsv --file_nam
 humann_join_tables -i merged -o merged/merged_pathcoverage.tsv --file_name pathcoverage
 ```
 
-### Hands-on n.2 - Taxonomic profiling beyond the level of species
+## Hands-on n.2 - Taxonomic profiling beyond the level of species
 ### Step n.1:
 
 ### Step n.2: Getting example files (6 fastq files) from https://github.com/biobakery/MetaPhlAn/wiki/StrainPhlAn-4.1
@@ -340,7 +341,7 @@ source ${path}/activate graphlan
 ${path}/../envs/mpa/bin/plot_tree_graphlan.py -t output/RAxML_bestTree.t__SGB1877.StrainPhlAn4.tre.metadata -m subjectID
 ```
 
-### Hands-on n.3 - Metagenome assembly and binning
+## Hands-on n.3 - Metagenome assembly and binning
 ### Approach n. 1: follow the protocol
 ### Step n.1: check everything is set up, download a sample, and run Megahit
 ```
@@ -436,7 +437,7 @@ mkdir -p ${s}_bins_filtered
 cut -f1 SRR341725_checkm2/quality_report_filtered.tsv | while read -r value; do cp ${s}_bins/${value}.fa ${s}_bins_filtered/; done
 ```
 
-### Approach n. 2: run the workflow
+## Approach n. 2: run the workflow
 
 Make sure that you have nextflow and singularity installed
 
