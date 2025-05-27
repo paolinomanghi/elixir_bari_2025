@@ -443,3 +443,13 @@ Make sure that you have nextflow and singularity installed
 https://www.nextflow.io/
 
 https://docs.sylabs.io/guides/latest/user-guide/
+
+```
+ nextflow run metashot/mag-illumina \
+   --reads '../fastq/*_R{1,2}.fastq.gz' \
+   --outdir results
+```
+This commamnd runs the assembly and binning workflow using pired-ends read files in the ../fastq/ directory. 
+With this syntax, each "*_R1.fastq.gz" file will be matched with the corresponding "*_R2.fastq.gz" file.
+The workflow will produce two folders: "work" that contains intermediate files, and the "results" folder that contains 
+results files
