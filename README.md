@@ -435,3 +435,11 @@ awk -F'\t' '$2 > 50 && $3 < 5' SRR341725_checkm2/quality_report.tsv > SRR341725_
 mkdir -p ${s}_bins_filtered
 cut -f1 SRR341725_checkm2/quality_report_filtered.tsv | while read -r value; do cp ${s}_bins/${value}.fa ${s}_bins_filtered/; done
 ```
+
+### Approach n. 2: run the workflow
+
+Make sure that you have nextflow and singularity installed
+
+https://www.nextflow.io/
+
+https://docs.sylabs.io/guides/latest/user-guide/
