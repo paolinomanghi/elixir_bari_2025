@@ -2,7 +2,7 @@
 ### Elixir Course, Bari, Italy, 2025
 #### Elixir Course, Bari, Italy, 2025
 ##### Elixir Course, Bari, Italy, 2025
-###### [Elixir Course, Bari, Italy, 2025](https://github.com/metashot/mag-illumina)
+###### [ !! nome del liunk per la pipeline di Davide !! ](https://github.com/metashot/mag-illumina)
 
 
 ### Hands-on n.1 - Taxonomic and functional profiling using shotgun data
