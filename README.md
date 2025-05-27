@@ -480,8 +480,9 @@ cd quality
 nextflow run metashot/prok-quality \
   --genomes '../mag/results/bins/*.fa' \
   --outdir results
+   -with-report report.html
 ```
-This command uses the bin fasta files from teh previous step as input, and produces a report on thei completeness and contamination. Again, it will produce a "work" directory and a "results" directory
+This command uses the bin fasta files from the previous step as input, and produces a report on thei completeness and contamination. Again, it will produce a "work" directory and a "results" directory
 Mail output in the "results" directory:
 
 * genome_info.tsv: summary table of genomes quality. Columns are: 
@@ -503,6 +504,23 @@ See https://github.com/metashot/prok-quality for complete documentation
 
 ### Step 3: Taxonomic classification of bins
 
+This step classifies the genomes passing the qulity filter of the previous step according to the GTDB (https://gtdb.ecogenomic.org/) schema and the GTDB-Tk tookit (https://github.com/Ecogenomics/GTDBTk). 
+
+```
+cd classify 
+nextflow run compmetagen/prok-classify \
+  --genomes "../quality/*.fa" \
+  --gtdbtk_db ./release220 \
+  --outdir results
+   -with-report report.html
+```
+
+Output:
+
+* bacteria_summary.tsv: the GTDB-Tk summary for bacterial genomes (documentation);
+* archaea_summary.tsv: the GTDB-Tk summary for archaeal genomes (documentation);
+* bacteria_genomes: folder containing the genomes classified as bacteria by GTDB-Tk;
+* archaea_genomes: folder containing the genomes classified as archaea by GTDB-Tk.
 
 
 
