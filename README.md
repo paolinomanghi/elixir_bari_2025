@@ -437,7 +437,7 @@ mkdir -p ${s}_bins_filtered
 cut -f1 SRR341725_checkm2/quality_report_filtered.tsv | while read -r value; do cp ${s}_bins/${value}.fa ${s}_bins_filtered/; done
 ```
 
-## Approach n. 2: run the workflow
+## Approach n. 2: run the nextflow workflow
 
 Make sure that you have nextflow and singularity installed
 
@@ -447,10 +447,21 @@ https://docs.sylabs.io/guides/latest/user-guide/
 
 ```
  nextflow run metashot/mag-illumina \
+   --assembler "megahit" \
    --reads '../fastq/*_R{1,2}.fastq.gz' \
-   --outdir results
+   --outdir results \ 
+   -with-report report.html
 ```
-This commamnd runs the assembly and binning workflow using pired-ends read files in the ../fastq/ directory. 
+This commamnd runs the assembly (using megahit) and binning workflow using pired-ends read files in the ../fastq/ directory. 
 With this syntax, each "\*_R1.fastq.gz" file will be matched with the corresponding "\*_R2.fastq.gz" file.
-The workflow will produce two folders: "work" that contains intermediate files, and the "results" folder that contains 
-results files
+The workflow will produce two folders and one report file: 
+* the report.html file contains a report of the tasks run by the workflow with details on the resources used and outcome
+* the "work" directory that contains intermediate files
+* the "results" folder that contains results files. The results directory contains:
+    * scaffolds: scaffolds for each input sample;
+    * bins: genome bins produced by Metabat2;
+    * unbinned: unbinned contigs;
+    * stats_scaffolds.tsv: scaffold statistics;
+
+
+
