@@ -446,6 +446,8 @@ https://www.nextflow.io/
 
 https://docs.sylabs.io/guides/latest/user-guide/
 
+Warning: the nextflow commands are here for explanatory purposes only: each of them will require from hours to days to run and considerable computational resouces. The results have been pre-computed and are already present on your workspace.
+
 ```
 cd mag
  nextflow run metashot/mag-illumina \
@@ -484,13 +486,15 @@ Mail output in the "results" directory:
     * Genome size (bp), ... 
     * \# predicted genes: basic genome statistics 
     * 5S rRNA, 23S rRNA, 16S rRNA \# tRNA, # tRNA types: the number and types of rRNA and tRNA genes  respecively
-* filtered genomes: a folder containg the genomes passing teh qulity filter
+* filtered genomes: a folder containg the genomes passing the qulity filter
 * genome_info_filtered.tsv: same as genome_info.tsv 
 * derep_info.tsv: table conating the dereplication summary. Columns are: 
     * Genome: genome filename
     * Cluster: the cluster ID (from 0 to N-1)
     * Representative: is this genome the cluster representative?
+* filtered_repr: folder containing the filered and representative genomes
 
+See https://github.com/metashot/prok-quality for complete documentation
 
 
 
