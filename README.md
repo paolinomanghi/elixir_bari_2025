@@ -438,7 +438,8 @@ cut -f1 SRR341725_checkm2/quality_report_filtered.tsv | while read -r value; do 
 ```
 
 ## Approach n. 2: run the nextflow workflow
-### Step 1: Assembly and binning
+
+Warning: the nextflow commands are here for explanatory purposes only: each of them will require from hours to days to run and considerable computational resouces. The results have been pre-computed and are already present on your workspace.
 
 Make sure that you have nextflow and singularity installed
 
@@ -446,7 +447,9 @@ https://www.nextflow.io/
 
 https://docs.sylabs.io/guides/latest/user-guide/
 
-Warning: the nextflow commands are here for explanatory purposes only: each of them will require from hours to days to run and considerable computational resouces. The results have been pre-computed and are already present on your workspace.
+
+### Step 1: Assembly and binning
+
 
 ```
 cd mag
@@ -472,6 +475,8 @@ See https://github.com/metashot/mag-illumina for complete documentation
 ### Step 2: Bin quality
 
 ```
+cd quality
+
 nextflow run metashot/prok-quality \
   --genomes '../mag/results/bins/*.fa' \
   --outdir results
@@ -495,6 +500,8 @@ Mail output in the "results" directory:
 * filtered_repr: folder containing the filered and representative genomes
 
 See https://github.com/metashot/prok-quality for complete documentation
+
+### Step 3: Taxonomic classification of bins
 
 
 
