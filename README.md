@@ -522,6 +522,7 @@ Output:
 * bacteria_genomes: folder containing the genomes classified as bacteria by GTDB-Tk;
 * archaea_genomes: folder containing the genomes classified as archaea by GTDB-Tk.
 
+Complete documentation in https://github.com/metashot/prok-classify
 
 
 
