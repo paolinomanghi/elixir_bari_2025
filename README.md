@@ -438,6 +438,7 @@ cut -f1 SRR341725_checkm2/quality_report_filtered.tsv | while read -r value; do 
 ```
 
 ## Approach n. 2: run the nextflow workflow
+### Step 1: Assembly and binning
 
 Make sure that you have nextflow and singularity installed
 
@@ -446,6 +447,7 @@ https://www.nextflow.io/
 https://docs.sylabs.io/guides/latest/user-guide/
 
 ```
+cd mag
  nextflow run metashot/mag-illumina \
    --assembler "megahit" \
    --reads '../fastq/*_R{1,2}.fastq.gz' \
@@ -462,6 +464,35 @@ The workflow will produce two folders and one report file:
     * bins: genome bins produced by Metabat2;
     * unbinned: unbinned contigs;
     * stats_scaffolds.tsv: scaffold statistics;
+
+See https://github.com/metashot/mag-illumina for complete documentation
+
+### Step 2: Bin quality
+
+```
+nextflow run metashot/prok-quality \
+  --genomes '../mag/results/bins/*.fa' \
+  --outdir results
+```
+This command uses the bin fasta files from teh previous step as input, and produces a report on thei completeness and contamination. Again, it will produce a "work" directory and a "results" directory
+Mail output in the "results" directory:
+
+* genome_info.tsv: summary table of genomes quality. Columns are: 
+    * Genome: the genome filename
+    * Completeness, Contamination, Strain heterogeneity: CheckM estimates
+    * GUNC pass: if a genome doesn't pass GUNC analysis it means it is likely to be chimeric
+    * Genome size (bp), ... 
+    * \# predicted genes: basic genome statistics 
+    * 5S rRNA, 23S rRNA, 16S rRNA \# tRNA, # tRNA types: the number and types of rRNA and tRNA genes  respecively
+* filtered genomes: a folder containg the genomes passing teh qulity filter
+* genome_info_filtered.tsv: same as genome_info.tsv 
+* derep_info.tsv: table conating the dereplication summary. Columns are: 
+    * Genome: genome filename
+    * Cluster: the cluster ID (from 0 to N-1)
+    * Representative: is this genome the cluster representative?
+
+
+
 
 
 
