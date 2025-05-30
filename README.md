@@ -517,12 +517,26 @@ nextflow run compmetagen/prok-classify \
 
 Output:
 
-* bacteria_summary.tsv: the GTDB-Tk summary for bacterial genomes (documentation);
-* archaea_summary.tsv: the GTDB-Tk summary for archaeal genomes (documentation);
+* bacteria_summary.tsv: the GTDB-Tk summary for bacterial genomes;
+* archaea_summary.tsv: the GTDB-Tk summary for archaeal genomes;
 * bacteria_genomes: folder containing the genomes classified as bacteria by GTDB-Tk;
 * archaea_genomes: folder containing the genomes classified as archaea by GTDB-Tk.
 
 Complete documentation in https://github.com/metashot/prok-classify
 
+#### Step 4: Functional annotation of genomes
 
+This workflow perform gene prediction and functional annotation of prokaryotic genomes. Necessary databases are downloaded automatically
 
+```
+cd annotate
+nextflow run metashot/prok-annotate \
+  --genomes "../quality/results/*.fa" \
+  --outdir results
+```
+
+Input: prokaryotic contig/genomes in FASTA format;
+* Functional annotation using Prokka;
+* Functional annotation through orthology assignment by eggNOG-mapper v2 and the eggNOG v5.0 database (optional);
+* KEGG ortholog assignment by KofamScan and the KOfam database (https://www.genome.jp/tools/kofamkoala/) (optional);
+* Estimates KEGG pathway completeness using Anvi'o (https://merenlab.org/software/anvio/) (optional);
