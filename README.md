@@ -479,8 +479,8 @@ cd quality
 
 nextflow run metashot/prok-quality \
   --genomes '../mag/results/bins/*.fa' \
-  --outdir results
-   -with-report report.html
+  --outdir results \
+  ß-with-report report.html
 ```
 This command uses the bin fasta files from the previous step as input, and produces a report on thei completeness and contamination. Again, it will produce a "work" directory and a "results" directory
 Mail output in the "results" directory:
