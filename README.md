@@ -463,8 +463,8 @@ This commamnd runs the assembly (using megahit) and binning workflow using pired
 With this syntax, each "\*_R1.fastq.gz" file will be matched with the corresponding "\*_R2.fastq.gz" file.
 The workflow will produce two folders and one report file: 
 * the report.html file contains a report of the tasks run by the workflow with details on the resources used and outcome
-* the "work" directory that contains intermediate files. These files allow the workflow manager to reuse already performed steps if something goes wrong or you want to change something (option "-resume")
-* the "results" folder that contains results files. The results directory contains:
+* the "work" directory contains intermediate files. These files allow the workflow manager to reuse already performed steps if something goes wrong or you want to change something (option "-resume")
+* the "results" folder contains results files. The results directory contains:
     * scaffolds: scaffolds for each input sample;
     * bins: genome bins produced by Metabat2;
     * unbinned: unbinned contigs;
