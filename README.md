@@ -140,11 +140,22 @@ conda deactivate
 source ${path}/activate
 
 source ${path}/activate kraken
+
+## This is needed for kraken database construction !
+pip install gtdb_to_taxdump
+
 ```
 
 ### Step n.2: Create kraken database
 ```
 kraken_db="/home/ubuntu/shotgun_course/kraken2_database_gtdb_r220"
+
+gtdb_to_taxdump -h
+
+wget https://github.com/shenwei356/gtdb-taxdump/releases/download/v0.6.0/gtdb-taxdump-R226.tar.gz -O gtdb-taxdump-R226.tar.gz
+tar -xvzf gtdb-taxdump-R226.tar.gz
+
+export TAXONKIT_DB=/path/to/the/release-226/nodes/
 
 kraken2-build --db kraken2_gtdb_r220 --add-to-library gtdb_sequences.fna
 kraken2-build --build --db kraken2_gtdb_r220
