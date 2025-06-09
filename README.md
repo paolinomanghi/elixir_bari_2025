@@ -142,6 +142,8 @@ source ${path}/activate
 source ${path}/activate kraken
 
 ## This is needed for kraken database construction !
+
+conda install -c bioconda taxonkit
 pip install gtdb_to_taxdump
 
 ```
