@@ -5,7 +5,7 @@
 ## Hands-on n.1 - Taxonomic and functional profiling using shotgun data
 ### Topic n.1: Preprocessing
 
-* Step n.0: download & install Anaconda ** we did it already, don't do it ** 
+* Step n.0: download & install Anaconda **we did it already, don't do it** 
 ```
 ##wget https://repo.anaconda.com/archive/Anaconda3-2024.10-1-Linux-x86_64.sh
 ##bash Anaconda3-2024.10-1-Linux-x86_64.sh
