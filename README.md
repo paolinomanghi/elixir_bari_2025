@@ -1,28 +1,29 @@
-# Elixir Course, Bari, Italy, 2025
+
 ## Elixir Course, Bari, Italy, 2025
-### Elixir Course, Bari, Italy, 2025
-#### Elixir Course, Bari, Italy, 2025
-##### Elixir Course, Bari, Italy, 2025
-###### [ !! nome del liunk per la pipeline di Davide !! ](https://github.com/metashot/mag-illumina)
+* [link arbitrario](https://github.com/metashot/mag-illumina)
 
 ## Hands-on n.1 - Taxonomic and functional profiling using shotgun data
 ### Topic n.1: Preprocessing
-### Step n.1: get into the right place
+
+* Step n.0: download & install Anaconda ** we did it already, don't do it ** 
 ```
-cd /home/user<YOUR USER NAME>
-```
-### Step n.2: set up anaconda and check whether your environment is visible
-```
-DON'T INSTALL IT...
 ##wget https://repo.anaconda.com/archive/Anaconda3-2024.10-1-Linux-x86_64.sh
 ##bash Anaconda3-2024.10-1-Linux-x86_64.sh
+```
+
+* Step n.1: get into the right place & check if your environment is present
+
+```
+cd /home/user<YOUR USER NAME>
 
 path="/home/ubuntu/shotgun_course/anaconda3course/bin/"
 source ${path}/activate
 
 conda info --envs
 ```
-### Step n.3: raw data pre-processing on fastq example files "seq_1.fastq.gz" and "seq_2.fastq.gz" from https://github.com/biobakery/biobakery/wiki/kneaddata
+
+* Step n.2: raw data pre-processing on fastq example files "seq_1.fastq.gz" and "seq_2.fastq.gz" from https://github.com/biobakery/biobakery/wiki/kneaddata
+
 ```
 ##conda create -n <trimmomatic> -c bioconda trimmomatic ## DON'T DO IT. WE DID ALREADY
 ##conda create -n <bowtie2> -c bioconda bowtie2 ## DON'T DO IT. WE DID ALREADY
