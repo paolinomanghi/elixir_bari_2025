@@ -134,33 +134,56 @@ merge_metaphlan_tables.py *_profile.txt > merged_abundance_table.txt
 
 ### Topic n.3: Kraken + Bracken: taxonomic profiling using k-mers
 
-### Step n.1: Check everything is set up and move to the right directory
+### Step n.1: Check everything is set up and create kraken + bracken DB
+
 ```
+
 conda deactivate
 source ${path}/activate
-
 source ${path}/activate kraken
+ 
+wget https://github.com/shenwei356/gtdb-taxdump/releases/download/v0.6.0/gtdb-taxdump-R226.tar.gz
+wget https://data.gtdb.ecogenomic.org/releases/release226/226.0/auxillary_files/gtdbtk_package/full_package/gtdbtk_r226_data.tar.gz
 
-## This is needed for kraken database construction !
-
-conda install -c bioconda taxonkit
-pip install gtdb_to_taxdump
-
-```
-
-### Step n.2: Create kraken database
-```
-kraken_db="/home/ubuntu/shotgun_course/kraken2_database_gtdb_r220"
-
-gtdb_to_taxdump -h
-
-wget https://github.com/shenwei356/gtdb-taxdump/releases/download/v0.6.0/gtdb-taxdump-R226.tar.gz -O gtdb-taxdump-R226.tar.gz
 tar -xvzf gtdb-taxdump-R226.tar.gz
+tar -xvzf gtdbtk_r226_data.tar.gz
 
-export TAXONKIT_DB=/path/to/the/release-226/nodes/
+genome_paths="/nfs2/manghip/databases/gtdbtk_db_226/skani/genome_paths.tsv"
+TaxIds="/nfs2/manghip/databases/gtdb_r226_kraken_db/taxonomy/taxid.map"
 
-kraken2-build --db kraken2_gtdb_r220 --add-to-library gtdb_sequences.fna
-kraken2-build --build --db kraken2_gtdb_r220
+mkdir -p /nfs2/manghip/databases/gtdb_r226_kraken_db/prepared_genomes/
+
+cat ${genome_paths} | while read line; do
+
+genome_id=`echo ${line} | awk '{print $1}'`
+local_path=`echo ${line} | awk '{print $2}'`
+tax_id=`grep ${genome_id%_genomic.fna.gz} ${TaxIds} | awk '{print $2}'`
+global_path="/nfs2/manghip/databases/gtdbtk_db_226/skani/${local_path}${genome_id}"
+
+ls ${global_path}
+
+out_path="/nfs2/manghip/databases/gtdb_r226_kraken_db/prepared_genomes/${genome_id%.gz}"
+kraken_header="kraken:taxid|${tax_id}|${genome_id%_genomic.fna.gz}"
+python /nfs2/manghip/git/envmgx/fix_fasta_header_for_kraken.py \
+    ${global_path} ${out_path} ${kraken_header}
+
+done
+
+
+for genome in /nfs2/manghip/databases/gtdb_r226_kraken_db/prepared_genomes/*.fna; do
+
+kraken2-build --add-to-library ${genome} --db /nfs2/manghip/databases/gtdb_r226_kraken_db/taxonomy/
+
+done
+
+kraken2-build --build --db /nfs2/manghip/databases/gtdb_r226_kraken_db/taxonomy/ \
+    --threads 24 --kmer-len 35 --minimizer-len 31
+
+kraken2-build --clean --db /nfs2/manghip/databases/gtdb_r226_kraken_db/taxonomy/
+
+bracken-build -d /nfs2/manghip/databases/gtdb_r226_kraken_db/taxonomy/ \
+    -t 24 -k 35 -l 150 -x /nfs2/manghip/tools/anacondo3/envs/bracken/bin/
+
 ```
 
 ### Step n.3: Let's have a look at Kraken parameters
@@ -168,12 +191,11 @@ kraken2-build --build --db kraken2_gtdb_r220
 kraken -h
 ```
 
-### Step n.4: Kraken database build
-```
-
-```
-
 ### Step n.5: Run Kraken + Braken
+```
+
+LAST TO ADD
+```
 
 
 ### Topic n.4: HUMAnN 4: functional profiling at the community level
