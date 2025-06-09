@@ -3,15 +3,15 @@
 * [link arbitrario](https://github.com/metashot/mag-illumina)
 
 ## Hands-on n.1 - Taxonomic and functional profiling using shotgun data
-### Topic n.1: Preprocessing
+#### Topic n.1: Preprocessing
 
-* Step n.0: download & install Anaconda **we did it already, don't do it** 
+Step n.0: download & install Anaconda **we did it already, don't do it** 
 ```
 ##wget https://repo.anaconda.com/archive/Anaconda3-2024.10-1-Linux-x86_64.sh
 ##bash Anaconda3-2024.10-1-Linux-x86_64.sh
 ```
 
-* Step n.1: get into the right place & check if your environment is present
+Step n.1: get into the right place & check if your environment is present
 
 ```
 cd /home/user<YOUR USER NAME>
@@ -22,12 +22,12 @@ source ${path}/activate
 conda info --envs
 ```
 
-* Step n.2: raw data pre-processing on fastq example files "seq_1.fastq.gz" and "seq_2.fastq.gz" from https://github.com/biobakery/biobakery/wiki/kneaddata
+Step n.2: raw data pre-processing on fastq example files "seq_1.fastq.gz" and "seq_2.fastq.gz" from https://github.com/biobakery/biobakery/wiki/kneaddata
 
 ```
-##conda create -n <trimmomatic> -c bioconda trimmomatic ## DON'T DO IT. WE DID ALREADY
-##conda create -n <bowtie2> -c bioconda bowtie2 ## DON'T DO IT. WE DID ALREADY
-##conda create -n <samtools> -c bioconda samtools ## DON'T DO IT. WE DID ALREADY
+## conda create -n <trimmomatic> -c bioconda trimmomatic ## DON'T DO IT. WE DID ALREADY
+## conda create -n <bowtie2> -c bioconda bowtie2 ## DON'T DO IT. WE DID ALREADY
+## conda create -n <samtools> -c bioconda samtools ## DON'T DO IT. WE DID ALREADY
 
 mkdir 1_pre-processing
 cd 1_pre-processing
@@ -37,7 +37,7 @@ unzip input.zip
 cd input
 ```
 
-### Step n.4: Define variable "s" with the sampleID and run TRIMMOMATIC
+Step n.3: Define variable "s" with the sampleID and run TRIMMOMATIC
 ```
 s="seq"
 
@@ -51,17 +51,21 @@ LEADING:20 TRAILING:20 SLIDINGWINDOW:4:15 MINLEN:75
 for i in *.fastq; do echo -ne "${i}\t"; cat "$i" | wc -l; done
 ```
 
-### Step n. 5: Generate bowtie2 index of the human genome GCF_009914755.1_T2T-CHM13v2.0.fna (https://www.ncbi.nlm.nih.gov/datasets/genome/GCF_009914755.1/GCF_009914755.1_T2T-CHM13v2.0.fna)
+Step n. 4: Generate bowtie2 index of the human genome GCF_009914755.1_T2T-CHM13v2.0.fna (https://www.ncbi.nlm.nih.gov/datasets/genome/GCF_009914755.1/GCF_009914755.1_T2T-CHM13v2.0.fna)
+* activate conda
+  
 ```
 human_gen_path="/home/ubuntu/shotgun_course/human_genome/"
 conda deactivate
 source ${path}/activate bowtie2
+```
 
+* run bowtie alignment against the human genome
+```
 ##VERSION 4 HOURS LONG:
 ## mkdir -p ../human_genome/
-##bowtie2-build ${human_gen_path}GCF_009914755.1_T2T-CHM13v2.0.fna ../human_genome/GCF_009914755.1_T2T-CHM13v2.0 ### DON'T RUN IT! IT TAKES A FEW HOURS TO BE EXECUTED
+## bowtie2-build ${human_gen_path}GCF_009914755.1_T2T-CHM13v2.0.fna ../human_genome/GCF_009914755.1_T2T-CHM13v2.0 ### DON'T RUN IT! IT TAKES A FEW HOURS TO BE EXECUTED
 
-##VERSION 10 SECONDS LONG
 bowtie2 -x ${human_gen_path}GCF_009914755.1_T2T-CHM13v2.0 -1 ${s}_filtered_1.fastq -2 ${s}_filtered_2.fastq \
     -S ${s}.sam --very-sensitive-local -p 8
 
@@ -76,25 +80,31 @@ samtools fastq ${s}.bothunmapped.sorted.bam -1 >(gzip > ${s}_filtered.final_1.fa
 
 for i in *.gz; do echo -ne "${i}\t"; zcat "$i" | wc -l; done
 ```
-### Did the preprocessing produce the same exact number of reads in R1 and R2 ?
 
-### Topic n.2: MetaPhlAn 4: taxonomic profiling using marker genes
-### Step n.1: Setup correct variables, activate environment and navigate to the right folders
+Did the preprocessing produce the same exact number of reads in R1 and R2 ?
+
+#### Topic n.2: MetaPhlAn 4: taxonomic profiling using marker genes
+Step n.1: Setup correct variables, activate environment and navigate to the right folders
+
+* In order to install MetaPhlAn, first create the conda environment **we did it already**
+```
+## conda create -n <mpa> -c conda-forge -c bioconda python=3.11 metaphlan=4.2.0
+```
+
+Then move to use it
 ```
 cd /home/user<YOUR USER NAME>
 path="/home/ubuntu/shotgun_course/anaconda3course/bin/"
 
 conda deactivate
 source ${path}/activate
-
-##conda create -n <mpa> -c conda-forge -c bioconda python=3.7 metaphlan=4.1.0 ## DON'T DO IT. WE DID ALREADY
 source ${path}/activate mpa
 
 mkdir 2_metaphlan
 cd 2_metaphlan
 ```
 
-### Step n.2: Download metagenomic samples
+Step n.2: download metagenomic samples
 ```
 mpa_db="/home/ubuntu/shotgun_course/metaphlan_databases/"
 db_version="mpa_vJun23_CHOCOPhlAnSGB_202403"
@@ -109,12 +119,13 @@ wget https://github.com/biobakery/MetaPhlAn/releases/download/4.0.2/SRS014472-Bu
 s="SRS014476-Supragingival_plaque"
 ```
 
-### Step n.3: Let's have a look at the MetaPhlAn parameters
+Step n.3: Run MetaPhlAn 4
+* Let's have a look at the MetaPhlAn parameters
 ```
 metaphlan -h
 ```
 
-### Step n.4: Run MetaPhlAn 4
+Then run it
 ```
 metaphlan ${s}.fasta.gz --input_type fasta --bowtie2out ${s}.bowtie2.bz2 --samout ${s}.sam.bz2 -o ${s}_profile.txt \
     --stat_q 0.1 --nproc 8 --bowtie2db ${mpa_db} --index ${db_version}
