@@ -3,7 +3,7 @@
 * [link arbitrario](https://github.com/metashot/mag-illumina)
 
 # Hands-on n.1 - Taxonomic and functional profiling using shotgun data
-## Topic n.1: Preprocessing
+## Preprocessing
 
 #### Step n.0: download & install Anaconda **we did it already, don't do it** 
 ```
@@ -12,7 +12,6 @@
 ```
 
 #### Step n.1: get into the right place & check if your environment is present
-
 ```
 cd /home/user<YOUR USER NAME>
 
@@ -52,15 +51,15 @@ for i in *.fastq; do echo -ne "${i}\t"; cat "$i" | wc -l; done
 ```
 
 #### Step n. 4: Generate bowtie2 index of the human genome GCF_009914755.1_T2T-CHM13v2.0.fna (https://www.ncbi.nlm.nih.gov/datasets/genome/GCF_009914755.1/GCF_009914755.1_T2T-CHM13v2.0.fna)
-* activate conda
-  
+
+Activate conda:
 ```
 human_gen_path="/home/ubuntu/shotgun_course/human_genome/"
 conda deactivate
 source ${path}/activate bowtie2
 ```
 
-* run bowtie alignment against the human genome
+Run bowtie alignment against the human genome:
 ```
 ##VERSION 4 HOURS LONG:
 ## mkdir -p ../human_genome/
@@ -80,14 +79,14 @@ samtools fastq ${s}.bothunmapped.sorted.bam -1 >(gzip > ${s}_filtered.final_1.fa
 
 for i in *.gz; do echo -ne "${i}\t"; zcat "$i" | wc -l; done
 ```
-
 Did the preprocessing produce the same exact number of reads in R1 and R2 ?
 
-## Topic n.2: MetaPhlAn 4: taxonomic profiling using marker genes
+
+## MetaPhlAn 4: taxonomic profiling using marker genes
 
 #### Step n.1: Setup correct variables, activate environment and navigate to the right folders
 
-* In order to install MetaPhlAn, first create the conda environment **we did it already**
+In order to install MetaPhlAn, first create the conda environment **we did it already**
 ```
 ## conda create -n <mpa> -c conda-forge -c bioconda python=3.11 metaphlan=4.2.0
 ```
