@@ -83,7 +83,7 @@ for i in *.gz; do echo -ne "${i}\t"; zcat "$i" | wc -l; done
 
 Did the preprocessing produce the same exact number of reads in R1 and R2 ?
 
-##Topic n.2: MetaPhlAn 4: taxonomic profiling using marker genes
+## Topic n.2: MetaPhlAn 4: taxonomic profiling using marker genes
 Step n.1: Setup correct variables, activate environment and navigate to the right folders
 
 * In order to install MetaPhlAn, first create the conda environment **we did it already**
@@ -104,7 +104,7 @@ mkdir 2_metaphlan
 cd 2_metaphlan
 ```
 
-Step n.2: download metagenomic samples
+#### Step n.2: download metagenomic samples
 ```
 mpa_db="/home/ubuntu/shotgun_course/metaphlan_databases/"
 db_version="mpa_vJun23_CHOCOPhlAnSGB_202403"
@@ -119,7 +119,7 @@ wget https://github.com/biobakery/MetaPhlAn/releases/download/4.0.2/SRS014472-Bu
 s="SRS014476-Supragingival_plaque"
 ```
 
-Step n.3: Run MetaPhlAn 4
+#### Step n.3: Run MetaPhlAn 4
 * Let's have a look at the MetaPhlAn parameters
 ```
 metaphlan -h
@@ -146,7 +146,7 @@ merge_metaphlan_tables.py *_profile.txt > merged_abundance_table.txt
 
 ### Topic n.3: Kraken + Bracken: taxonomic profiling using k-mers
 
-### Step n.1: Check everything is set up and create kraken + bracken DB
+#### Step n.1: Check everything is set up and create kraken + bracken DB
 
 ```
 
@@ -198,12 +198,12 @@ bracken-build -d /nfs2/manghip/databases/gtdb_r226_kraken_db/taxonomy/ \
 
 ```
 
-### Step n.3: Let's have a look at Kraken parameters
+#### Step n.3: Let's have a look at Kraken parameters
 ```
 kraken -h
 ```
 
-### Step n.5: Run Kraken + Braken
+#### Step n.5: Run Kraken + Braken
 ```
 
 LAST TO ADD
@@ -211,7 +211,7 @@ LAST TO ADD
 
 
 ### Topic n.4: HUMAnN 4: functional profiling at the community level
-### Step n.1: Get into the right directory
+#### Step n.1: Get into the right directory
 ```
 conda deactivate
 source ${path}/activate
@@ -224,7 +224,7 @@ mkdir 6_humann
 cd 6_humann
 ```
 
-### Step n.2: test that HUMAnN runs properly and have a look at the HUMAnN parameters
+#### Step n.2: test that HUMAnN runs properly and have a look at the HUMAnN parameters
 ```
 humann_test
 humann_config
@@ -232,12 +232,12 @@ humann_config
 humann -h
 ```
 
-### Step n.3: get a sample from EBI
+#### Step n.3: get a sample from EBI
 ```
 wget ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR154/096/SRR15408396/SRR15408396.fastq.gz
 ```
 
-### Step n.4: RUN humann
+#### Step n.4: RUN humann
 ```
 s="SRR15408396"
 
@@ -252,18 +252,18 @@ cp /home/ubuntu/course_backup/course/6_humann/${s}/${s}_pathabundance.tsv ${s}/
 cp /home/ubuntu/course_backup/course/6_humann/${s}/${s}_pathcoverage.tsv ${s}/
 ```
 
-### Step n.5: Manipulate and normalize HUMAnN output
+#### Step n.5: Manipulate and normalize HUMAnN output
 ```
 humann_renorm_table -i ${s}/${s}_genefamilies.tsv -o ${s}/${s}_genefamilies-relab.tsv -u relab
 humann_renorm_table -i ${s}/${s}_pathabundance.tsv -o ${s}/${s}_pathabundance-relab.tsv -u relab
 ```
 
-### Step n.6: Regrouping genes to other functional categories
+#### Step n.6: Regrouping genes to other functional categories
 ```
 humann_regroup_table -i ${s}/${s}_genefamilies-relab.tsv -o ${s}/${s}_rxn-relab.tsv --groups uniref90_rxn
 ```
 
-### Step n.7: Run HUMAnN on a second sample
+#### Step n.7: Run HUMAnN on a second sample
 ```
 s="SRR15408398"
 
@@ -405,7 +405,7 @@ https://www.nextflow.io/
 https://docs.sylabs.io/guides/latest/user-guide/
 
 
-### Step 1: Assembly and binning
+#### Step 1: Assembly and binning
 
 
 ```
@@ -429,7 +429,7 @@ The workflow will produce two folders and one report file:
 
 See https://github.com/metashot/mag-illumina for complete documentation
 
-### Step 2: Bin quality
+#### Step 2: Bin quality
 
 ```
 cd quality
@@ -459,7 +459,7 @@ Mail output in the "results" directory:
 
 See https://github.com/metashot/prok-quality for complete documentation
 
-### Step 3: Taxonomic classification of bins
+#### Step 3: Taxonomic classification of bins
 
 This step classifies the genomes passing the qulity filter of the previous step according to the GTDB (https://gtdb.ecogenomic.org/) schema and the GTDB-Tk tookit (https://github.com/Ecogenomics/GTDBTk). 
 
