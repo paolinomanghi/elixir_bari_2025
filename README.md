@@ -83,15 +83,14 @@ Did the preprocessing produce the same exact number of reads in R1 and R2 ?
 
 
 ## MetaPhlAn 4: taxonomic profiling using marker genes
-
 #### Step n.1: Setup correct variables, activate environment and navigate to the right folders
 
-In order to install MetaPhlAn, first create the conda environment **we did it already**
+We create the conda environment **we did it already**
 ```
 ## conda create -n <mpa> -c conda-forge -c bioconda python=3.11 metaphlan=4.2.0
 ```
 
-Then move to use it
+We move to use it
 ```
 cd /home/user<YOUR USER NAME>
 path="/home/ubuntu/shotgun_course/anaconda3course/bin/"
@@ -120,7 +119,8 @@ s="SRS014476-Supragingival_plaque"
 ```
 
 #### Step n.3: Run MetaPhlAn 4
-* Let's have a look at the MetaPhlAn parameters
+
+Take look at the MetaPhlAn parameters
 ```
 metaphlan -h
 ```
@@ -144,7 +144,7 @@ s="SRS014472-Buccal_mucosa"; metaphlan ${s}.fasta.gz --input_type fasta --bowtie
 merge_metaphlan_tables.py *_profile.txt > merged_abundance_table.txt
 ```
 
-### Topic n.3: Kraken + Bracken: taxonomic profiling using k-mers
+## Kraken + Bracken: taxonomic profiling using k-mers
 
 #### Step n.1: Check everything is set up and create kraken + bracken DB
 
@@ -210,7 +210,8 @@ LAST TO ADD
 ```
 
 
-### Topic n.4: HUMAnN 4: functional profiling at the community level
+
+## HUMAnN 4: functional profiling at the community level
 
 #### Step n.1: Get into the right directory
 ```
@@ -283,7 +284,7 @@ humann_renorm_table -i ${s}/${s}_genefamilies.tsv -o ${s}/${s}_genefamilies-rela
 humann_renorm_table -i ${s}/${s}_pathabundance.tsv -o ${s}/${s}_pathabundance-relab.tsv -u relab
 ```
 
-### Step n.8: Merge together community profiles under different ontologies
+#### Step n.8: Merge together community profiles under different ontologies
 ```
 mkdir -p merged
 
@@ -521,9 +522,9 @@ wget http://cmprod1.cibio.unitn.it/biobakery4/github_strainphlan4/fastq/SRS05598
 wget http://cmprod1.cibio.unitn.it/biobakery4/github_strainphlan4/fastq/SRS064276.fastq.bz2
 ```
 
-##### Step n.3: Running MetaPhlAn 4
+#### Step n.3: Running MetaPhlAn 4
 
-Approach n. 1 ==> Running MetaPhlAn 4 to obtain the .sam files of the marker genes' alignments
+* Approach n. 1 ==> Running MetaPhlAn 4 to obtain the .sam files of the marker genes' alignments
 ```
 ## mpa_db="/home/ubuntu/shotgun_course/metaphlan_databases/"
 ## db_version="mpa_vJun23_CHOCOPhlAnSGB_202403"
@@ -542,7 +543,7 @@ Approach n. 1 ==> Running MetaPhlAn 4 to obtain the .sam files of the marker gen
 ##     --bowtie2db ${mpa_db} --index ${db_version}
 ```
 
-Approach n. 2 ==> Copy the .sam alignments from a pre-existing repository
+* Approach n. 2 ==> Copy the .sam alignments from a pre-existing repository
 ```
 cp /home/ubuntu/course_backup/course/4_strainphlan/SRS013951.sam.bz2 .
 cp /home/ubuntu/course_backup/course/4_strainphlan/SRS014613.sam.bz2 .
@@ -563,11 +564,11 @@ sample2markers.py -i *.sam.bz2 -o ./ -n 8 -d ${mpa_database}
 mkdir -p db_markers
 ```
 
-Approach n. 1 ==> run the dedicate command
+* Approach n. 1 ==> run the dedicate command
 ```
 extract_markers.py -c t__SGB1877 -o db_markers/ -d ${mpa_database} ## TOO LONG,
 ```
-Approach n. 2 ==> Copy the pre-built marker files
+* Approach n. 2 ==> Copy the pre-built marker files
 ```
 cp /home/ubuntu/course_backup/course/4_strainphlan/db_markers/t__SGB1877.fna db_markers/
 ```
