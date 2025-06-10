@@ -1,9 +1,9 @@
 
-## Elixir Course, Bari, Italy, 2025
+# Elixir Course, Bari, Italy, 2025
 * [link arbitrario](https://github.com/metashot/mag-illumina)
 
-## Hands-on n.1 - Taxonomic and functional profiling using shotgun data
-#### Topic n.1: Preprocessing
+# Hands-on n.1 - Taxonomic and functional profiling using shotgun data
+## Topic n.1: Preprocessing
 
 Step n.0: download & install Anaconda **we did it already, don't do it** 
 ```
@@ -83,7 +83,7 @@ for i in *.gz; do echo -ne "${i}\t"; zcat "$i" | wc -l; done
 
 Did the preprocessing produce the same exact number of reads in R1 and R2 ?
 
-#### Topic n.2: MetaPhlAn 4: taxonomic profiling using marker genes
+##Topic n.2: MetaPhlAn 4: taxonomic profiling using marker genes
 Step n.1: Setup correct variables, activate environment and navigate to the right folders
 
 * In order to install MetaPhlAn, first create the conda environment **we did it already**
@@ -298,98 +298,8 @@ humann_join_tables -i merged -o merged/merged_pathabundance-relab.tsv --file_nam
 humann_join_tables -i merged -o merged/merged_pathcoverage.tsv --file_name pathcoverage
 ```
 
-## Hands-on n.2 - Taxonomic profiling beyond the level of species
-### Step n.1:
-
-### Step n.2: Getting example files (6 fastq files) from https://github.com/biobakery/MetaPhlAn/wiki/StrainPhlAn-4.1
-```
-wget http://cmprod1.cibio.unitn.it/biobakery4/github_strainphlan4/fastq/SRS013951.fastq.bz2
-wget http://cmprod1.cibio.unitn.it/biobakery4/github_strainphlan4/fastq/SRS014613.fastq.bz2
-wget http://cmprod1.cibio.unitn.it/biobakery4/github_strainphlan4/fastq/SRS019161.fastq.bz2
-wget http://cmprod1.cibio.unitn.it/biobakery4/github_strainphlan4/fastq/SRS022137.fastq.bz2
-wget http://cmprod1.cibio.unitn.it/biobakery4/github_strainphlan4/fastq/SRS055982.fastq.bz2
-wget http://cmprod1.cibio.unitn.it/biobakery4/github_strainphlan4/fastq/SRS064276.fastq.bz2
-```
-
-### Step n.3: Running MetaPhlAn 4
-### Approach n. 1 ==> Running MetaPhlAn 4 to obtain the .sam files of the marker genes' alignments
-```
-## mpa_db="/home/ubuntu/shotgun_course/metaphlan_databases/"
-## db_version="mpa_vJun23_CHOCOPhlAnSGB_202403"
-
-## s="SRS013951"; metaphlan ${s}.fastq.bz2 --input_type fastq --bowtie2out ${s}.bowtie2.bz2 --samout ${s}.sam.bz2 -o ${s}_profile.txt --nproc 8 \
-##     --bowtie2db ${mpa_db} --index ${db_version}
-## s="SRS014613"; metaphlan ${s}.fastq.bz2 --input_type fastq --bowtie2out ${s}.bowtie2.bz2 --samout ${s}.sam.bz2 -o ${s}_profile.txt --nproc 8 \
-##     --bowtie2db ${mpa_db} --index ${db_version}
-## s="SRS019161"; metaphlan ${s}.fastq.bz2 --input_type fastq --bowtie2out ${s}.bowtie2.bz2 --samout ${s}.sam.bz2 -o ${s}_profile.txt --nproc 8 \
-##     --bowtie2db ${mpa_db} --index ${db_version}
-## s="SRS022137"; metaphlan ${s}.fastq.bz2 --input_type fastq --bowtie2out ${s}.bowtie2.bz2 --samout ${s}.sam.bz2 -o ${s}_profile.txt --nproc 8 \
-##     --bowtie2db ${mpa_db} --index ${db_version}
-## s="SRS055982"; metaphlan ${s}.fastq.bz2 --input_type fastq --bowtie2out ${s}.bowtie2.bz2 --samout ${s}.sam.bz2 -o ${s}_profile.txt --nproc 8 \
-##     --bowtie2db ${mpa_db} --index ${db_version}
-## s="SRS064276"; metaphlan ${s}.fastq.bz2 --input_type fastq --bowtie2out ${s}.bowtie2.bz2 --samout ${s}.sam.bz2 -o ${s}_profile.txt --nproc 8 \
-##     --bowtie2db ${mpa_db} --index ${db_version}
-```
-
-### Approach n. 2 ==> Copy the .sam alignments from a pre-existing repository
-```
-cp /home/ubuntu/course_backup/course/4_strainphlan/SRS013951.sam.bz2 .
-cp /home/ubuntu/course_backup/course/4_strainphlan/SRS014613.sam.bz2 .
-cp /home/ubuntu/course_backup/course/4_strainphlan/SRS019161.sam.bz2 .
-cp /home/ubuntu/course_backup/course/4_strainphlan/SRS022137.sam.bz2 .
-cp /home/ubuntu/course_backup/course/4_strainphlan/SRS055982.sam.bz2 .
-cp /home/ubuntu/course_backup/course/4_strainphlan/SRS064276.sam.bz2 .
-```
-
-### Step n.4: Extract for each sample the alignments over its markers
-```
-mpa_database="/home/ubuntu/shotgun_course/metaphlan_databases/mpa_vJun23_CHOCOPhlAnSGB_202403.pkl"
-sample2markers.py -i *.sam.bz2 -o ./ -n 8 -d ${mpa_database}
-```
-
-### Step n.5: Extract marker genes for a species of interest
-```
-mkdir -p db_markers
-```
-### Approach n. 1 ==> run the dedicate command
-```
-extract_markers.py -c t__SGB1877 -o db_markers/ -d ${mpa_database} ## TOO LONG,
-```
-
-### Approach n. 2 ==> Copy the pre-built marker files
-```
-cp /home/ubuntu/course_backup/course/4_strainphlan/db_markers/t__SGB1877.fna db_markers/
-```
-
-### Step n.6: Also include a reference genome ("GCF000273725")
-```
-mkdir -p reference_genomes
-wget -P reference_genomes/ http://cmprod1.cibio.unitn.it/biobakery4/github_strainphlan4/reference_genomes/G000273725.fna.bz2
-```
-
-### Step n.7: Let's look the StrainPhlAn params
-```
-strainphlan -h
-```
-
-### Step n.8: Run StrainPhlAn 4
-```
-mkdir -p strainphlan_output
-strainphlan -s *.json.bz2 -m db_markers/t__SGB1877.fna -r reference_genomes/G000273725.fna.bz2 -o strainphlan_output -c t__SGB1877 -n 8 -d ${mpa_database}
-```
-
-### Step n.9: Let's visualize it ! 
-```
-wget http://cmprod1.cibio.unitn.it/biobakery4/github_strainphlan4/fastq/metadata.txt
-add_metadata_tree.py -t output/RAxML_bestTree.t__SGB1877.StrainPhlAn4.tre -f metadata.txt -m subjectID --string_to_remove .fastq.bz2
-
-conda deactivate
-source ${path}/activate graphlan
-${path}/../envs/mpa/bin/plot_tree_graphlan.py -t output/RAxML_bestTree.t__SGB1877.StrainPhlAn4.tre.metadata -m subjectID
-```
-
-## Hands-on n.3 - Metagenome assembly and binning
-### Approach n. 1: follow the protocol
+# Hands-on n.3 - Metagenome assembly and binning
+## Approach n. 1: follow the protocol
 ### Step n.1: check everything is set up, download a sample, and run Megahit
 ```
 cd /home/user<YOUR USER NAME>
@@ -587,3 +497,104 @@ Input: prokaryotic contig/genomes in FASTA format;
 * Functional annotation through orthology assignment by eggNOG-mapper v2 and the eggNOG v5.0 database (optional);
 * KEGG ortholog assignment by KofamScan and the KOfam database (https://www.genome.jp/tools/kofamkoala/) (optional);
 * Estimates KEGG pathway completeness using Anvi'o (https://merenlab.org/software/anvio/) (optional);
+
+
+# Hands-on n.3 (BONUS) - Taxonomic profiling beyond the level of species
+* Step n.1: get into the right place
+
+```
+cd /home/user<YOUR USER NAME>
+path="/home/ubuntu/shotgun_course/anaconda3course/bin/"
+
+conda deactivate
+source ${path}/activate
+source ${path}/activate mpa
+```
+
+* Step n.2: Getting example files (6 fastq files) from https://github.com/biobakery/MetaPhlAn/wiki/StrainPhlAn-4.1
+```
+wget http://cmprod1.cibio.unitn.it/biobakery4/github_strainphlan4/fastq/SRS013951.fastq.bz2
+wget http://cmprod1.cibio.unitn.it/biobakery4/github_strainphlan4/fastq/SRS014613.fastq.bz2
+wget http://cmprod1.cibio.unitn.it/biobakery4/github_strainphlan4/fastq/SRS019161.fastq.bz2
+wget http://cmprod1.cibio.unitn.it/biobakery4/github_strainphlan4/fastq/SRS022137.fastq.bz2
+wget http://cmprod1.cibio.unitn.it/biobakery4/github_strainphlan4/fastq/SRS055982.fastq.bz2
+wget http://cmprod1.cibio.unitn.it/biobakery4/github_strainphlan4/fastq/SRS064276.fastq.bz2
+```
+
+* Step n.3: Running MetaPhlAn 4
+
+Approach n. 1 ==> Running MetaPhlAn 4 to obtain the .sam files of the marker genes' alignments
+```
+## mpa_db="/home/ubuntu/shotgun_course/metaphlan_databases/"
+## db_version="mpa_vJun23_CHOCOPhlAnSGB_202403"
+
+## s="SRS013951"; metaphlan ${s}.fastq.bz2 --input_type fastq --bowtie2out ${s}.bowtie2.bz2 --samout ${s}.sam.bz2 -o ${s}_profile.txt --nproc 8 \
+##     --bowtie2db ${mpa_db} --index ${db_version}
+## s="SRS014613"; metaphlan ${s}.fastq.bz2 --input_type fastq --bowtie2out ${s}.bowtie2.bz2 --samout ${s}.sam.bz2 -o ${s}_profile.txt --nproc 8 \
+##     --bowtie2db ${mpa_db} --index ${db_version}
+## s="SRS019161"; metaphlan ${s}.fastq.bz2 --input_type fastq --bowtie2out ${s}.bowtie2.bz2 --samout ${s}.sam.bz2 -o ${s}_profile.txt --nproc 8 \
+##     --bowtie2db ${mpa_db} --index ${db_version}
+## s="SRS022137"; metaphlan ${s}.fastq.bz2 --input_type fastq --bowtie2out ${s}.bowtie2.bz2 --samout ${s}.sam.bz2 -o ${s}_profile.txt --nproc 8 \
+##     --bowtie2db ${mpa_db} --index ${db_version}
+## s="SRS055982"; metaphlan ${s}.fastq.bz2 --input_type fastq --bowtie2out ${s}.bowtie2.bz2 --samout ${s}.sam.bz2 -o ${s}_profile.txt --nproc 8 \
+##     --bowtie2db ${mpa_db} --index ${db_version}
+## s="SRS064276"; metaphlan ${s}.fastq.bz2 --input_type fastq --bowtie2out ${s}.bowtie2.bz2 --samout ${s}.sam.bz2 -o ${s}_profile.txt --nproc 8 \
+##     --bowtie2db ${mpa_db} --index ${db_version}
+```
+
+Approach n. 2 ==> Copy the .sam alignments from a pre-existing repository
+```
+cp /home/ubuntu/course_backup/course/4_strainphlan/SRS013951.sam.bz2 .
+cp /home/ubuntu/course_backup/course/4_strainphlan/SRS014613.sam.bz2 .
+cp /home/ubuntu/course_backup/course/4_strainphlan/SRS019161.sam.bz2 .
+cp /home/ubuntu/course_backup/course/4_strainphlan/SRS022137.sam.bz2 .
+cp /home/ubuntu/course_backup/course/4_strainphlan/SRS055982.sam.bz2 .
+cp /home/ubuntu/course_backup/course/4_strainphlan/SRS064276.sam.bz2 .
+```
+
+* Step n.4: Extract for each sample the alignments over its markers
+```
+mpa_database="/home/ubuntu/shotgun_course/metaphlan_databases/mpa_vJun23_CHOCOPhlAnSGB_202403.pkl"
+sample2markers.py -i *.sam.bz2 -o ./ -n 8 -d ${mpa_database}
+```
+
+* Step n.5: Extract marker genes for a species of interest
+```
+mkdir -p db_markers
+```
+
+Approach n. 1 ==> run the dedicate command
+```
+extract_markers.py -c t__SGB1877 -o db_markers/ -d ${mpa_database} ## TOO LONG,
+```
+Approach n. 2 ==> Copy the pre-built marker files
+```
+cp /home/ubuntu/course_backup/course/4_strainphlan/db_markers/t__SGB1877.fna db_markers/
+```
+
+* Step n.6: Also include a reference genome ("GCF000273725")
+```
+mkdir -p reference_genomes
+wget -P reference_genomes/ http://cmprod1.cibio.unitn.it/biobakery4/github_strainphlan4/reference_genomes/G000273725.fna.bz2
+```
+
+* Step n.7: Let's look the StrainPhlAn params
+```
+strainphlan -h
+```
+
+* Step n.8: Run StrainPhlAn 4
+```
+mkdir -p strainphlan_output
+strainphlan -s *.json.bz2 -m db_markers/t__SGB1877.fna -r reference_genomes/G000273725.fna.bz2 -o strainphlan_output -c t__SGB1877 -n 8 -d ${mpa_database}
+```
+
+* Step n.9: Let's visualize it ! 
+```
+wget http://cmprod1.cibio.unitn.it/biobakery4/github_strainphlan4/fastq/metadata.txt
+add_metadata_tree.py -t output/RAxML_bestTree.t__SGB1877.StrainPhlAn4.tre -f metadata.txt -m subjectID --string_to_remove .fastq.bz2
+
+conda deactivate
+source ${path}/activate graphlan
+${path}/../envs/mpa/bin/plot_tree_graphlan.py -t output/RAxML_bestTree.t__SGB1877.StrainPhlAn4.tre.metadata -m subjectID
+```
