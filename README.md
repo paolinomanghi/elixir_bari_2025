@@ -5,13 +5,13 @@
 # Hands-on n.1 - Taxonomic and functional profiling using shotgun data
 ## Topic n.1: Preprocessing
 
-Step n.0: download & install Anaconda **we did it already, don't do it** 
+#### Step n.0: download & install Anaconda **we did it already, don't do it** 
 ```
 ##wget https://repo.anaconda.com/archive/Anaconda3-2024.10-1-Linux-x86_64.sh
 ##bash Anaconda3-2024.10-1-Linux-x86_64.sh
 ```
 
-Step n.1: get into the right place & check if your environment is present
+#### Step n.1: get into the right place & check if your environment is present
 
 ```
 cd /home/user<YOUR USER NAME>
@@ -22,7 +22,7 @@ source ${path}/activate
 conda info --envs
 ```
 
-Step n.2: raw data pre-processing on fastq example files "seq_1.fastq.gz" and "seq_2.fastq.gz" from https://github.com/biobakery/biobakery/wiki/kneaddata
+#### Step n.2: raw data pre-processing on fastq example files "seq_1.fastq.gz" and "seq_2.fastq.gz" from https://github.com/biobakery/biobakery/wiki/kneaddata
 
 ```
 ## conda create -n <trimmomatic> -c bioconda trimmomatic ## DON'T DO IT. WE DID ALREADY
@@ -37,7 +37,7 @@ unzip input.zip
 cd input
 ```
 
-Step n.3: Define variable "s" with the sampleID and run TRIMMOMATIC
+#### Step n.3: Define variable "s" with the sampleID and run TRIMMOMATIC
 ```
 s="seq"
 
@@ -51,7 +51,7 @@ LEADING:20 TRAILING:20 SLIDINGWINDOW:4:15 MINLEN:75
 for i in *.fastq; do echo -ne "${i}\t"; cat "$i" | wc -l; done
 ```
 
-Step n. 4: Generate bowtie2 index of the human genome GCF_009914755.1_T2T-CHM13v2.0.fna (https://www.ncbi.nlm.nih.gov/datasets/genome/GCF_009914755.1/GCF_009914755.1_T2T-CHM13v2.0.fna)
+#### Step n. 4: Generate bowtie2 index of the human genome GCF_009914755.1_T2T-CHM13v2.0.fna (https://www.ncbi.nlm.nih.gov/datasets/genome/GCF_009914755.1/GCF_009914755.1_T2T-CHM13v2.0.fna)
 * activate conda
   
 ```
@@ -84,7 +84,8 @@ for i in *.gz; do echo -ne "${i}\t"; zcat "$i" | wc -l; done
 Did the preprocessing produce the same exact number of reads in R1 and R2 ?
 
 ## Topic n.2: MetaPhlAn 4: taxonomic profiling using marker genes
-Step n.1: Setup correct variables, activate environment and navigate to the right folders
+
+#### Step n.1: Setup correct variables, activate environment and navigate to the right folders
 
 * In order to install MetaPhlAn, first create the conda environment **we did it already**
 ```
@@ -211,6 +212,7 @@ LAST TO ADD
 
 
 ### Topic n.4: HUMAnN 4: functional profiling at the community level
+
 #### Step n.1: Get into the right directory
 ```
 conda deactivate
@@ -300,7 +302,8 @@ humann_join_tables -i merged -o merged/merged_pathcoverage.tsv --file_name pathc
 
 # Hands-on n.3 - Metagenome assembly and binning
 ## Approach n. 1: follow the protocol
-### Step n.1: check everything is set up, download a sample, and run Megahit
+
+#### Step n.1: check everything is set up, download a sample, and run Megahit
 ```
 cd /home/user<YOUR USER NAME>
 path="/home/ubuntu/shotgun_course/anaconda3course/bin/"
@@ -333,7 +336,7 @@ cp /home/ubuntu/course_backup/course/7_assembly/filter_contigs.py .
 cp /home/ubuntu/course_backup/course/7_assembly/megahit2spades.py .
 ```
 
-### Step n.2: Binning, i.e. grouping assemblies into genomes using MetaBat2
+#### Step n.2: Binning, i.e. grouping assemblies into genomes using MetaBat2
 ```
 source ${path}/activate
  
@@ -365,12 +368,12 @@ cp /home/ubuntu/course_backup/course/8_MAG-reconstruction/sorted_SRR341725.bam .
 jgi_summarize_bam_contig_depths --outputDepth ${s}_depth.txt sorted_${s}.bam 2> ${s}_depth.log
 ```
 
-### Step n.3: Run MetaBat 2 for binning
+#### Step n.3: Run MetaBat 2 for binning
 ```
 metabat2 -i contigs_filtered.fasta -a ${s}_depth.txt -o ${s}_bins/bin -m 1500 --unbinned -t 8 > ${s}_metabat2.log
 ```
 
-### Step n.4: Estimate MAG quality using checkM2
+#### Step n.4: Estimate MAG quality using checkM2
 ```
 conda deactivate
 
@@ -404,9 +407,7 @@ https://www.nextflow.io/
 
 https://docs.sylabs.io/guides/latest/user-guide/
 
-
 #### Step 1: Assembly and binning
-
 
 ```
 cd mag
@@ -500,7 +501,7 @@ Input: prokaryotic contig/genomes in FASTA format;
 
 
 # Hands-on n.3 (BONUS) - Taxonomic profiling beyond the level of species
-* Step n.1: get into the right place
+#### Step n.1: get into the right place
 
 ```
 cd /home/user<YOUR USER NAME>
@@ -511,7 +512,7 @@ source ${path}/activate
 source ${path}/activate mpa
 ```
 
-* Step n.2: Getting example files (6 fastq files) from https://github.com/biobakery/MetaPhlAn/wiki/StrainPhlAn-4.1
+#### Step n.2: Getting example files (6 fastq files) from https://github.com/biobakery/MetaPhlAn/wiki/StrainPhlAn-4.1
 ```
 wget http://cmprod1.cibio.unitn.it/biobakery4/github_strainphlan4/fastq/SRS013951.fastq.bz2
 wget http://cmprod1.cibio.unitn.it/biobakery4/github_strainphlan4/fastq/SRS014613.fastq.bz2
@@ -521,7 +522,7 @@ wget http://cmprod1.cibio.unitn.it/biobakery4/github_strainphlan4/fastq/SRS05598
 wget http://cmprod1.cibio.unitn.it/biobakery4/github_strainphlan4/fastq/SRS064276.fastq.bz2
 ```
 
-* Step n.3: Running MetaPhlAn 4
+##### Step n.3: Running MetaPhlAn 4
 
 Approach n. 1 ==> Running MetaPhlAn 4 to obtain the .sam files of the marker genes' alignments
 ```
@@ -552,13 +553,13 @@ cp /home/ubuntu/course_backup/course/4_strainphlan/SRS055982.sam.bz2 .
 cp /home/ubuntu/course_backup/course/4_strainphlan/SRS064276.sam.bz2 .
 ```
 
-* Step n.4: Extract for each sample the alignments over its markers
+#### Step n.4: Extract for each sample the alignments over its markers
 ```
 mpa_database="/home/ubuntu/shotgun_course/metaphlan_databases/mpa_vJun23_CHOCOPhlAnSGB_202403.pkl"
 sample2markers.py -i *.sam.bz2 -o ./ -n 8 -d ${mpa_database}
 ```
 
-* Step n.5: Extract marker genes for a species of interest
+#### Step n.5: Extract marker genes for a species of interest
 ```
 mkdir -p db_markers
 ```
@@ -572,24 +573,24 @@ Approach n. 2 ==> Copy the pre-built marker files
 cp /home/ubuntu/course_backup/course/4_strainphlan/db_markers/t__SGB1877.fna db_markers/
 ```
 
-* Step n.6: Also include a reference genome ("GCF000273725")
+#### Step n.6: Also include a reference genome ("GCF000273725")
 ```
 mkdir -p reference_genomes
 wget -P reference_genomes/ http://cmprod1.cibio.unitn.it/biobakery4/github_strainphlan4/reference_genomes/G000273725.fna.bz2
 ```
 
-* Step n.7: Let's look the StrainPhlAn params
+#### Step n.7: Let's look the StrainPhlAn params
 ```
 strainphlan -h
 ```
 
-* Step n.8: Run StrainPhlAn 4
+#### Step n.8: Run StrainPhlAn 4
 ```
 mkdir -p strainphlan_output
 strainphlan -s *.json.bz2 -m db_markers/t__SGB1877.fna -r reference_genomes/G000273725.fna.bz2 -o strainphlan_output -c t__SGB1877 -n 8 -d ${mpa_database}
 ```
 
-* Step n.9: Let's visualize it ! 
+#### Step n.9: Let's visualize it ! 
 ```
 wget http://cmprod1.cibio.unitn.it/biobakery4/github_strainphlan4/fastq/metadata.txt
 add_metadata_tree.py -t output/RAxML_bestTree.t__SGB1877.StrainPhlAn4.tre -f metadata.txt -m subjectID --string_to_remove .fastq.bz2
