@@ -541,6 +541,16 @@ Sample1.bin.21.fa
     * Genome: genome filename
     * Cluster: the cluster ID (from 0 to N-1)
     * Representative: is this genome the cluster representative?
+
+```
+(base) -bash-4.2$ head results/derep_info.tsv 
+Genome	Cluster	Representative
+Sample1.bin.34	10	True
+Sample1.bin.67	21	True
+Sample1.bin.3	32	True
+```
+
+
 * filtered_repr: folder containing the filered and representative genomes
 
 See https://github.com/metashot/prok-quality for complete documentation
@@ -560,8 +570,16 @@ nextflow run compmetagen/prok-classify \
 
 Output:
 
-* bacteria_summary.tsv: the GTDB-Tk summary for bacterial genomes;
-* archaea_summary.tsv: the GTDB-Tk summary for archaeal genomes;
+* bacteria_taxonomy.tsv: the GTDB-Tk summary for bacterial genomes;
+
+```
+(base) -bash-4.2$ head results/bacteria_taxonomy.tsv 
+user_genome	classification	closest_genome_reference	closest_genome_reference_radius	closest_genome_taxonomy	closest_genome_ani	closest_genome_af	closest_placement_reference	closest_placement_radius	closest_placement_taxonomy	closest_placement_ani	closest_placement_af	pplacer_taxonomy	classification_method	note	other_related_references(genome_id,species_name,radius,ANI,AF)	msa_percent	translation_table	red_value	warnings
+Sample1.bin.14.fa	d__Bacteria;p__Pseudomonadota;c__Gammaproteobacteria;o__Burkholderiales;f__Methylophilaceae;g__Methylotenera;s__	N/A	N/A	N/A	N/A	N/A	N/A	N/A	N/A	N/A	N/A	d__Bacteria;p__Pseudomonadota;c__Gammaproteobacteria;o__Burkholderiales;f__Methylophilaceae;g__Methylotenera;s__	taxonomic classification fully defined by topology	classification based on placement in class-level tree	N/A	72.65	11	0.9721	N/A
+```
+
+
+* archaea_taxonomy.tsv: the GTDB-Tk summary for archaeal genomes;
 * bacteria_genomes: folder containing the genomes classified as bacteria by GTDB-Tk;
 * archaea_genomes: folder containing the genomes classified as archaea by GTDB-Tk.
 
