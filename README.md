@@ -521,9 +521,21 @@ Mail output in the "results" directory:
     * \# predicted genes: basic genome statistics 
     * 5S rRNA, 23S rRNA, 16S rRNA \# tRNA, # tRNA types: the number and types of rRNA and tRNA genes  respecively
 
-
+```
+(base) -bash-4.2$ head results/genome_info.tsv 
+Genome	Completeness	Contamination	Strain heterogeneity	GUNC pass	Genome size (bp)	# ambiguous bases	# scaffolds	# contigs	N50 (scaffolds)	N50 (contigs)	Mean scaffold length (bp)	Mean contig length (bp)	Longest scaffold (bp)	Longest contig (bp)	GC	GC std (scaffolds > 1kbp)	Coding density	# predicted genes	5S rRNA	23S rRNA	16S rRNA	# tRNA	# tRNA types
+Sample1.bin.1	0.0	0.0	0.0	True	202153	0	1	1	202153	202153	202153	202153	202153	202153	45.2	0.0	91.78	314	No	No	No	37	20
+Sample1.bin.10	84.95	16.77	6.17	True	4611297	0	659	659	8642	8642	6997	6997	59844	59844	65.5	2.45	91.63	4970	No	No	No	41	17
+```
 
 * filtered genomes: a folder containg the genomes passing the qulity filter
+
+```
+(base) -bash-4.2$ ls results/filtered | head
+Sample1.bin.14.fa
+Sample1.bin.15.fa
+Sample1.bin.21.fa
+```
 * genome_info_filtered.tsv: same as genome_info.tsv 
 * derep_info.tsv: table conating the dereplication summary. Columns are: 
     * Genome: genome filename
