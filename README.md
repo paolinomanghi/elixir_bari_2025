@@ -442,14 +442,14 @@ The "nf-machina-low.conf"  contains the lines
 docker.enabled = false
 singularity.enabled = true
 ```
-that instruct the workflow manager to use singularity containers instead of docker
+that instruct the workflow manager to use singularity containers instead of docker. The lines:
 
 ```
 process.executor = 'sge'
 process.penv = 'smp'
 ```
 
-These are cluster specific options that instruct nextflow to use Sun Grid Engine (sge) as executor with multi-thread environment (smp). This configuration file needs to be changed depending on the environment where you run your job.
+ are cluster specific options that instruct nextflow to use Sun Grid Engine (sge) as executor with multi-thread environment (smp). This configuration file needs to be changed depending on the environment where you run your job.
 
 
 Let's explore the output:
@@ -497,6 +497,11 @@ Sample1.bin.12.fa
 
 #### Step 2: Bin quality
 
+The next step is to filter bins according to their "quality". Quality is assessed using three basic criteria, namely: 
+* completeness, i.e. the estimated fraction of the genome that is actually in the bin;
+* contamination, i.e. the fraction of the bin that comes from a different species 
+* strain heterogeneity, i.e. the fraction of teh genome that comes from a closely related species, possibly the same. 
+
 ```
 cd quality
 
@@ -505,7 +510,7 @@ nextflow run metashot/prok-quality \
   --outdir results \
     -with-report report.html
 ```
-This command uses the bin fasta files from the previous step as input, and produces a report on thei completeness and contamination. Again, it will produce a "work" directory and a "results" directory
+This command uses the bin fasta files from the previous step as input, and produces a report on their completeness and contamination. Again, it will produce a "work" directory and a "results" directory
 Mail output in the "results" directory:
 
 * genome_info.tsv: summary table of genomes quality. Columns are: 
@@ -515,6 +520,9 @@ Mail output in the "results" directory:
     * Genome size (bp), ... 
     * \# predicted genes: basic genome statistics 
     * 5S rRNA, 23S rRNA, 16S rRNA \# tRNA, # tRNA types: the number and types of rRNA and tRNA genes  respecively
+
+
+
 * filtered genomes: a folder containg the genomes passing the qulity filter
 * genome_info_filtered.tsv: same as genome_info.tsv 
 * derep_info.tsv: table conating the dereplication summary. Columns are: 
@@ -527,7 +535,7 @@ See https://github.com/metashot/prok-quality for complete documentation
 
 #### Step 3: Taxonomic classification of bins
 
-This step classifies the genomes passing the qulity filter of the previous step according to the GTDB (https://gtdb.ecogenomic.org/) schema and the GTDB-Tk tookit (https://github.com/Ecogenomics/GTDBTk). 
+This step classifies the genomes passing the qulity filter of the previous step according to the GTDB (https://gtdb.ecogenomic.org/) schema and the GTDB-Tk tookit (https://github.com/Ecogenomics/GTDBTk). In this example we assume that you have downloaded the reference GTDB database in the folder "./release220". See the file "classify.sh" for the actual command run to produce the output
 
 ```
 cd classify 
