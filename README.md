@@ -410,6 +410,8 @@ https://docs.sylabs.io/guides/latest/user-guide/
 #### Step 1: Assembly and binning
 
 ```
+Basic command: 
+
 cd mag
  nextflow run metashot/mag-illumina \
    --assembler "megahit" \
@@ -429,6 +431,69 @@ The workflow will produce two folders and one report file:
     * stats_scaffolds.tsv: scaffold statistics;
 
 See https://github.com/metashot/mag-illumina for complete documentation
+
+The actual command run to produce the output can be found in the file "mag.sh". The commando contains the option "-c" that is used to specify a site specific configuration file
+
+The file "nf-machina-low.conf" is an example of a site specific configuration file that we used on the HPC cluster of S. Michele
+
+The "nf-machina-low.conf"  contains the lines
+
+```
+docker.enabled = false
+singularity.enabled = true
+```
+that instruct the workflow manager to use singularity containers instead of docker
+
+```
+process.executor = 'sge'
+process.penv = 'smp'
+```
+
+These are cluster specific options that instruct nextflow to use Sun Grid Engine (sge) as executor with multi-thread environment (smp). This configuration file needs to be changed depending on the environment where you run your job.
+
+
+Let's explore the output:
+
+Click on the "report.html" file. you will find a set of reports on the job that was run, including resources used (memory, time, etc.) by each process
+
+
+![alt text](newplot.png)
+
+The assembled scaffold are in the "results/scaffolds" directory
+```
+(base) -bash-4.2$ cd results/scaffolds/
+(base) -bash-4.2$ ls
+Sample1.fa  Sample2.fa  Sample3.fa
+(base) -bash-4.2$ head Sample1.fa
+>k141_0 flag=1 multi=1.0000 len=358
+AGTATTAATCCGTCTAGCTCTAGATTTGCCAAACCAAAACGGGCTTCATCACGAGTCATCCCACCTGGTGGTCATGCGTCAGTGATTTGGATGGGGTGGGAGGGAGTGTGTGGGTTAGGTGGATGTTTGTTTGGTGGTGGGGGGGGGGTGTTATAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACCACGCGAAAAATAAAAATAAAAAAAAAAAAAAAAAAAAAAATAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+>k141_659211 flag=1 multi=2.0000 len=305
+AGGCAGCACTTACAGGCAATGCGGCCACGATAGCGGACGCCGAGGCCTTCCGCTACAAGGGTCAC
+```
+
+The table "stats_scaffolds.tsv"
+
+contains basic assembly statistics
+
+```
+base) -bash-4.2$ more results/stats_scaffolds.tsv 
+n_scaffolds	n_contigs	scaf_bp	contig_bp	gap_pct	scaf_N50	scaf_L50	ctg_N50	ctg_L50	scaf_N90	scaf_L90	
+ctg_N90	ctg_L90	scaf_max	ctg_max	scaf_n_gt50K	scaf_pct_gt50K	gc_avg	gc_std	filename
+723443	723443	583269202	583269202	0.000	99194	960	99194	960	538340	353	538340	353	1283613	1283613	313	
+6.349	0.54500	0.11001	/nfs2/donatic/projects/Scuola_Bari/mag/work/17/b05c9d5e911502be97ed6e220a5971/Sample1.fa
+```
+
+The folder "bins" contains individual bins (candidate genomes) binned by Metabat2
+
+```
+(base) -bash-4.2$ ls results/bins/ | head
+Sample1.bin.1.fa
+Sample1.bin.10.fa
+Sample1.bin.11.fa
+Sample1.bin.12.fa
+```
+
+
 
 #### Step 2: Bin quality
 
