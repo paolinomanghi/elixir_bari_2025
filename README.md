@@ -606,6 +606,8 @@ Input: prokaryotic contig/genomes in FASTA format;
 * Estimates KEGG pathway completeness using Anvi'o (https://merenlab.org/software/anvio/) (optional);
 
 
+prova
+
 # Hands-on n.3 (BONUS) - Taxonomic profiling beyond the level of species
 #### Step n.1: get into the right place
 
