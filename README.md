@@ -555,6 +555,9 @@ Sample1.bin.3	32	True
 
 See https://github.com/metashot/prok-quality for complete documentation
 
+Limitations: this (and the following) step of the pileline makes strong assumtions on the nature of the data. For instance, here we assume that all assembled genomes are either bacteria or archaea. If you have eukaryotes (fungi, for istance) in your sample, they will be discarded at this stage. For a possible Eukaryotic pipeline see https://github.com/metashot/awemags
+
+
 #### Step 3: Taxonomic classification of bins
 
 This step classifies the genomes passing the qulity filter of the previous step according to the GTDB (https://gtdb.ecogenomic.org/) schema and the GTDB-Tk tookit (https://github.com/Ecogenomics/GTDBTk). In this example we assume that you have downloaded the reference GTDB database in the folder "./release220". See the file "classify.sh" for the actual command run to produce the output
