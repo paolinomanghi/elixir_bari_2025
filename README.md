@@ -610,7 +610,44 @@ Input: prokaryotic contig/genomes in FASTA format;
 * KEGG ortholog assignment by KofamScan and the KOfam database (https://www.genome.jp/tools/kofamkoala/) (optional);
 * Estimates KEGG pathway completeness using Anvi'o (https://merenlab.org/software/anvio/) (optional);
 
+The workflows takes individual MAGs in fasta format, predicts genes using Prodigal, annotates the genomes usig Prokka, and performs a functional annotation of the predicted proteins using several tools and database. The workflow is not specific to MAGs: it can be used on any bacterial genome.
+The workflow produces several folders and summary tables:
 
+* tool-specific folders: anvio, eggnog, kofamscan, prodigal, prokka. These folders contain the results of each tool run on each individual genome.
+
+```
+(base) -bash-4.2$ ls results/eggnog/* | more
+results/eggnog/Sample1.bin.14:
+Sample1.bin.14.emapper.annotations
+Sample1.bin.14.emapper.hits
+Sample1.bin.14.emapper.seed_orthologs
+
+results/eggnog/Sample1.bin.15:
+Sample1.bin.15.emapper.annotations
+Sample1.bin.15.emapper.hits
+Sample1.bin.15.emapper.seed_orthologs
+```
+Summary tables contain information from each of the individual tool. For instance, the table eggnog_KEGG_Pathway.tsv contains, for each MAG, the count of proteins in each metabolic pathway defined by teh Kegg database.
+
+```
+base) -bash-4.2$ more results/eggnog_KEGG_Pathway.tsv 
+	Sample1.bin.31	Sample1.bin.14	Sample1.bin.30	Sample1.bin.21	Sample1.bin.32	Sample1.bin.15	Sample1.bin.25	Sample1.bin.29	Sampl
+e1.bin.3	Sample1.bin.34	Sample1.bin.23	Sample1.bin.36	Sample1.bin.42	Sample1.bin.49	Sample1.bin.41	Sample1.bin.67	Sample1.bin.6
+1	Sample1.bin.9	Sample1.bin.53	Sample1.bin.6	Sample1.bin.62	Sample1.bin.7	Sample2.bin.18	Sample2.bin.19	Sample2.bin.13	Sampl
+e1.bin.76	Sample1.bin.65	Sample2.bin.10	Sample2.bin.25	Sample2.bin.12	Sample2.bin.16	Sample2.bin.3	Sample2.bin.28	Sample2.bin.4
+2	Sample2.bin.22	Sample2.bin.23	Sample2.bin.21	Sample2.bin.31	Sample2.bin.26	Sample2.bin.27	Sample2.bin.41	Sample2.bin.36	Sampl
+e2.bin.50	Sample2.bin.53	Sample2.bin.35	Sample2.bin.49	Sample3.bin.31	Sample2.bin.44	Sample2.bin.62	Sample2.bin.56	Sample2.bin.4
+8	Sample3.bin.30	Sample3.bin.1	Sample3.bin.29	Sample2.bin.51	Sample2.bin.60	Sample2.bin.57	Sample2.bin.9	Sample2.bin.63	Sampl
+e3.bin.100	Sample2.bin.46	Sample3.bin.11	Sample3.bin.119	Sample3.bin.109	Sample3.bin.118	Sample3.bin.17	Sample3.bin.20	Sample3.bin.1
+16	Sample3.bin.22	Sample3.bin.13	Sample3.bin.16	Sample3.bin.25	Sample3.bin.95	Sample3.bin.32	Sample3.bin.70	Sample3.bin.69	Sampl
+e3.bin.99	Sample3.bin.46	Sample3.bin.58	Sample3.bin.39	Sample3.bin.33	Sample3.bin.44	Sample3.bin.38	Sample3.bin.52	Sample3.bin.6
+5	Sample3.bin.63	Sample3.bin.53	Sample3.bin.61	Sample3.bin.8	Sample3.bin.51	Sample3.bin.64	Sample3.bin.71	Sample3.bin.79	Sampl
+e3.bin.91	Sample3.bin.77	Sample3.bin.93	Sample3.bin.81	Sample3.bin.83
+-	274	1244	950	988	610	1569	1155	513	1354	1211	2381	1109	1386	1677	638	1428	765	2679	1283	608	1072	1797	1468	1926	1914	1642	1584	1895	1856	2355	3883	1598	1292	1977	27531230	3275	1735	2684	2102	1837	967	2741	993	1155	343	611	1823	2242	1405	3095	1217	11891817	366	2253	4123	325	1397	737	1801	885	1229	568	912	506	889	1302	1651	827	716	2561	1049	1981	538	626	755	1418	606	177	1841	1136	472	1202	1347	652	645	709	12261836	739	766	854	426	587	1265	1009	1932
+ko00010	6	16	21	16	31	20	26	24	25	23	33	15	25	28	25	24	28	28	20	23	16	35	30	31	29	22	26	27	27	34	36	17	22	30	25	34	33	25	33	25	23	14	25	24	31	10	28	25	21	38	34	22	19	26	15	29	40	4	21	13	35	20	21	15	21	23	18	24	21	17	27	27	31	37	18	19	25	25	20	11	24	27	22	29	22	20	21	27	18	29	14	17	16	18	23	32	17	26
+ko00030	7	16	17	14	17	13	13	14	12	14	20	11	16	25	16	9	16	20	17	16	15	21	16	20	25	13	24	18	17	17	35	8	12	25	20	21	28	16	25	13	14	9	27	17	19	6	13	18	26	20	28	17	13	18	9	23	46	1	21	9	30	15	11	6	18	14	12	15	19	9	24	18	17	22	11	9	11	14	12	3	16	15	13	23	14	13	14	14	11	20	9	12	11	9	12	15	16	20
+
+```
 
 # Hands-on n.3 (BONUS) - Taxonomic profiling beyond the level of species
 #### Step n.1: get into the right place
