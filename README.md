@@ -510,10 +510,15 @@ nextflow run metashot/prok-quality \
   --outdir results \
     -with-report report.html
 ```
-This command uses the bin fasta files from the previous step as input, and produces a report on their completeness and contamination. Again, it will produce a "work" directory and a "results" directory
-Mail output in the "results" directory:
+This command uses the bin fasta files from the previous step as input, and produces a report on their completeness and contamination. The workflow integrates several tools that look at different aspects of genome quality
 
-* genome_info.tsv: summary table of genomes quality. Columns are: 
+![alt text](https://github.com/metashot/prok-quality/blob/master/docs/images/prok-quality.png)
+
+
+Again, it will produce a "work" directory and a "results" directory
+Main output can be found in the "results" directory:
+
+* genome_info.tsv: summary table of genomes quality collecting the results of the different tools. Columns are: 
     * Genome: the genome filename
     * Completeness, Contamination, Strain heterogeneity: CheckM estimates
     * GUNC pass: if a genome doesn't pass GUNC analysis it means it is likely to be chimeric
