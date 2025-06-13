@@ -648,7 +648,6 @@ ko00030	7	16	17	14	17	13	13	14	12	14	20	11	16	25	16	9	16	20	17	16	15	21	16	20	25
 ```
 **Caveat** Since each protein can appear in more than one pathway, sometimes number do not add up so easily. Make sure you know what you are doing when you draw conclusions from these numbers. Please refer to the documentation of each individual annotation tool.
 
-<img src="immagini/Carbohydrate.png" width="50%">
 
 # Hands-on n.3 (BONUS) - Taxonomic profiling beyond the level of species
 #### Step n.1: get into the right place
