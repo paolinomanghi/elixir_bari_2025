@@ -423,7 +423,7 @@ This commamnd runs the assembly (using megahit) and binning workflow using paire
 With this syntax, each "\*_R1.fastq.gz" file will be matched with the corresponding "\*_R2.fastq.gz" file.
 The workflow will produce two folders and one report file: 
 * the report.html file contains a report of the tasks run by the workflow with details on the resources used and outcome
-* the "work" directory contains intermediate files. These files allow the workflow manager to reuse already performed steps if something goes wrong or you want to change something (option "-resume")
+* the "work" directory contains intermediate files. These files allow the workflow manager to reuse already performed steps if something goes wrong or you want to change something (option "-resume"). **WARNING:** the "work" directory can become quite big and take a lot of disk space. Keep it **ONLY** until you think you need to rerun the workflow adding new data or using different parameters. The either delete it directly or use the command "nextflow clean" to get rid of the intermediate files.
 * the "results" folder contains results files. The results directory contains:
     * scaffolds: scaffolds for each input sample;
     * bins: genome bins produced by Metabat2;
@@ -510,12 +510,13 @@ nextflow run metashot/prok-quality \
   --outdir results \
     -with-report report.html
 ```
-This command uses the bin fasta files from the previous step as input, and produces a report on their completeness and contamination. The workflow integrates several tools that look at different aspects of genome quality
+This command uses the bin fasta files from the previous step as input, and produces a report on their completeness and contamination. The workflow integrates several tools that look at different aspects of genome quality. This a schema of the workflow
+
 
 ![alt text](https://github.com/metashot/prok-quality/blob/master/docs/images/prok-quality.png)
 
 
-Again, it will produce a "work" directory and a "results" directory
+Again, the worflow will produce a "work" directory and a "results" directory
 Main output can be found in the "results" directory:
 
 * genome_info.tsv: summary table of genomes quality collecting the results of the different tools. Columns are: 
@@ -541,12 +542,11 @@ Sample1.bin.14.fa
 Sample1.bin.15.fa
 Sample1.bin.21.fa
 ```
-* genome_info_filtered.tsv: same as genome_info.tsv 
+* genome_info_filtered.tsv: same as genome_info.tsv, only for genomes passing the quality filter.
 * derep_info.tsv: table conating the dereplication summary. Columns are: 
     * Genome: genome filename
     * Cluster: the cluster ID (from 0 to N-1)
     * Representative: is this genome the cluster representative?
-
 ```
 (base) -bash-4.2$ head results/derep_info.tsv 
 Genome	Cluster	Representative
@@ -554,9 +554,9 @@ Sample1.bin.34	10	True
 Sample1.bin.67	21	True
 Sample1.bin.3	32	True
 ```
-
-
 * filtered_repr: folder containing the filered and representative genomes
+
+A note on dereplication: many of the assembled genomes in the different samples might just be different representatives of the same species. So, how would you avoid inflating the estimated diversity of the environment you are studying? One solution is to "cluster" MAGs into species level bins according to some pre-defined distance treshold, and select the most complete MAG as representative. DREP does exactly that. The assumption is that MAGs above 95% ANIbelong to the same species. As for any assumption, this is questionable.
 
 See https://github.com/metashot/prok-quality for complete documentation
 
