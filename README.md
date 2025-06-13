@@ -648,6 +648,12 @@ ko00030	7	16	17	14	17	13	13	14	12	14	20	11	16	25	16	9	16	20	17	16	15	21	16	20	25
 ```
 **Caveat** Since each protein can appear in more than one pathway, sometimes number do not add up so easily. Make sure you know what you are doing when you draw conclusions from these numbers. Please refer to the documentation of each individual annotation tool.
 
+The folder results/prokka contains annotated MAGs in several formats. You can look at the gff files using a genome browser such as Artemis (https://sanger-pathogens.github.io/Artemis/Artemis/). Pay attention to a few things:
+
+* Contigs are **NOT** ordered. Genes on teh same contig that are close in the browser, are close in real world. You have no info concerning the mutal positions of genes in different contigs. To reorder the contigs you will need a reference genome.
+* The annotation provided by Prokka is a basic annotation. Other tools (eggnog, kofamscan, etc) will provide more complete info.
+
+<img src="immagini/artemis.png" width="75%">
 
 # Hands-on n.3 (BONUS) - Taxonomic profiling beyond the level of species
 #### Step n.1: get into the right place
