@@ -513,7 +513,7 @@ nextflow run metashot/prok-quality \
 This command uses the bin fasta files from the previous step as input, and produces a report on their completeness and contamination. The workflow integrates several tools that look at different aspects of genome quality. This a schema of the workflow
 
 
-![alt text](https://github.com/metashot/prok-quality/blob/master/docs/images/prok-quality.png)
+![alt text](https://github.com/metashot/prok-quality/blob/master/docs/images/prok-quality.png =10x10)
 
 
 Again, the worflow will produce a "work" directory and a "results" directory
@@ -586,7 +586,6 @@ user_genome	classification	closest_genome_reference	closest_genome_reference_rad
 Sample1.bin.14.fa	d__Bacteria;p__Pseudomonadota;c__Gammaproteobacteria;o__Burkholderiales;f__Methylophilaceae;g__Methylotenera;s__	N/A	N/A	N/A	N/A	N/A	N/A	N/A	N/A	N/A	N/A	d__Bacteria;p__Pseudomonadota;c__Gammaproteobacteria;o__Burkholderiales;f__Methylophilaceae;g__Methylotenera;s__	taxonomic classification fully defined by topology	classification based on placement in class-level tree	N/A	72.65	11	0.9721	N/A
 ```
 
-
 * archaea_taxonomy.tsv: the GTDB-Tk summary for archaeal genomes;
 * bacteria_genomes: folder containing the genomes classified as bacteria by GTDB-Tk;
 * archaea_genomes: folder containing the genomes classified as archaea by GTDB-Tk.
@@ -627,7 +626,7 @@ Sample1.bin.15.emapper.annotations
 Sample1.bin.15.emapper.hits
 Sample1.bin.15.emapper.seed_orthologs
 ```
-Summary tables contain information from each of the individual tool. For instance, the table eggnog_KEGG_Pathway.tsv contains, for each MAG, the count of proteins in each metabolic pathway defined by teh Kegg database.
+Summary tables contain information from each of the individual tool. For instance, the table eggnog_KEGG_Pathway.tsv contains, for each MAG, the count of proteins in each metabolic pathway defined by the Kegg database.
 
 ```
 base) -bash-4.2$ more results/eggnog_KEGG_Pathway.tsv 
@@ -646,8 +645,8 @@ e3.bin.91	Sample3.bin.77	Sample3.bin.93	Sample3.bin.81	Sample3.bin.83
 -	274	1244	950	988	610	1569	1155	513	1354	1211	2381	1109	1386	1677	638	1428	765	2679	1283	608	1072	1797	1468	1926	1914	1642	1584	1895	1856	2355	3883	1598	1292	1977	27531230	3275	1735	2684	2102	1837	967	2741	993	1155	343	611	1823	2242	1405	3095	1217	11891817	366	2253	4123	325	1397	737	1801	885	1229	568	912	506	889	1302	1651	827	716	2561	1049	1981	538	626	755	1418	606	177	1841	1136	472	1202	1347	652	645	709	12261836	739	766	854	426	587	1265	1009	1932
 ko00010	6	16	21	16	31	20	26	24	25	23	33	15	25	28	25	24	28	28	20	23	16	35	30	31	29	22	26	27	27	34	36	17	22	30	25	34	33	25	33	25	23	14	25	24	31	10	28	25	21	38	34	22	19	26	15	29	40	4	21	13	35	20	21	15	21	23	18	24	21	17	27	27	31	37	18	19	25	25	20	11	24	27	22	29	22	20	21	27	18	29	14	17	16	18	23	32	17	26
 ko00030	7	16	17	14	17	13	13	14	12	14	20	11	16	25	16	9	16	20	17	16	15	21	16	20	25	13	24	18	17	17	35	8	12	25	20	21	28	16	25	13	14	9	27	17	19	6	13	18	26	20	28	17	13	18	9	23	46	1	21	9	30	15	11	6	18	14	12	15	19	9	24	18	17	22	11	9	11	14	12	3	16	15	13	23	14	13	14	14	11	20	9	12	11	9	12	15	16	20
-
 ```
+**Caveat** Since each protein can appear in more than one pathway, sometimes number do not add up so easily. Make sure you know what you are doing when you draw conclusions from these numbers. Please refer to the documentation of each individual annotation tool.
 
 # Hands-on n.3 (BONUS) - Taxonomic profiling beyond the level of species
 #### Step n.1: get into the right place
