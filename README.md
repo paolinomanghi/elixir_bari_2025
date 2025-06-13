@@ -457,7 +457,7 @@ Let's explore the output:
 Click on the "report.html" file. you will find a set of reports on the job that was run, including resources used (memory, time, etc.) by each process
 
 
-![alt text](newplot.png)
+![alt text](immagini/newplot.png)
 
 The assembled scaffold are in the "results/scaffolds" directory
 ```
