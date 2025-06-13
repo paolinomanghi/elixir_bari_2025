@@ -543,7 +543,7 @@ Sample1.bin.15.fa
 Sample1.bin.21.fa
 ```
 * genome_info_filtered.tsv: same as genome_info.tsv, only for genomes passing the quality filter.
-* derep_info.tsv: table conating the dereplication summary. Columns are: 
+* derep_info.tsv: table containg the dereplication summary. Columns are: 
     * Genome: genome filename
     * Cluster: the cluster ID (from 0 to N-1)
     * Representative: is this genome the cluster representative?
