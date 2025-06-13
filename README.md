@@ -650,7 +650,7 @@ ko00030	7	16	17	14	17	13	13	14	12	14	20	11	16	25	16	9	16	20	17	16	15	21	16	20	25
 
 The folder results/prokka contains annotated MAGs in several formats. You can look at the gff files using a genome browser such as Artemis (https://sanger-pathogens.github.io/Artemis/Artemis/). Pay attention to a few things:
 
-* Contigs are **NOT** ordered. Genes on teh same contig that are close in the browser, are close in real world. You have no info concerning the mutal positions of genes in different contigs. To reorder the contigs you will need a reference genome.
+* Contigs are **NOT** ordered. Genes on the same contig that are close in the browser, are close in real world. You have no info concerning the mutal positions of genes in different contigs. To reorder the contigs you will need a reference genome.
 * The annotation provided by Prokka is a basic annotation. Other tools (eggnog, kofamscan, etc) will provide more complete info.
 
 <img src="immagini/artemis.png" width="75%">
