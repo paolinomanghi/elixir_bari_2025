@@ -513,7 +513,7 @@ nextflow run metashot/prok-quality \
 This command uses the bin fasta files from the previous step as input, and produces a report on their completeness and contamination. The workflow integrates several tools that look at different aspects of genome quality. This a schema of the workflow
 
 
-<img src="https://github.com/metashot/prok-quality/blob/master/docs/images/prok-quality.png" width="10" height="10">
+![alt text](https://github.com/metashot/prok-quality/blob/master/docs/images/prok-quality.png)
 
 
 Again, the worflow will produce a "work" directory and a "results" directory
