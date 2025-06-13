@@ -419,7 +419,7 @@ cd mag
    --outdir results \ 
    -with-report report.html
 ```
-This commamnd runs the assembly (using megahit) and binning workflow using pired-ends read files in the ../fastq/ directory. 
+This commamnd runs the assembly (using megahit) and binning workflow using paired-ends read files in the ../fastq/ directory. 
 With this syntax, each "\*_R1.fastq.gz" file will be matched with the corresponding "\*_R2.fastq.gz" file.
 The workflow will produce two folders and one report file: 
 * the report.html file contains a report of the tasks run by the workflow with details on the resources used and outcome
@@ -449,7 +449,7 @@ process.executor = 'sge'
 process.penv = 'smp'
 ```
 
- are cluster specific options that instruct nextflow to use Sun Grid Engine (sge) as executor with multi-thread environment (smp). This configuration file needs to be changed depending on the environment where you run your job.
+ are cluster specific options that instruct nextflow to use Sun Grid Engine (sge) as executor with multi-thread environment (smp). This configuration file needs to be changed depending on the environment where you run your job. See the nextflow documentation for details on how to do that https://www.nextflow.io/docs/latest/config.html 
 
 
 Let's explore the output:
