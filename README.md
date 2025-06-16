@@ -95,10 +95,12 @@ source ${path}/activate
 
 We move to use it
 ```
+## cd /home/user<YOUR USER NAME>
+cd ..
+
 mkdir 2_metaphlan
 cd 2_metaphlan
 
-cd /home/user<YOUR USER NAME>
 path="/home/ubuntu/shotgun_course/anaconda3course/bin/"
 
 conda deactivate
