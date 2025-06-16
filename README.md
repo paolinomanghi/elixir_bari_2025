@@ -87,11 +87,17 @@ Did the preprocessing produce the same exact number of reads in R1 and R2 ?
 
 We create the conda environment **we did it already**
 ```
+conda deactivate
+source ${path}/activate
+
 ## conda create -n <mpa> -c conda-forge -c bioconda python=3.11 metaphlan=4.2.0
 ```
 
 We move to use it
 ```
+mkdir 2_metaphlan
+cd 2_metaphlan
+
 cd /home/user<YOUR USER NAME>
 path="/home/ubuntu/shotgun_course/anaconda3course/bin/"
 
@@ -99,8 +105,7 @@ conda deactivate
 source ${path}/activate
 source ${path}/activate mpa
 
-mkdir 2_metaphlan
-cd 2_metaphlan
+
 ```
 
 #### Step n.2: download metagenomic samples
