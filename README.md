@@ -52,7 +52,7 @@ for i in *.fastq; do echo -ne "${i}\t"; cat "$i" | wc -l; done
 
 #### Step n. 4: Generate bowtie2 index of the human genome GCF_009914755.1_T2T-CHM13v2.0.fna (https://www.ncbi.nlm.nih.gov/datasets/genome/GCF_009914755.1/GCF_009914755.1_T2T-CHM13v2.0.fna)
 
-Activate conda:
+Activate conda: Occhio che qui cambia tutto a seconda di dove salvi il T2T !
 ```
 human_gen_path="/home/ubuntu/shotgun_course/human_genome/"
 conda deactivate
@@ -77,7 +77,7 @@ samtools sort -n -m 5G -@ 2 ${s}.bothunmapped.bam -o ${s}.bothunmapped.sorted.ba
 samtools fastq ${s}.bothunmapped.sorted.bam -1 >(gzip > ${s}_filtered.final_1.fastq.gz) -2 >(gzip > ${s}_filtered.final_2.fastq.gz) -0 /dev/null -s /dev/null -n
 #rm ${s}.sam; rm ${s}.bam; rm ${s}.bothunmapped.bam; rm ${s}.bothunmapped.sorted.bam ### IF YOU WANT TO REMOVE THE INTERMEDIATE FILES
 
-for i in *.gz; do echo -ne "${i}\t"; zcat "$i" | wc -l; done
+for i in *.fastq; do echo -ne "${i}\t"; cat "$i" | wc -l; done; echo; for i in *.gz; do echo -ne "${i}\t"; zcat "$i" | wc -l; done
 ```
 Did the preprocessing produce the same exact number of reads in R1 and R2 ?
 
