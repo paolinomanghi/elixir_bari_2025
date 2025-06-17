@@ -179,8 +179,16 @@ kraken -h
 
 #### Step n.5: Run Kraken + Braken
 ```
+for s in SRS014459-Stool.fasta.gz SRS014464-Anterior_nares.fasta.gz SRS014470-Tongue_dorsum.fasta.gz SRS014472-Buccal_mucosa.fasta.gz SRS014476-Supragingival_plaque.fasta.gz SRS014494-Posterior_fornix.fasta.gz;
 
-LAST TO ADD
+do
+kraken2 --db kraken_DB/ --threads 8 --report `basename ${s%.fasta.gz}`.kraken2_report.txt --output `basename ${s%.fasta.gz}`.kraken2_output.txt ../2_metaphlan/${s};
+
+bracken -d kraken_DB/ -i `basename ${s%.fasta.gz}`.kraken2_report.txt \
+  -o `basename ${s%.fasta.gz}`.bracken_abundance.txt \
+  -w `basename ${s%.fasta.gz}`.bracken_report.txt -l S -t 150
+
+done
 ```
 
 
