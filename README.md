@@ -150,7 +150,9 @@ s="SRS014470-Tongue_dorsum"; metaphlan ${s}.fasta.gz --input_type fasta --mapout
 s="SRS014472-Buccal_mucosa"; metaphlan ${s}.fasta.gz --input_type fasta --mapout ${s}.bowtie2.bz2 --samout ${s}.sam.bz2 -o ${s}_profile.txt \
     --stat_q 0.1 --nproc 8 --db_dir ${mpa_db} --index ${db_version}
 
-merge_metaphlan_tables.py *_profile.txt > merged_abundance_table.txt
+
+merge_metaphlan_tables.py *_profile.txt > merged_abundance_table.tsv
+grep -P "clade_name|UNCLASSIFIED|t__" merged_abundance_table.tsv > merged_abundance_table.filtered.tsv
 ```
 
 ## Kraken + Bracken: taxonomic profiling using k-mers
