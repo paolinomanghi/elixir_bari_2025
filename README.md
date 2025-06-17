@@ -136,19 +136,19 @@ metaphlan -h
 
 Then run it
 ```
-metaphlan ${s}.fasta.gz --input_type fasta --bowtie2out ${s}.bowtie2.bz2 --samout ${s}.sam.bz2 -o ${s}_profile.txt \
-    --stat_q 0.1 --nproc 8 --bowtie2db ${mpa_db} --index ${db_version}
+metaphlan ${s}.fasta.gz --input_type fasta --mapout ${s}.bowtie2.bz2 --samout ${s}.sam.bz2 -o ${s}_profile.txt \
+    --stat_q 0.1 --nproc 8 --db_dir ${mpa_db} --index ${db_version}
 
-s="SRS014494-Posterior_fornix"; metaphlan ${s}.fasta.gz --input_type fasta --bowtie2out ${s}.bowtie2.bz2 --samout ${s}.sam.bz2 -o ${s}_profile.txt \
-    --stat_q 0.1 --nproc 8 --bowtie2db ${mpa_db} --index ${db_version}
-s="SRS014459-Stool"; metaphlan ${s}.fasta.gz --input_type fasta --bowtie2out ${s}.bowtie2.bz2 --samout ${s}.sam.bz2 -o ${s}_profile.txt \
-    --stat_q 0.1 --nproc 8 --bowtie2db ${mpa_db} --index ${db_version}
-s="SRS014464-Anterior_nares"; metaphlan ${s}.fasta.gz --input_type fasta --bowtie2out ${s}.bowtie2.bz2 --samout ${s}.sam.bz2 -o ${s}_profile.txt \
-    --stat_q 0.1 --nproc 8 --bowtie2db ${mpa_db} --index ${db_version}
-s="SRS014470-Tongue_dorsum"; metaphlan ${s}.fasta.gz --input_type fasta --bowtie2out ${s}.bowtie2.bz2 --samout ${s}.sam.bz2 -o ${s}_profile.txt \
-    --stat_q 0.1 --nproc 8 --bowtie2db ${mpa_db} --index ${db_version}
-s="SRS014472-Buccal_mucosa"; metaphlan ${s}.fasta.gz --input_type fasta --bowtie2out ${s}.bowtie2.bz2 --samout ${s}.sam.bz2 -o ${s}_profile.txt \
-    --stat_q 0.1 --nproc 8 --bowtie2db ${mpa_db} --index ${db_version}
+s="SRS014494-Posterior_fornix"; metaphlan ${s}.fasta.gz --input_type fasta --mapout ${s}.bowtie2.bz2 --samout ${s}.sam.bz2 -o ${s}_profile.txt \
+    --stat_q 0.1 --nproc 8 --db_dir ${mpa_db} --index ${db_version}
+s="SRS014459-Stool"; metaphlan ${s}.fasta.gz --input_type fasta --mapout ${s}.bowtie2.bz2 --samout ${s}.sam.bz2 -o ${s}_profile.txt \
+    --stat_q 0.1 --nproc 8 --db_dir ${mpa_db} --index ${db_version}
+s="SRS014464-Anterior_nares"; metaphlan ${s}.fasta.gz --input_type fasta --mapout ${s}.bowtie2.bz2 --samout ${s}.sam.bz2 -o ${s}_profile.txt \
+    --stat_q 0.1 --nproc 8 --db_dir ${mpa_db} --index ${db_version}
+s="SRS014470-Tongue_dorsum"; metaphlan ${s}.fasta.gz --input_type fasta --mapout ${s}.bowtie2.bz2 --samout ${s}.sam.bz2 -o ${s}_profile.txt \
+    --stat_q 0.1 --nproc 8 --db_dir ${mpa_db} --index ${db_version}
+s="SRS014472-Buccal_mucosa"; metaphlan ${s}.fasta.gz --input_type fasta --mapout ${s}.bowtie2.bz2 --samout ${s}.sam.bz2 -o ${s}_profile.txt \
+    --stat_q 0.1 --nproc 8 --db_dir ${mpa_db} --index ${db_version}
 
 merge_metaphlan_tables.py *_profile.txt > merged_abundance_table.txt
 ```
@@ -693,17 +693,17 @@ wget http://cmprod1.cibio.unitn.it/biobakery4/github_strainphlan4/fastq/SRS06427
 ## mpa_db="/home/ubuntu/shotgun_course/metaphlan_databases/"
 ## db_version="mpa_vJun23_CHOCOPhlAnSGB_202403"
 
-## s="SRS013951"; metaphlan ${s}.fastq.bz2 --input_type fastq --bowtie2out ${s}.bowtie2.bz2 --samout ${s}.sam.bz2 -o ${s}_profile.txt --nproc 8 \
+## s="SRS013951"; metaphlan ${s}.fastq.bz2 --input_type fastq --mapout ${s}.bowtie2.bz2 --samout ${s}.sam.bz2 -o ${s}_profile.txt --nproc 8 \
 ##     --bowtie2db ${mpa_db} --index ${db_version}
-## s="SRS014613"; metaphlan ${s}.fastq.bz2 --input_type fastq --bowtie2out ${s}.bowtie2.bz2 --samout ${s}.sam.bz2 -o ${s}_profile.txt --nproc 8 \
+## s="SRS014613"; metaphlan ${s}.fastq.bz2 --input_type fastq --mapout ${s}.bowtie2.bz2 --samout ${s}.sam.bz2 -o ${s}_profile.txt --nproc 8 \
 ##     --bowtie2db ${mpa_db} --index ${db_version}
-## s="SRS019161"; metaphlan ${s}.fastq.bz2 --input_type fastq --bowtie2out ${s}.bowtie2.bz2 --samout ${s}.sam.bz2 -o ${s}_profile.txt --nproc 8 \
+## s="SRS019161"; metaphlan ${s}.fastq.bz2 --input_type fastq --mapout ${s}.bowtie2.bz2 --samout ${s}.sam.bz2 -o ${s}_profile.txt --nproc 8 \
 ##     --bowtie2db ${mpa_db} --index ${db_version}
-## s="SRS022137"; metaphlan ${s}.fastq.bz2 --input_type fastq --bowtie2out ${s}.bowtie2.bz2 --samout ${s}.sam.bz2 -o ${s}_profile.txt --nproc 8 \
+## s="SRS022137"; metaphlan ${s}.fastq.bz2 --input_type fastq --mapout ${s}.bowtie2.bz2 --samout ${s}.sam.bz2 -o ${s}_profile.txt --nproc 8 \
 ##     --bowtie2db ${mpa_db} --index ${db_version}
-## s="SRS055982"; metaphlan ${s}.fastq.bz2 --input_type fastq --bowtie2out ${s}.bowtie2.bz2 --samout ${s}.sam.bz2 -o ${s}_profile.txt --nproc 8 \
+## s="SRS055982"; metaphlan ${s}.fastq.bz2 --input_type fastq --mapout ${s}.bowtie2.bz2 --samout ${s}.sam.bz2 -o ${s}_profile.txt --nproc 8 \
 ##     --bowtie2db ${mpa_db} --index ${db_version}
-## s="SRS064276"; metaphlan ${s}.fastq.bz2 --input_type fastq --bowtie2out ${s}.bowtie2.bz2 --samout ${s}.sam.bz2 -o ${s}_profile.txt --nproc 8 \
+## s="SRS064276"; metaphlan ${s}.fastq.bz2 --input_type fastq --mapout ${s}.bowtie2.bz2 --samout ${s}.sam.bz2 -o ${s}_profile.txt --nproc 8 \
 ##     --bowtie2db ${mpa_db} --index ${db_version}
 ```
 
