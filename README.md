@@ -107,13 +107,15 @@ conda deactivate
 source ${path}/activate
 source ${path}/activate mpa
 
-
+## metaphlan --install --db_dir metaphlan_databases
 ```
 
 #### Step n.2: download metagenomic samples
 ```
-mpa_db="/home/ubuntu/shotgun_course/metaphlan_databases/"
-db_version="mpa_vJun23_CHOCOPhlAnSGB_202403"
+mpa_db="/home/ubuntu/shotgun_course/metaphlan_databases/" !!! PATH DA MODIFICARE !!
+## ESEMPIO SUL CM: /shares/CIBIO-Storage/CM/scratch/users/paolo.manghi/Elixir/2_metaphlan/metaphlan_databases/
+
+db_version="mpa_vJan25_CHOCOPhlAnSGB_202503"
 
 wget https://github.com/biobakery/MetaPhlAn/releases/download/4.0.2/SRS014476-Supragingival_plaque.fasta.gz
 wget https://github.com/biobakery/MetaPhlAn/releases/download/4.0.2/SRS014494-Posterior_fornix.fasta.gz
