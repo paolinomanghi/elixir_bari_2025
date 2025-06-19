@@ -150,13 +150,11 @@ s="SRS014470-Tongue_dorsum"; metaphlan ${s}.fasta.gz --input_type fasta --mapout
 s="SRS014472-Buccal_mucosa"; metaphlan ${s}.fasta.gz --input_type fasta --mapout ${s}.bowtie2.bz2 --samout ${s}.sam.bz2 -o ${s}_profile.txt \
     --stat_q 0.1 --nproc 8 --db_dir ${mpa_db} --index ${db_version}
 
-
 merge_metaphlan_tables.py *_profile.txt > merged_abundance_table.tsv
-grep -P "clade_name|UNCLASSIFIED|t__" merged_abundance_table.tsv > merged_abundance_table.filtered.tsv
+grep -P "clade_name|UNCLASSIFIED|t__" merged_abundance_table.tsv > metaphlan_table.tsv
 ```
 
 ## Kraken + Bracken: taxonomic profiling using k-mers
-
 #### Step n.1: Check everything is set up and create kraken + bracken DB
 
 ```
@@ -170,6 +168,8 @@ cd 3_kraken
 
 # wget https://genome-idx.s3.amazonaws.com/kraken/k2_standard_08gb_20250402.tar.gz
 # mkdir -p kraken_DB && tar -xvzf k2_standard_08gb_20250402.tar.gz -C kraken_DB
+# git clone https://github.com/jenniferlu717/KrakenTools.git
+# chmod +x KrakenTools/*
 ```
 
 #### Step n.3: Let's have a look at Kraken parameters
@@ -177,24 +177,31 @@ cd 3_kraken
 kraken -h
 ```
 
-#### Step n.5: Run Kraken + Braken
+Run Kraken
 ```
 for s in SRS014459-Stool.fasta.gz SRS014464-Anterior_nares.fasta.gz SRS014470-Tongue_dorsum.fasta.gz SRS014472-Buccal_mucosa.fasta.gz SRS014476-Supragingival_plaque.fasta.gz SRS014494-Posterior_fornix.fasta.gz;
 
-do
-kraken2 --db kraken_DB/ --threads 8 --report `basename ${s%.fasta.gz}`.kraken2_report.txt --output `basename ${s%.fasta.gz}`.kraken2_output.txt ../2_metaphlan/${s};
+do kraken2 --db kraken_DB/ --threads 8 --report `basename ${s%.fasta.gz}`.kraken2_report.txt --output `basename ${s%.fasta.gz}`.kraken2_output.txt ../2_metaphlan/${s}; done
+```
+
+Run Bracken
+```
+for s in SRS014459-Stool.fasta.gz SRS014464-Anterior_nares.fasta.gz SRS014470-Tongue_dorsum.fasta.gz SRS014472-Buccal_mucosa.fasta.gz SRS014476-Supragingival_plaque.fasta.gz SRS014494-Posterior_fornix.fasta.gz;
 
 bracken -d kraken_DB/ -i `basename ${s%.fasta.gz}`.kraken2_report.txt \
   -o `basename ${s%.fasta.gz}`.bracken_abundance.txt \
   -w `basename ${s%.fasta.gz}`.bracken_report.txt -l S -t 150
 
 done
+
+for s in *.bracken_report.txt; do KrakenTools/kreport2mpa.py --display-header -r ${s} -o ${s%.txt}.mpa.tsv; done
+
+KrakenTools/combine_mpa.py -i *.bracken_report.mpa.tsv -o merged_bracken_table.tsv
+
+sed 's/.bracken_report.txt//g' merged_bracken_table.tsv | grep -P 'Classification|s__' > bracken_table.tsv
 ```
 
-
-
 ## HUMAnN 4: functional profiling at the community level
-
 #### Step n.1: Get into the right directory
 ```
 conda deactivate
