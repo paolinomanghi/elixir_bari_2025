@@ -196,7 +196,7 @@ for s in *.bracken_report.txt; do KrakenTools/kreport2mpa.py --display-header -r
 
 KrakenTools/combine_mpa.py -i *.bracken_report.mpa.tsv -o merged_bracken_table.tsv
 
-sed 's/.bracken_report.txt//g' merged_bracken_table.tsv | grep -P 'Classification|s__' > bracken_table.tsv
+sed 's/.bracken_report.txt//g' merged_bracken_table.tsv | grep -P 'Classification|s__' | sed 's/Bacillati/Bacteria/g' | sed 's/Pseudomonadati/Bacteria/g' > bracken_table.tsv
 ```
 
 ## HUMAnN 4: functional profiling at the community level
