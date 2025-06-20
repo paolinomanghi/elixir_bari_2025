@@ -205,12 +205,18 @@ sed 's/.bracken_report.txt//g' merged_bracken_table.tsv | grep -P 'Classificatio
 conda deactivate
 source ${path}/activate
 
-## conda create -n <humann> -c bioconda python=3.9 ## DON'T DO IT. WE DID ALREADY
-source ${path}/activate humann
-## conda install -c biobakery <humann> ## DON'T DO IT. WE DID ALREADY
+## conda create -n <humann4> -c bioconda python=3.12 ## DON'T DO IT. WE DID ALREADY
+conda activate humann
+## conda config --add channels biobakery
+## conda install humann=4.0 -c biobakery  ## DON'T DO IT. WE DID ALREADY
+## conda install metaphlan -c bioconda ## DON'T
 
-mkdir 6_humann
-cd 6_humann
+
+## humann_databases --download chocophlan full humann_databases ## DON'T 
+## humann_databases --download uniref uniref90_ec_filtered_diamond humann_databases ## DON'T 
+
+mkdir 4_humann
+cd 4_humann
 ```
 
 #### Step n.2: test that HUMAnN runs properly and have a look at the HUMAnN parameters
