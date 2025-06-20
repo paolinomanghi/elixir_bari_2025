@@ -120,7 +120,6 @@ db_version="mpa_vJan25_CHOCOPhlAnSGB_202503"
 wget https://github.com/biobakery/MetaPhlAn/releases/download/4.0.2/SRS014476-Supragingival_plaque.fasta.gz
 wget https://github.com/biobakery/MetaPhlAn/releases/download/4.0.2/SRS014494-Posterior_fornix.fasta.gz
 wget https://github.com/biobakery/MetaPhlAn/releases/download/4.0.2/SRS014459-Stool.fasta.gz
-wget https://github.com/biobakery/MetaPhlAn/releases/download/4.0.2/SRS014464-Anterior_nares.fasta.gz
 wget https://github.com/biobakery/MetaPhlAn/releases/download/4.0.2/SRS014470-Tongue_dorsum.fasta.gz
 wget https://github.com/biobakery/MetaPhlAn/releases/download/4.0.2/SRS014472-Buccal_mucosa.fasta.gz
 
@@ -143,15 +142,14 @@ s="SRS014494-Posterior_fornix"; metaphlan ${s}.fasta.gz --input_type fasta --map
     --stat_q 0.1 --nproc 8 --db_dir ${mpa_db} --index ${db_version}
 s="SRS014459-Stool"; metaphlan ${s}.fasta.gz --input_type fasta --mapout ${s}.bowtie2.bz2 --samout ${s}.sam.bz2 -o ${s}_profile.txt \
     --stat_q 0.1 --nproc 8 --db_dir ${mpa_db} --index ${db_version}
-s="SRS014464-Anterior_nares"; metaphlan ${s}.fasta.gz --input_type fasta --mapout ${s}.bowtie2.bz2 --samout ${s}.sam.bz2 -o ${s}_profile.txt \
-    --stat_q 0.1 --nproc 8 --db_dir ${mpa_db} --index ${db_version}
 s="SRS014470-Tongue_dorsum"; metaphlan ${s}.fasta.gz --input_type fasta --mapout ${s}.bowtie2.bz2 --samout ${s}.sam.bz2 -o ${s}_profile.txt \
     --stat_q 0.1 --nproc 8 --db_dir ${mpa_db} --index ${db_version}
 s="SRS014472-Buccal_mucosa"; metaphlan ${s}.fasta.gz --input_type fasta --mapout ${s}.bowtie2.bz2 --samout ${s}.sam.bz2 -o ${s}_profile.txt \
     --stat_q 0.1 --nproc 8 --db_dir ${mpa_db} --index ${db_version}
+s="SRS014494-Posterior_fornix"; metaphlan ${s}.fasta.gz --input_type fasta --mapout ${s}.bowtie2.bz2 --samout ${s}.sam.bz2 -o ${s}_profile.txt \
+    --stat_q 0.1 --nproc 8 --db_dir ${mpa_db} --index ${db_version}
 
-merge_metaphlan_tables.py *_profile.txt > merged_abundance_table.tsv
-grep -P "clade_name|UNCLASSIFIED|t__" merged_abundance_table.tsv > metaphlan_table.tsv
+merge_metaphlan_tables.py *_profile.txt | grep -P "clade_name|UNCLASSIFIED|t__" > metaphlan_table.tsv
 ```
 
 ## Kraken + Bracken: taxonomic profiling using k-mers
@@ -179,14 +177,14 @@ kraken -h
 
 Run Kraken
 ```
-for s in SRS014459-Stool.fasta.gz SRS014464-Anterior_nares.fasta.gz SRS014470-Tongue_dorsum.fasta.gz SRS014472-Buccal_mucosa.fasta.gz SRS014476-Supragingival_plaque.fasta.gz SRS014494-Posterior_fornix.fasta.gz;
+for s in SRS014459-Stool.fasta.gz SRS014470-Tongue_dorsum.fasta.gz SRS014472-Buccal_mucosa.fasta.gz SRS014476-Supragingival_plaque.fasta.gz SRS014494-Posterior_fornix.fasta.gz;
 
 do kraken2 --db kraken_DB/ --threads 8 --report `basename ${s%.fasta.gz}`.kraken2_report.txt --output `basename ${s%.fasta.gz}`.kraken2_output.txt ../2_metaphlan/${s}; done
 ```
 
 Run Bracken
 ```
-for s in SRS014459-Stool.fasta.gz SRS014464-Anterior_nares.fasta.gz SRS014470-Tongue_dorsum.fasta.gz SRS014472-Buccal_mucosa.fasta.gz SRS014476-Supragingival_plaque.fasta.gz SRS014494-Posterior_fornix.fasta.gz;
+for s in SRS014459-Stool.fasta.gz SRS014470-Tongue_dorsum.fasta.gz SRS014472-Buccal_mucosa.fasta.gz SRS014476-Supragingival_plaque.fasta.gz SRS014494-Posterior_fornix.fasta.gz;
 
 bracken -d kraken_DB/ -i `basename ${s%.fasta.gz}`.kraken2_report.txt \
   -o `basename ${s%.fasta.gz}`.bracken_abundance.txt \
