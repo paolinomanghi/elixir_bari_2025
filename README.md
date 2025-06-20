@@ -209,14 +209,16 @@ source ${path}/activate
 conda activate humann
 ## conda config --add channels biobakery
 ## conda install humann=4.0 -c biobakery  ## DON'T DO IT. WE DID ALREADY
-## conda install metaphlan -c bioconda ## DON'T
 
+## conda install metaphlan -c bioconda ## DON'T
+## metaphlan --install --index mpa_vOct22_CHOCOPhlAnSGB_202403
+
+mkdir -p 4_humann
+cd 4_humann
 
 ## humann_databases --download chocophlan full humann_databases ## DON'T 
-## humann_databases --download uniref uniref90_ec_filtered_diamond humann_databases ## DON'T 
-
-mkdir 4_humann
-cd 4_humann
+## humann_databases --download uniref uniref90_ec_filtered_diamond humann_databases ## DON'T
+## humann_databases --download utility_mapping full humann_databases ## DON'T
 ```
 
 #### Step n.2: test that HUMAnN runs properly and have a look at the HUMAnN parameters
@@ -237,7 +239,7 @@ wget ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR154/096/SRR15408396/SRR15408396.fastq
 s="SRR15408396"
 
 ## NOW YOU CAN RUN:
-## humann --input ${s}.fastq.gz --output ${s} --threads 8
+## \humann --input ${s}.fastq.gz --output ${s} --threads 8 --nucleotide-database humann_databases/chocophlan/ --metaphlan-options "--index mpa_vOct22_CHOCOPhlAnSGB_202403 --bowtie2db /shares/CIBIO-Storage/CM/scratch/users/paolo.manghi/anaconda_nueva_2025/envs/humann4/lib/python3.12/site-packages/metaphlan/metaphlan_databases/ -t rel_ab_w_read_stats --count-normalization RPKs"
 
 ## BUT IT TAKES THREE HOURS... OR YOU CAN RUN:
 mkdir -p ${s}
