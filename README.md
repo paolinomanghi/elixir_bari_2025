@@ -244,56 +244,48 @@ metaphlan_params="--index mpa_vOct22_CHOCOPhlAnSGB_202403 -t rel_ab_w_read_stats
 
 ## BUT IT TAKES THREE HOURS... OR YOU CAN RUN:
 mkdir -p ${s}
-
-cp /home/ubuntu/course_backup/course/6_humann/${s}/${s}_genefamilies.tsv ${s}/
-cp /home/ubuntu/course_backup/course/6_humann/${s}/${s}_pathabundance.tsv ${s}/
-cp /home/ubuntu/course_backup/course/6_humann/${s}/${s}_pathcoverage.tsv ${s}/
 ```
 
-#### Step n.5: Manipulate and normalize HUMAnN output
+Occhio che qui sistemare le cartelle !!!
 ```
-humann_renorm_table -i ${s}/${s}_genefamilies.tsv -o ${s}/${s}_genefamilies-relab.tsv -u relab
-humann_renorm_table -i ${s}/${s}_pathabundance.tsv -o ${s}/${s}_pathabundance-relab.tsv -u relab
-```
-
-#### Step n.6: Regrouping genes to other functional categories
-```
-humann_regroup_table -i ${s}/${s}_genefamilies-relab.tsv -o ${s}/${s}_rxn-relab.tsv --groups uniref90_rxn
+cp /home/ubuntu/course_backup/course/4_humann/${s}/${s}_2_genefamilies.tsv ${s}/${s}_genefamilies.tsv
+cp /home/ubuntu/course_backup/course/4_humann/${s}/${s}_3_reactions.tsv ${s}/${s}_reactions.tsv
+cp /home/ubuntu/course_backup/course/4_humann/${s}/${s}_4_pathabundance.tsv ${s}/${s}_pathabundance.tsv
 ```
 
-#### Step n.7: Run HUMAnN on a second sample
+#### Step n.5: Regrouping genes to other functional categories
+```
+humann_regroup_table -i ${s}/${s}_genefamilies.tsv -o ${s}/${s}_pfam.tsv --groups uniref90_pfam
+```
+
+#### Step n.6: Run HUMAnN on a second sample
 ```
 s="SRR15408398"
 
 ## SAME:
 ## wget ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR154/098/SRR15408398/SRR15408398.fastq.gz
-## humann --input ${s}.fastq.gz --output ${s} --threads 8
+
+## \humann --input ${s}.fastq.gz --output ${s} --threads 8 --nucleotide-database humann_databases/chocophlan/ --count-normalization RPKs --metaphlan-options "${metaphlan_params}"
 
 ## FOR NOW, RUN:
 mkdir ${s}
-
-cp /home/ubuntu/course_backup/course/6_humann/${s}/${s}_genefamilies.tsv ${s}/
-cp /home/ubuntu/course_backup/course/6_humann/${s}/${s}_pathabundance.tsv ${s}/
-cp /home/ubuntu/course_backup/course/6_humann/${s}/${s}_pathcoverage.tsv ${s}/
-
-humann_renorm_table -i ${s}/${s}_genefamilies.tsv -o ${s}/${s}_genefamilies-relab.tsv -u relab
-humann_renorm_table -i ${s}/${s}_pathabundance.tsv -o ${s}/${s}_pathabundance-relab.tsv -u relab
 ```
 
-#### Step n.8: Merge together community profiles under different ontologies
+Occhio che qui sistemare le cartelle !!!
+```
+cp /home/ubuntu/course_backup/course/4_humann/${s}/${s}_2_genefamilies.tsv ${s}/${s}_genefamilies.tsv
+cp /home/ubuntu/course_backup/course/4_humann/${s}/${s}_3_reactions.tsv ${s}/${s}_reactions.tsv
+cp /home/ubuntu/course_backup/course/4_humann/${s}/${s}_4_pathabundance.tsv ${s}/${s}_pathabundance.tsv
+```
+
+#### Step n.7: Merge together community profiles under different ontologies
 ```
 mkdir -p merged
 
-cp SRR15408396/SRR15408396_genefamilies-relab.tsv merged/
-cp SRR15408398/SRR15408398_genefamilies-relab.tsv merged/
-cp SRR15408396/SRR15408396_pathabundance-relab.tsv merged/
-cp SRR15408398/SRR15408398_pathabundance-relab.tsv merged/
-cp SRR15408396/SRR15408396_pathcoverage.tsv merged/
-cp SRR15408398/SRR15408398_pathcoverage.tsv merged/
+cp SRR15408396/SRR15408396_pathabundance.tsv merged/
+cp SRR15408398/SRR15408398_pathabundance.tsv merged/
 
-humann_join_tables -i merged -o merged/merged_genefamilies-relab.tsv --file_name genefamilies-relab
-humann_join_tables -i merged -o merged/merged_pathabundance-relab.tsv --file_name pathabundance-relab
-humann_join_tables -i merged -o merged/merged_pathcoverage.tsv --file_name pathcoverage
+humann_join_tables -i merged -o merged_pathabundance.tsv --file_name pathabundance
 ```
 
 # Hands-on n.3 - Metagenome assembly and binning
