@@ -241,6 +241,7 @@ metaphlan_params="--index mpa_vOct22_CHOCOPhlAnSGB_202403 -t rel_ab_w_read_stats
 
 ## NOW YOU CAN RUN:
 ## \humann --input ${s}.fastq.gz --output ${s} --threads 8 --nucleotide-database humann_databases/chocophlan/ --count-normalization RPKs --metaphlan-options "${metaphlan_params}"
+## rm 4_humann/${s}/${s}_humann_temp/
 
 ## BUT IT TAKES THREE HOURS... OR YOU CAN RUN:
 mkdir -p ${s}
@@ -266,6 +267,7 @@ s="SRR15408398"
 ## wget ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR154/098/SRR15408398/SRR15408398.fastq.gz
 
 ## \humann --input ${s}.fastq.gz --output ${s} --threads 8 --nucleotide-database humann_databases/chocophlan/ --count-normalization RPKs --metaphlan-options "${metaphlan_params}"
+## rm 4_humann/${s}/${s}_humann_temp/
 
 ## FOR NOW, RUN:
 mkdir ${s}
