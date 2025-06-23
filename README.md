@@ -300,8 +300,8 @@ source ${path}/activate
 ## conda create -n <megahit> -c bioconda megahit ## DON'T DO IT. WE DID ALREADY
 source ${path}/activate megahit
 
-mkdir 7_assembly
-cd 7_assembly
+mkdir 5_assembly
+cd 5_assembly
 
 wget ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR341/SRR341725/SRR341725_[12].fastq.gz
 
@@ -332,14 +332,14 @@ source ${path}/activate metabat2
 ## conda install -c bioconda <bowtie2> ## DON'T DO IT. WE DID ALREADY
 ## conda install -c bioconda <samtools> ## DON'T DO IT. WE DID ALREADY
 
-mkdir 8_MAG-reconstruction
-cd 8_MAG-reconstruction
+mkdir 6_MAG-reconstruction
+cd 6_MAG-reconstruction
 
 s="SRR341725"
 
-cp ../7_assembly/SRR341725.megahit_asm/contigs_filtered.fasta ./
-cp ../7_assembly/SRR341725_1.fastq.gz ./
-cp ../7_assembly/SRR341725_2.fastq.gz ./
+cp ../5_assembly/SRR341725.megahit_asm/contigs_filtered.fasta ./
+cp ../5_assembly/SRR341725_1.fastq.gz ./
+cp ../5_assembly/SRR341725_2.fastq.gz ./
 
 bowtie2-build contigs_filtered.fasta contigs_filtered
 bowtie2 -x contigs_filtered -1 ${s}_1.fastq.gz -2 ${s}_2.fastq.gz -S ${s}.sam -p 8 2> ${s}.bowtie2.log
@@ -684,7 +684,8 @@ wget http://cmprod1.cibio.unitn.it/biobakery4/github_strainphlan4/fastq/SRS06427
 ##     --bowtie2db ${mpa_db} --index ${db_version}
 ```
 
-* Approach n. 2 ==> Copy the .sam alignments from a pre-existing repository
+Approach n. 2 ==> Copy the .sam alignments from a pre-existing repository
+OCCHIO AI PATH
 ```
 cp /home/ubuntu/course_backup/course/4_strainphlan/SRS013951.sam.bz2 .
 cp /home/ubuntu/course_backup/course/4_strainphlan/SRS014613.sam.bz2 .
