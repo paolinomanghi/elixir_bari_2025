@@ -210,7 +210,7 @@ conda activate humann
 ## conda config --add channels biobakery
 ## conda install humann=4.0 -c biobakery  ## DON'T DO IT. WE DID ALREADY
 
-## conda install metaphlan -c bioconda ## DON'T
+## conda install metaphlan=4.1 -c bioconda ## DON'T
 ## metaphlan --install --index mpa_vOct22_CHOCOPhlAnSGB_202403
 
 mkdir -p 4_humann
@@ -237,10 +237,10 @@ wget ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR154/096/SRR15408396/SRR15408396.fastq
 ```
 s="SRR15408396"
 
-metaphlan_params="--index mpa_vOct22_CHOCOPhlAnSGB_202403 --db_dir ${path}/../envs/humann4/lib/python3.12/site-packages/metaphlan/metaphlan_databases/ --mapout ${s}/${s}_humann_temp/${s}_bowtie2.txt -t rel_ab_w_read_stats --count-normalization"
+metaphlan_params="--index mpa_vOct22_CHOCOPhlAnSGB_202403 -t rel_ab_w_read_stats"
 
 ## NOW YOU CAN RUN:
-## \humann --input ${s}.fastq.gz --output ${s} --threads 8 --nucleotide-database humann_databases/chocophlan/ --metaphlan-options ${metaphlan_params}
+## \humann --input ${s}.fastq.gz --output ${s} --threads 8 --nucleotide-database humann_databases/chocophlan/ --count-normalization RPKs --metaphlan-options "${metaphlan_params}"
 
 ## BUT IT TAKES THREE HOURS... OR YOU CAN RUN:
 mkdir -p ${s}
