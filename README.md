@@ -273,8 +273,6 @@ mkdir ${s}
 
 Occhio che qui sistemare le cartelle !!!
 ```
-cp /home/ubuntu/course_backup/course/4_humann/${s}/${s}_2_genefamilies.tsv ${s}/${s}_genefamilies.tsv
-cp /home/ubuntu/course_backup/course/4_humann/${s}/${s}_3_reactions.tsv ${s}/${s}_reactions.tsv
 cp /home/ubuntu/course_backup/course/4_humann/${s}/${s}_4_pathabundance.tsv ${s}/${s}_pathabundance.tsv
 ```
 
