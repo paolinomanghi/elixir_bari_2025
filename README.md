@@ -200,7 +200,7 @@ sed 's/.bracken_report.txt//g' merged_bracken_table.tsv | grep -P 'Classificatio
 ```
 
 ## HUMAnN 4: functional profiling at the community level
-#### Step n.1: Get into the right directory
+#### Step n.1: Get into the right directory & install download the necessary files
 ```
 conda deactivate
 source ${path}/activate
@@ -225,7 +225,6 @@ cd 4_humann
 ```
 humann_test
 humann_config
-
 humann -h
 ```
 
@@ -238,8 +237,10 @@ wget ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR154/096/SRR15408396/SRR15408396.fastq
 ```
 s="SRR15408396"
 
+metaphlan_params="--index mpa_vOct22_CHOCOPhlAnSGB_202403 --db_dir ${path}/../envs/humann4/lib/python3.12/site-packages/metaphlan/metaphlan_databases/ --mapout ${s}/${s}_humann_temp/${s}_bowtie2.txt -t rel_ab_w_read_stats --count-normalization"
+
 ## NOW YOU CAN RUN:
-## \humann --input ${s}.fastq.gz --output ${s} --threads 8 --nucleotide-database humann_databases/chocophlan/ --metaphlan-options "--index mpa_vOct22_CHOCOPhlAnSGB_202403 --bowtie2db /shares/CIBIO-Storage/CM/scratch/users/paolo.manghi/anaconda_nueva_2025/envs/humann4/lib/python3.12/site-packages/metaphlan/metaphlan_databases/ -t rel_ab_w_read_stats --count-normalization RPKs"
+## \humann --input ${s}.fastq.gz --output ${s} --threads 8 --nucleotide-database humann_databases/chocophlan/ --metaphlan-options ${metaphlan_params}
 
 ## BUT IT TAKES THREE HOURS... OR YOU CAN RUN:
 mkdir -p ${s}
