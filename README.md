@@ -5,21 +5,40 @@
 # Hands-on n.1 - Taxonomic and functional profiling using shotgun data
 ## Preprocessing
 
-#### Step n.0: download & install Anaconda **we did it already, don't do it** 
+#### Step n.0: log in into your machine and explore the configuration
 ```
-##wget https://repo.anaconda.com/archive/Anaconda3-2024.10-1-Linux-x86_64.sh
-##bash Anaconda3-2024.10-1-Linux-x86_64.sh
+## wget https://repo.anaconda.com/archive/Anaconda3-2024.10-1-Linux-x86_64.sh
+## bash Anaconda3-2024.10-1-Linux-x86_64.sh
+
+pwd
 ```
+did it return /<your name> ?
 
-#### Step n.1: get into the right place & check if your environment is present
+#### Step n.1: check if your environment is present
 ```
-cd /home/user<YOUR USER NAME>
-
-path="/home/ubuntu/shotgun_course/anaconda3course/bin/"
-source ${path}/activate
-
+which python
 conda info --envs
 ```
+you should see:
+
+```
+# conda environments:
+#
+base                  *  /data/anaconda3
+ai-microbiome            /data/anaconda3/envs/ai-microbiome
+bowtie2                  /data/anaconda3/envs/bowtie2
+checkm2                  /data/anaconda3/envs/checkm2
+humann4                  /data/anaconda3/envs/humann4
+kraken_+_bracken         /data/anaconda3/envs/kraken_+_bracken
+megahit                  /data/anaconda3/envs/megahit
+metabat2                 /data/anaconda3/envs/metabat2
+mpa                      /data/anaconda3/envs/mpa
+samtools                 /data/anaconda3/envs/samtools
+school_notebooks         /data/anaconda3/envs/school_notebooks
+trimmomatic              /data/anaconda3/envs/trimmomatic
+workflows                /data/anaconda3/envs/workflows
+```
+did it work ?
 
 #### Step n.2: raw data pre-processing on fastq example files "seq_1.fastq.gz" and "seq_2.fastq.gz" from https://github.com/biobakery/biobakery/wiki/kneaddata
 
@@ -40,7 +59,7 @@ cd input
 ```
 s="seq"
 
-source ${path}/activate trimmomatic
+conda activate trimmomatic
 
 trimmomatic PE -threads 8 -phred33 -trimlog ${s}_trimmomatic.log ${s}1.fastq ${s}2.fastq \
 ${s}_filtered_1.fastq ${s}_unpaired_1.fastq ${s}_filtered_2.fastq ${s}_unpaired_2.fastq \
@@ -54,16 +73,16 @@ for i in *.fastq; do echo -ne "${i}\t"; cat "$i" | wc -l; done
 
 Activate conda: Occhio che qui cambia tutto a seconda di dove salvi il T2T !
 ```
-human_gen_path="/home/ubuntu/shotgun_course/human_genome/"
+human_gen_path="/root/course_backup/human_genome/"
 conda deactivate
-source ${path}/activate bowtie2
+conda activate bowtie2
 ```
 
 Run bowtie alignment against the human genome:
 ```
 ##VERSION 4 HOURS LONG:
-## mkdir -p ../human_genome/
-## bowtie2-build ${human_gen_path}GCF_009914755.1_T2T-CHM13v2.0.fna ../human_genome/GCF_009914755.1_T2T-CHM13v2.0 ### DON'T RUN IT! IT TAKES A FEW HOURS TO BE EXECUTED
+## mkdir -p human_genome/
+## bowtie2-build ${human_gen_path}GCF_009914755.1_T2T-CHM13v2.0.fna human_genome/GCF_009914755.1_T2T-CHM13v2.0 ### DON'T RUN IT! IT TAKES A FEW HOURS TO BE EXECUTED
 
 bowtie2 -x ${human_gen_path}GCF_009914755.1_T2T-CHM13v2.0 -1 ${s}_filtered_1.fastq -2 ${s}_filtered_2.fastq \
     -S ${s}.sam --very-sensitive-local -p 8
@@ -81,40 +100,29 @@ for i in *.fastq; do echo -ne "${i}\t"; cat "$i" | wc -l; done; echo; for i in *
 ```
 Did the preprocessing produce the same exact number of reads in R1 and R2 ?
 
-
 ## MetaPhlAn 4: taxonomic profiling using marker genes
 #### Step n.1: Setup correct variables, activate environment and navigate to the right folders
 
 We create the conda environment **we did it already**
 ```
 conda deactivate
-source ${path}/activate
-
 ## conda create -n <mpa> -c conda-forge -c bioconda python=3.11 metaphlan=4.2.0
+conda activate mpa
 ```
 
 We move to use it
 ```
-## cd /home/user<YOUR USER NAME>
-cd ..
+cd /<YOUR-NAME>
 
 mkdir 2_metaphlan
 cd 2_metaphlan
 
-path="/home/ubuntu/shotgun_course/anaconda3course/bin/"
-
-conda deactivate
-source ${path}/activate
-source ${path}/activate mpa
-
-## metaphlan --install --db_dir metaphlan_databases
+## metaphlan --install --db_dir metaphlan_databases ## DON'T RUN THIS
 ```
 
 #### Step n.2: download metagenomic samples
 ```
-mpa_db="/home/ubuntu/shotgun_course/metaphlan_databases/" !!! PATH DA MODIFICARE !!
-## ESEMPIO SUL CM: /shares/CIBIO-Storage/CM/scratch/users/paolo.manghi/Elixir/2_metaphlan/metaphlan_databases/
-
+mpa_db="/data/metaphlan_databases/"
 db_version="mpa_vJan25_CHOCOPhlAnSGB_202503"
 
 wget https://github.com/biobakery/MetaPhlAn/releases/download/4.0.2/SRS014476-Supragingival_plaque.fasta.gz
