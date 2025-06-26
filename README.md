@@ -117,13 +117,15 @@ cd /<YOUR-NAME>
 mkdir 2_metaphlan
 cd 2_metaphlan
 
-## metaphlan --install --db_dir metaphlan_databases ## DON'T RUN THIS
+## metaphlan --install --db_dir metaphlan_databases --idx mpa_vJan21_CHOCOPhlAnSGB_202103 ## DON'T RUN THIS
 ```
 
 #### Step n.2: download metagenomic samples
 ```
 mpa_db="/data/metaphlan_databases/"
-db_version="mpa_vJan25_CHOCOPhlAnSGB_202503"
+
+## db_version="mpa_vJan25_CHOCOPhlAnSGB_202503"
+db_version="mpa_vJan21_CHOCOPhlAnSGB_202103"
 
 wget https://github.com/biobakery/MetaPhlAn/releases/download/4.0.2/SRS014476-Supragingival_plaque.fasta.gz
 wget https://github.com/biobakery/MetaPhlAn/releases/download/4.0.2/SRS014494-Posterior_fornix.fasta.gz
@@ -131,7 +133,6 @@ wget https://github.com/biobakery/MetaPhlAn/releases/download/4.0.2/SRS014459-St
 wget https://github.com/biobakery/MetaPhlAn/releases/download/4.0.2/SRS014470-Tongue_dorsum.fasta.gz
 wget https://github.com/biobakery/MetaPhlAn/releases/download/4.0.2/SRS014472-Buccal_mucosa.fasta.gz
 
-s="SRS014476-Supragingival_plaque"
 ```
 
 #### Step n.3: Run MetaPhlAn 4
@@ -143,19 +144,22 @@ metaphlan -h
 
 Then run it
 ```
+s="SRS014476-Supragingival_plaque"
 metaphlan ${s}.fasta.gz --input_type fasta --mapout ${s}.bowtie2.bz2 --samout ${s}.sam.bz2 -o ${s}_profile.txt \
-    --stat_q 0.1 --nproc 8 --db_dir ${mpa_db} --index ${db_version}
+    --nproc 8 --db_dir ${mpa_db} --index ${db_version}
 
 s="SRS014494-Posterior_fornix"; metaphlan ${s}.fasta.gz --input_type fasta --mapout ${s}.bowtie2.bz2 --samout ${s}.sam.bz2 -o ${s}_profile.txt \
-    --stat_q 0.1 --nproc 8 --db_dir ${mpa_db} --index ${db_version}
-s="SRS014459-Stool"; metaphlan ${s}.fasta.gz --input_type fasta --mapout ${s}.bowtie2.bz2 --samout ${s}.sam.bz2 -o ${s}_profile.txt \
-    --stat_q 0.1 --nproc 8 --db_dir ${mpa_db} --index ${db_version}
-s="SRS014470-Tongue_dorsum"; metaphlan ${s}.fasta.gz --input_type fasta --mapout ${s}.bowtie2.bz2 --samout ${s}.sam.bz2 -o ${s}_profile.txt \
-    --stat_q 0.1 --nproc 8 --db_dir ${mpa_db} --index ${db_version}
-s="SRS014472-Buccal_mucosa"; metaphlan ${s}.fasta.gz --input_type fasta --mapout ${s}.bowtie2.bz2 --samout ${s}.sam.bz2 -o ${s}_profile.txt \
-    --stat_q 0.1 --nproc 8 --db_dir ${mpa_db} --index ${db_version}
-s="SRS014494-Posterior_fornix"; metaphlan ${s}.fasta.gz --input_type fasta --mapout ${s}.bowtie2.bz2 --samout ${s}.sam.bz2 -o ${s}_profile.txt \
-    --stat_q 0.1 --nproc 8 --db_dir ${mpa_db} --index ${db_version}
+    --nproc 8 --db_dir ${mpa_db} --index ${db_version}
+
+for s in SRS014459-Stool SRS014472-Buccal_mucosa SRS014470-Tongue_dorsum SRS014494-Posterior_fornix SRS014476-Supragingival_plaque; do
+    cp /data/2_metaphlan/${s}_profile.txt ${s}_profile.txt; done
+
+## s="SRS014459-Stool"; metaphlan ${s}.fasta.gz --input_type fasta --mapout ${s}.bowtie2.bz2 --samout ${s}.sam.bz2 -o ${s}_profile.txt \
+##    --nproc 8 --db_dir ${mpa_db} --index ${db_version}
+## s="SRS014470-Tongue_dorsum"; metaphlan ${s}.fasta.gz --input_type fasta --mapout ${s}.bowtie2.bz2 --samout ${s}.sam.bz2 -o ${s}_profile.txt \
+##    --nproc 8 --db_dir ${mpa_db} --index ${db_version}
+## s="SRS014472-Buccal_mucosa"; metaphlan ${s}.fasta.gz --input_type fasta --mapout ${s}.bowtie2.bz2 --samout ${s}.sam.bz2 -o ${s}_profile.txt \
+##    --nproc 8 --db_dir ${mpa_db} --index ${db_version}
 
 merge_metaphlan_tables.py *_profile.txt | grep -P "clade_name|UNCLASSIFIED|t__" > metaphlan_table.tsv
 ```
@@ -166,43 +170,39 @@ merge_metaphlan_tables.py *_profile.txt | grep -P "clade_name|UNCLASSIFIED|t__" 
 ```
 conda deactivate
 ## conda create -n <kraken_+_bracken> -c bioconda kraken2
-source ${path}/activate kraken_+_bracken
+conda activate kraken_+_bracken
 
-cd ..
+cd /<YOUR-NAME>
 mkdir 3_kraken
 cd 3_kraken
 
-# wget https://genome-idx.s3.amazonaws.com/kraken/k2_standard_08gb_20250402.tar.gz
-# mkdir -p kraken_DB && tar -xvzf k2_standard_08gb_20250402.tar.gz -C kraken_DB
-# git clone https://github.com/jenniferlu717/KrakenTools.git
-# chmod +x KrakenTools/*
+## wget https://genome-idx.s3.amazonaws.com/kraken/k2_standard_08gb_20250402.tar.gz
+## mkdir -p kraken_DB && tar -xvzf k2_standard_08gb_20250402.tar.gz -C kraken_DB
+## git clone https://github.com/jenniferlu717/KrakenTools.git
+## chmod +x KrakenTools/*
 ```
 
 #### Step n.3: Let's have a look at Kraken parameters
 ```
-kraken -h
+kraken2 -h
 ```
 
 Run Kraken
 ```
 for s in SRS014459-Stool.fasta.gz SRS014470-Tongue_dorsum.fasta.gz SRS014472-Buccal_mucosa.fasta.gz SRS014476-Supragingival_plaque.fasta.gz SRS014494-Posterior_fornix.fasta.gz;
 
-do kraken2 --db kraken_DB/ --threads 8 --report `basename ${s%.fasta.gz}`.kraken2_report.txt --output `basename ${s%.fasta.gz}`.kraken2_output.txt ../2_metaphlan/${s}; done
+do kraken2 --db /data/kraken_DB/ --threads 8 --report `basename ${s%.fasta.gz}`.kraken2_report.txt --output `basename ${s%.fasta.gz}`.kraken2_output.txt ../2_metaphlan/${s}; done
 ```
 
 Run Bracken
 ```
 for s in SRS014459-Stool.fasta.gz SRS014470-Tongue_dorsum.fasta.gz SRS014472-Buccal_mucosa.fasta.gz SRS014476-Supragingival_plaque.fasta.gz SRS014494-Posterior_fornix.fasta.gz;
 
-bracken -d kraken_DB/ -i `basename ${s%.fasta.gz}`.kraken2_report.txt \
-  -o `basename ${s%.fasta.gz}`.bracken_abundance.txt \
-  -w `basename ${s%.fasta.gz}`.bracken_report.txt -l S -t 150
+do bracken -d /data/kraken_DB/ -i `basename ${s%.fasta.gz}`.kraken2_report.txt -o `basename ${s%.fasta.gz}`.bracken_abundance.txt -w `basename ${s%.fasta.gz}`.bracken_report.txt -l S -t 150; done
 
-done
+for s in *.bracken_report.txt; do /data/KrakenTools/kreport2mpa.py --display-header -r ${s} -o ${s%.txt}.mpa.tsv; done
 
-for s in *.bracken_report.txt; do KrakenTools/kreport2mpa.py --display-header -r ${s} -o ${s%.txt}.mpa.tsv; done
-
-KrakenTools/combine_mpa.py -i *.bracken_report.mpa.tsv -o merged_bracken_table.tsv
+/data/KrakenTools/combine_mpa.py -i *.bracken_report.mpa.tsv -o merged_bracken_table.tsv
 
 sed 's/.bracken_report.txt//g' merged_bracken_table.tsv | grep -P 'Classification|s__' | sed 's/Bacillati/Bacteria/g' | sed 's/Pseudomonadati/Bacteria/g' > bracken_table.tsv
 ```
@@ -210,14 +210,14 @@ sed 's/.bracken_report.txt//g' merged_bracken_table.tsv | grep -P 'Classificatio
 ## HUMAnN 4: functional profiling at the community level
 #### Step n.1: Get into the right directory & install download the necessary files
 ```
-conda deactivate
-source ${path}/activate
-
+cd /<YOUR-NAME>
 ## conda create -n <humann4> -c bioconda python=3.12 ## DON'T DO IT. WE DID ALREADY
-conda activate humann
+
+conda deactivate 
+conda activate humann4
+
 ## conda config --add channels biobakery
 ## conda install humann=4.0 -c biobakery  ## DON'T DO IT. WE DID ALREADY
-
 ## conda install metaphlan=4.1 -c bioconda ## DON'T
 ## metaphlan --install --index mpa_vOct22_CHOCOPhlAnSGB_202403
 
@@ -247,8 +247,8 @@ s="SRR15408396"
 
 metaphlan_params="--index mpa_vOct22_CHOCOPhlAnSGB_202403 -t rel_ab_w_read_stats"
 
-## NOW YOU CAN RUN:
-## \humann --input ${s}.fastq.gz --output ${s} --threads 8 --nucleotide-database humann_databases/chocophlan/ --count-normalization RPKs --metaphlan-options "${metaphlan_params}"
+## NOW YOU CAN RUN: ## --nucleotide-database /data/humann_databases/chocophlan/
+## \humann --input ${s}.fastq.gz --output ${s} --threads 8  --count-normalization RPKs --metaphlan-options "${metaphlan_params}"
 ## rm 4_humann/${s}/${s}_humann_temp/
 
 ## BUT IT TAKES THREE HOURS... OR YOU CAN RUN:
@@ -257,9 +257,9 @@ mkdir -p ${s}
 
 Occhio che qui sistemare le cartelle !!!
 ```
-cp /home/ubuntu/course_backup/course/4_humann/${s}/${s}_2_genefamilies.tsv ${s}/${s}_genefamilies.tsv
-cp /home/ubuntu/course_backup/course/4_humann/${s}/${s}_3_reactions.tsv ${s}/${s}_reactions.tsv
-cp /home/ubuntu/course_backup/course/4_humann/${s}/${s}_4_pathabundance.tsv ${s}/${s}_pathabundance.tsv
+cp /course_backup/4_humann/${s}/${s}_2_genefamilies.tsv ${s}/${s}_genefamilies.tsv
+cp /course_backup/4_humann/${s}/${s}_3_reactions.tsv ${s}/${s}_reactions.tsv
+cp /course_backup/4_humann/${s}/${s}_4_pathabundance.tsv ${s}/${s}_pathabundance.tsv
 ```
 
 #### Step n.5: Regrouping genes to other functional categories
@@ -283,7 +283,7 @@ mkdir ${s}
 
 Occhio che qui sistemare le cartelle !!!
 ```
-cp /home/ubuntu/course_backup/course/4_humann/${s}/${s}_4_pathabundance.tsv ${s}/${s}_pathabundance.tsv
+cp /course_backup/4_humann/${s}/${s}_4_pathabundance.tsv ${s}/${s}_pathabundance.tsv
 ```
 
 #### Step n.7: Merge together community profiles under different ontologies
@@ -301,14 +301,10 @@ humann_join_tables -i merged -o merged_pathabundance.tsv --file_name pathabundan
 
 #### Step n.1: check everything is set up, download a sample, and run Megahit
 ```
-cd /home/user<YOUR USER NAME>
-path="/home/ubuntu/shotgun_course/anaconda3course/bin/"
-
-conda deactivate
-source ${path}/activate
+cd /<YOUR-NAME>
 
 ## conda create -n <megahit> -c bioconda megahit ## DON'T DO IT. WE DID ALREADY
-source ${path}/activate megahit
+conda activate megahit
 
 mkdir 5_assembly
 cd 5_assembly
