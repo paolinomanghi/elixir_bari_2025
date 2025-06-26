@@ -7,12 +7,9 @@
 
 #### Step n.0: log in into your machine and explore the configuration
 ```
-## wget https://repo.anaconda.com/archive/Anaconda3-2024.10-1-Linux-x86_64.sh
-## bash Anaconda3-2024.10-1-Linux-x86_64.sh
-
 pwd
 ```
-did it return /<your name> ?
+did it return /<YOUR-NAME>?
 
 #### Step n.1: check if your environment is present
 ```
