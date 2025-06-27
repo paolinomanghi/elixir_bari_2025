@@ -335,9 +335,15 @@ mkdir 5_assembly
 cd 5_assembly
 
 wget ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR341/SRR341725/SRR341725_[12].fastq.gz
+```
 
+Let's have a look at the megahit parameters !
+```
 megahit -h
+```
 
+Let's start with the assembly
+```
 s="SRR341725"
 ## MEGAHIT WILL TAKE A FEW HOURS:
 ## megahit -1 ${s}_1.fastq.gz -2 ${s}_2.fastq.gz -o ${s}.megahit_asm -t 8
@@ -345,26 +351,27 @@ s="SRR341725"
 ## FOR NOW WE CAN COPY THE RESULTS FROM MEGAHIT
 mkdir -p ${s}.megahit_asm/
 
-cp /home/ubuntu/course_backup/course/7_assembly/${s}.megahit_asm/final.contigs.fa  ${s}.megahit_asm/
-cp /home/ubuntu/course_backup/course/7_assembly/${s}.megahit_asm/contigs.fasta  ${s}.megahit_asm/
+cp /data/course_backup/5_assembly/${s}.megahit_asm/final.contigs.fa  ${s}.megahit_asm/
+cp /data/course_backup/5_assembly/${s}.megahit_asm/contigs.fasta  ${s}.megahit_asm/
 
 ## WE ALSO NEED TWO CUSTOM SCRIPT:
-cp /home/ubuntu/course_backup/course/7_assembly/filter_contigs.py .
-cp /home/ubuntu/course_backup/course/7_assembly/megahit2spades.py .
+cp /data/course_backup/5_assembly/filter_contigs.py .
+cp /data/course_backup/5_assembly/megahit2spades.py .
 ```
 
 #### Step n.2: Binning, i.e. grouping assemblies into genomes using MetaBat2
 ```
-source ${path}/activate
- 
-## conda create -n <metabat2> -c bioconda metabat2 ## DON'T DO IT. WE DID ALREADY
-source ${path}/activate metabat2
-
-## conda install -c bioconda <bowtie2> ## DON'T DO IT. WE DID ALREADY
-## conda install -c bioconda <samtools> ## DON'T DO IT. WE DID ALREADY
+cd /<YOUR-NAME>
 
 mkdir 6_MAG-reconstruction
 cd 6_MAG-reconstruction
+
+conda deactivate 
+## conda create -n <metabat2> -c bioconda metabat2 ## DON'T DO IT. WE DID ALREADY
+conda activate metabat2
+
+## conda install -c bioconda <bowtie2> ## DON'T DO IT. WE DID ALREADY
+## conda install -c bioconda <samtools> ## DON'T DO IT. WE DID ALREADY
 
 s="SRR341725"
 
@@ -380,7 +387,7 @@ bowtie2 -x contigs_filtered -1 ${s}_1.fastq.gz -2 ${s}_2.fastq.gz -S ${s}.sam -p
 ## samtools sort ${s}.bam -o sorted_${s}.bam
 
 ## COPY THE RESULT FOR NOW:
-cp /home/ubuntu/course_backup/course/8_MAG-reconstruction/sorted_SRR341725.bam .
+cp /data/course_backup/6_MAG-reconstruction/sorted_SRR341725.bam .
 
 jgi_summarize_bam_contig_depths --outputDepth ${s}_depth.txt sorted_${s}.bam 2> ${s}_depth.log
 ```
