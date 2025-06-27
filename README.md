@@ -210,7 +210,7 @@ sed 's/.bracken_report.txt//g' merged_bracken_table.tsv | grep -P 'Classificatio
 ## Exercises:
 First, set the correct conda environment:
 ```
-conda activate school_notebooks
+conda activate r_notebook
 ```
 
 Next, open jupiter notebook:
