@@ -282,7 +282,6 @@ mkdir -p ${s}
 Occhio che qui sistemare le cartelle !!!
 ```
 cp /data/course_backup/4_humann/${s}/${s}_2_genefamilies.tsv ${s}/${s}_genefamilies.tsv
-cp /data/course_backup/4_humann/${s}/${s}_3_reactions.tsv ${s}/${s}_reactions.tsv
 cp /data/course_backup/4_humann/${s}/${s}_4_pathabundance.tsv ${s}/${s}_pathabundance.tsv
 ```
 
@@ -299,7 +298,7 @@ s="SRR15408398"
 ## wget ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR154/098/SRR15408398/SRR15408398.fastq.gz
 
 ## \humann --input ${s}.fastq.gz --output ${s} --threads 8 --count-normalization RPKs --metaphlan-options "${metaphlan_params}"
-## rm ${s}/${s}_humann_temp/
+## rm -r ${s}/${s}_humann_temp/
 
 ## FOR NOW, RUN:
 mkdir ${s}
@@ -315,6 +314,12 @@ cp SRR15408398/SRR15408398_pathabundance.tsv merged/
 
 humann_join_tables -i merged -o merged_pathabundance.tsv --file_name pathabundance
 ```
+
+Visualize the merged table:
+```
+less -S merged_pathabundance.tsv 
+```
+Press q
 
 # Hands-on n.3 - Metagenome assembly and binning
 ## Approach n. 1: follow the protocol
