@@ -215,7 +215,7 @@ conda activate school_notebooks
 
 Next, open jupiter notebook:
 ```
-jupyter-notebook /data/Jupyter/Alpha_diversity.ipynb --allow-root --no-browser --port=8888 --ip=127.0.0.1
+jupyter notebook /data/Jupyter/Alpha_diversity.ipynb --allow-root --no-browser --port=8888 --ip=127.0.0.1
 ```
 
 Next, open up a new terminal and type:
@@ -225,6 +225,8 @@ ssh -N -L 8888:localhost:8888 root@212.189.202.106
 
 Note it holds but doesn't do anything. It means that a tunnel is open
 Then, copy the URL that the server prompt is suggesting you into YOUR BROWSER:
+
+Es.:
 ```
 http://212.189.202.106:8888/tree?token=398cde02036d5c0c4e8162b5e21758c5d7f9fa90dc4eabad
 ```
@@ -548,7 +550,7 @@ Sample1.bin.1	0.0	0.0	0.0	True	202153	0	1	1	202153	202153	202153	202153	202153	2
 Sample1.bin.10	84.95	16.77	6.17	True	4611297	0	659	659	8642	8642	6997	6997	59844	59844	65.5	2.45	91.63	4970	No	No	No	41	17
 ```
 
-* filtered genomes: a folder containg the genomes passing the qulity filter
+* filtered genomes: a folder containg the genomes passing the quality filter
 
 ```
 (base) -bash-4.2$ ls results/filtered | head
@@ -669,16 +671,36 @@ The folder results/prokka contains annotated MAGs in several formats. You can lo
 
 <img src="immagini/artemis.png" width="75%">
 
+## Exercises:
+First, set the correct conda environment:
+```
+conda activate school_notebooks
+```
+
+Next, open jupiter notebook:
+```
+jupyter notebook /data/Jupyter/Alpha_diversity.ipynb --allow-root --no-browser --port=8888 --ip=127.0.0.1
+```
+
+Next, open up a new terminal and type:
+```
+ssh -N -L 8888:localhost:8888 root@212.189.202.106
+```
+
+Note it holds but doesn't do anything. It means that a tunnel is open
+Then, copy the URL that the server prompt is suggesting you into YOUR BROWSER:
+
+Es.:
+```
+http://212.189.202.106:8888/tree?token=398cde02036d5c0c4e8162b5e21758c5d7f9fa90dc4eabad
+```
+
 # Hands-on n.3 (BONUS) - Taxonomic profiling beyond the level of species
 #### Step n.1: get into the right place
 
 ```
-cd /home/user<YOUR USER NAME>
-path="/home/ubuntu/shotgun_course/anaconda3course/bin/"
-
-conda deactivate
-source ${path}/activate
-source ${path}/activate mpa
+cd /<YOUR-NAME>
+conda activate mpa
 ```
 
 #### Step n.2: Getting example files (6 fastq files) from https://github.com/biobakery/MetaPhlAn/wiki/StrainPhlAn-4.1
@@ -695,8 +717,8 @@ wget http://cmprod1.cibio.unitn.it/biobakery4/github_strainphlan4/fastq/SRS06427
 
 * Approach n. 1 ==> Running MetaPhlAn 4 to obtain the .sam files of the marker genes' alignments
 ```
-## mpa_db="/home/ubuntu/shotgun_course/metaphlan_databases/"
-## db_version="mpa_vJun23_CHOCOPhlAnSGB_202403"
+## mpa_db="/data/metaphlan_databases/"
+## db_version="mpa_vJun23_CHOCOPhlAnSGB_202403" QUI DA CAMBIARE !!!!
 
 ## s="SRS013951"; metaphlan ${s}.fastq.bz2 --input_type fastq --mapout ${s}.bowtie2.bz2 --samout ${s}.sam.bz2 -o ${s}_profile.txt --nproc 8 \
 ##     --bowtie2db ${mpa_db} --index ${db_version}
@@ -715,12 +737,12 @@ wget http://cmprod1.cibio.unitn.it/biobakery4/github_strainphlan4/fastq/SRS06427
 Approach n. 2 ==> Copy the .sam alignments from a pre-existing repository
 OCCHIO AI PATH
 ```
-cp /home/ubuntu/course_backup/course/4_strainphlan/SRS013951.sam.bz2 .
-cp /home/ubuntu/course_backup/course/4_strainphlan/SRS014613.sam.bz2 .
-cp /home/ubuntu/course_backup/course/4_strainphlan/SRS019161.sam.bz2 .
-cp /home/ubuntu/course_backup/course/4_strainphlan/SRS022137.sam.bz2 .
-cp /home/ubuntu/course_backup/course/4_strainphlan/SRS055982.sam.bz2 .
-cp /home/ubuntu/course_backup/course/4_strainphlan/SRS064276.sam.bz2 .
+cp /data/course_backup/7_strainphlan/SRS013951.sam.bz2 .
+cp /data/course_backup/7_strainphlan/SRS014613.sam.bz2 .
+cp /data/course_backup/7_strainphlan/SRS019161.sam.bz2 .
+cp /data/course_backup/7_strainphlan/SRS022137.sam.bz2 .
+cp /data/course_backup/7_strainphlan/SRS055982.sam.bz2 .
+cp /data/course_backup/7_strainphlan/SRS064276.sam.bz2 .
 ```
 
 #### Step n.4: Extract for each sample the alignments over its markers
