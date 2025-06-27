@@ -408,7 +408,7 @@ conda activate checkm2
 ## checkm2 database --download --path ./
 
 ## WE CAN USE A COPY
-checkm2_db="/home/ubuntu/course_backup/course/8_MAG-reconstruction/CheckM2_database/uniref100.KO.1.dmnd"
+checkm2_db="/data/CheckM2_database/uniref100.KO.1.dmnd"
 checkm2 testrun --database_path ${checkm2_db} --threads 8
 
 checkm2 predict -i SRR341725_bins -o SRR341725_checkm2 -x .fa --database_path ${checkm2_db} --threads 8
@@ -707,6 +707,9 @@ http://212.189.202.106:8888/tree?token=398cde02036d5c0c4e8162b5e21758c5d7f9fa90d
 ```
 cd /<YOUR-NAME>
 conda activate mpa
+
+mkdir -p 7_strainphlan/
+cd 7_strainphlan/
 ```
 
 #### Step n.2: Getting example files (6 fastq files) from https://github.com/biobakery/MetaPhlAn/wiki/StrainPhlAn-4.1
@@ -723,8 +726,8 @@ wget http://cmprod1.cibio.unitn.it/biobakery4/github_strainphlan4/fastq/SRS06427
 
 * Approach n. 1 ==> Running MetaPhlAn 4 to obtain the .sam files of the marker genes' alignments
 ```
-## mpa_db="/data/metaphlan_databases/"
-## db_version="mpa_vJun23_CHOCOPhlAnSGB_202403" QUI DA CAMBIARE !!!!
+mpa_db="/data/metaphlan_databases/"
+db_version="mpa_vJan21_CHOCOPhlAnSGB_202103"
 
 ## s="SRS013951"; metaphlan ${s}.fastq.bz2 --input_type fastq --mapout ${s}.bowtie2.bz2 --samout ${s}.sam.bz2 -o ${s}_profile.txt --nproc 8 \
 ##     --bowtie2db ${mpa_db} --index ${db_version}
