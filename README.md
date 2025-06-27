@@ -273,7 +273,7 @@ metaphlan_params="--index mpa_vOct22_CHOCOPhlAnSGB_202403 -t rel_ab_w_read_stats
 
 ## NOW YOU CAN RUN: ## --nucleotide-database /data/humann_databases/chocophlan/
 ## \humann --input ${s}.fastq.gz --output ${s} --threads 8  --count-normalization RPKs --metaphlan-options "${metaphlan_params}"
-## rm 4_humann/${s}/${s}_humann_temp/
+## rm -r ${s}/${s}_humann_temp/
 
 ## BUT IT TAKES THREE HOURS... OR YOU CAN RUN:
 mkdir -p ${s}
@@ -281,9 +281,9 @@ mkdir -p ${s}
 
 Occhio che qui sistemare le cartelle !!!
 ```
-cp /course_backup/4_humann/${s}/${s}_2_genefamilies.tsv ${s}/${s}_genefamilies.tsv
-cp /course_backup/4_humann/${s}/${s}_3_reactions.tsv ${s}/${s}_reactions.tsv
-cp /course_backup/4_humann/${s}/${s}_4_pathabundance.tsv ${s}/${s}_pathabundance.tsv
+cp /data/course_backup/4_humann/${s}/${s}_2_genefamilies.tsv ${s}/${s}_genefamilies.tsv
+cp /data/course_backup/4_humann/${s}/${s}_3_reactions.tsv ${s}/${s}_reactions.tsv
+cp /data/course_backup/4_humann/${s}/${s}_4_pathabundance.tsv ${s}/${s}_pathabundance.tsv
 ```
 
 #### Step n.5: Regrouping genes to other functional categories
@@ -298,16 +298,12 @@ s="SRR15408398"
 ## SAME:
 ## wget ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR154/098/SRR15408398/SRR15408398.fastq.gz
 
-## \humann --input ${s}.fastq.gz --output ${s} --threads 8 --nucleotide-database humann_databases/chocophlan/ --count-normalization RPKs --metaphlan-options "${metaphlan_params}"
-## rm 4_humann/${s}/${s}_humann_temp/
+## \humann --input ${s}.fastq.gz --output ${s} --threads 8 --count-normalization RPKs --metaphlan-options "${metaphlan_params}"
+## rm ${s}/${s}_humann_temp/
 
 ## FOR NOW, RUN:
 mkdir ${s}
-```
-
-Occhio che qui sistemare le cartelle !!!
-```
-cp /course_backup/4_humann/${s}/${s}_4_pathabundance.tsv ${s}/${s}_pathabundance.tsv
+cp /data/course_backup/4_humann/${s}/${s}_4_pathabundance.tsv ${s}/${s}_pathabundance.tsv
 ```
 
 #### Step n.7: Merge together community profiles under different ontologies
