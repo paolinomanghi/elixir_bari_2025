@@ -378,11 +378,9 @@ s="SRR341725"
 cp ../5_assembly/SRR341725.megahit_asm/contigs_filtered.fasta ./
 cp ../5_assembly/SRR341725_1.fastq.gz ./
 cp ../5_assembly/SRR341725_2.fastq.gz ./
-
-bowtie2-build contigs_filtered.fasta contigs_filtered
-bowtie2 -x contigs_filtered -1 ${s}_1.fastq.gz -2 ${s}_2.fastq.gz -S ${s}.sam -p 8 2> ${s}.bowtie2.log
-
-### THE FOLLOWING MIGHT RAISE DISK ISSUE:
+ 
+## bowtie2-build contigs_filtered.fasta contigs_filtered
+## bowtie2 -x contigs_filtered -1 ${s}_1.fastq.gz -2 ${s}_2.fastq.gz -S ${s}.sam -p 8 2> ${s}.bowtie2.log
 ## samtools view -bS ${s}.sam > ${s}.bam
 ## samtools sort ${s}.bam -o sorted_${s}.bam
 
@@ -403,7 +401,7 @@ conda deactivate
 
 ## conda create -n <checkm2> -c bioconda checkm2 ## DON'T DO IT. WE DID ALREADY
 
-source ${path}/activate checkm2
+conda activate checkm2
 ## pip install absl-py==1.1.0 ## DON'T DO IT. WE DID ALREADY
 
 ## LET'S NOT DOWNLOAD THE DATABASE
