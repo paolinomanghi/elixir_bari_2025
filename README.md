@@ -68,9 +68,9 @@ for i in *.fastq; do echo -ne "${i}\t"; cat "$i" | wc -l; done
 
 #### Step n. 4: Generate bowtie2 index of the human genome GCF_009914755.1_T2T-CHM13v2.0.fna (https://www.ncbi.nlm.nih.gov/datasets/genome/GCF_009914755.1/GCF_009914755.1_T2T-CHM13v2.0.fna)
 
-Activate conda: Occhio che qui cambia tutto a seconda di dove salvi il T2T !
+Activate conda, after setting the path of your version of the human genome
 ```
-human_gen_path="/root/course_backup/human_genome/"
+human_gen_path="/data/human_genome/"
 conda deactivate
 conda activate bowtie2
 ```
@@ -81,17 +81,20 @@ Run bowtie alignment against the human genome:
 ## mkdir -p human_genome/
 ## bowtie2-build ${human_gen_path}GCF_009914755.1_T2T-CHM13v2.0.fna human_genome/GCF_009914755.1_T2T-CHM13v2.0 ### DON'T RUN IT! IT TAKES A FEW HOURS TO BE EXECUTED
 
-bowtie2 -x ${human_gen_path}GCF_009914755.1_T2T-CHM13v2.0 -1 ${s}_filtered_1.fastq -2 ${s}_filtered_2.fastq \
-    -S ${s}.sam --very-sensitive-local -p 8
+bowtie2 -x ${human_gen_path}GCF_009914755.1_T2T-CHM13v2.0 -1 ${s}_filtered_1.fastq -2 ${s}_filtered_2.fastq -S ${s}.sam --very-sensitive-local -p 8
 
 conda deactivate
-source ${path}/activate samtools
+conda activate samtools
 
 samtools view -bS ${s}.sam > ${s}.bam
 samtools view -b -f 12 -F 256 ${s}.bam > ${s}.bothunmapped.bam
 samtools sort -n -m 5G -@ 2 ${s}.bothunmapped.bam -o ${s}.bothunmapped.sorted.bam
 samtools fastq ${s}.bothunmapped.sorted.bam -1 >(gzip > ${s}_filtered.final_1.fastq.gz) -2 >(gzip > ${s}_filtered.final_2.fastq.gz) -0 /dev/null -s /dev/null -n
-#rm ${s}.sam; rm ${s}.bam; rm ${s}.bothunmapped.bam; rm ${s}.bothunmapped.sorted.bam ### IF YOU WANT TO REMOVE THE INTERMEDIATE FILES
+```
+
+then remove the intermediate files, and check files size 
+```
+rm ${s}.sam; rm ${s}.bam; rm ${s}.bothunmapped.bam; rm ${s}.bothunmapped.sorted.bam ### REMOVE THE INTERMEDIATE FILES
 
 for i in *.fastq; do echo -ne "${i}\t"; cat "$i" | wc -l; done; echo; for i in *.gz; do echo -ne "${i}\t"; zcat "$i" | wc -l; done
 ```
@@ -202,6 +205,28 @@ for s in *.bracken_report.txt; do /data/KrakenTools/kreport2mpa.py --display-hea
 /data/KrakenTools/combine_mpa.py -i *.bracken_report.mpa.tsv -o merged_bracken_table.tsv
 
 sed 's/.bracken_report.txt//g' merged_bracken_table.tsv | grep -P 'Classification|s__' | sed 's/Bacillati/Bacteria/g' | sed 's/Pseudomonadati/Bacteria/g' > bracken_table.tsv
+```
+
+## Exercises:
+First, set the correct conda environment:
+```
+conda activate school_notebooks
+```
+
+Next, open jupiter notebook:
+```
+jupyter-notebook /data/Jupyter/Alpha_diversity.ipynb --allow-root --no-browser --port=8888 --ip=127.0.0.1
+```
+
+Next, open up a new terminal and type:
+```
+ssh -N -L 8888:localhost:8888 root@212.189.202.106
+```
+
+Note it holds but doesn't do anything. It means that a tunnel is open
+Then, copy the URL that the server prompt is suggesting you into YOUR BROWSER:
+```
+http://212.189.202.106:8888/tree?token=398cde02036d5c0c4e8162b5e21758c5d7f9fa90dc4eabad
 ```
 
 ## HUMAnN 4: functional profiling at the community level
