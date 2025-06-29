@@ -762,21 +762,21 @@ mpa_db="/data/metaphlan_databases/"
 db_version="mpa_vJan21_CHOCOPhlAnSGB_202103"
 
 ## s="SRS013951"; metaphlan ${s}.fastq.bz2 --input_type fastq --mapout ${s}.bowtie2.bz2 --samout ${s}.sam.bz2 -o ${s}_profile.txt --nproc 8 \
-##     --bowtie2db ${mpa_db} --index ${db_version}
+##     --db_dir ${mpa_db} --index ${db_version}
 ## s="SRS014613"; metaphlan ${s}.fastq.bz2 --input_type fastq --mapout ${s}.bowtie2.bz2 --samout ${s}.sam.bz2 -o ${s}_profile.txt --nproc 8 \
-##     --bowtie2db ${mpa_db} --index ${db_version}
+##     --db_dir ${mpa_db} --index ${db_version}
 ## s="SRS019161"; metaphlan ${s}.fastq.bz2 --input_type fastq --mapout ${s}.bowtie2.bz2 --samout ${s}.sam.bz2 -o ${s}_profile.txt --nproc 8 \
-##     --bowtie2db ${mpa_db} --index ${db_version}
+##     --db_dir ${mpa_db} --index ${db_version}
 ## s="SRS022137"; metaphlan ${s}.fastq.bz2 --input_type fastq --mapout ${s}.bowtie2.bz2 --samout ${s}.sam.bz2 -o ${s}_profile.txt --nproc 8 \
-##     --bowtie2db ${mpa_db} --index ${db_version}
+##     --db_dir ${mpa_db} --index ${db_version}
 ## s="SRS055982"; metaphlan ${s}.fastq.bz2 --input_type fastq --mapout ${s}.bowtie2.bz2 --samout ${s}.sam.bz2 -o ${s}_profile.txt --nproc 8 \
-##     --bowtie2db ${mpa_db} --index ${db_version}
+##     --db_dir ${mpa_db} --index ${db_version}
 ## s="SRS064276"; metaphlan ${s}.fastq.bz2 --input_type fastq --mapout ${s}.bowtie2.bz2 --samout ${s}.sam.bz2 -o ${s}_profile.txt --nproc 8 \
-##     --bowtie2db ${mpa_db} --index ${db_version}
+##     --db_dir ${mpa_db} --index ${db_version}
 ```
 
 Approach n. 2 ==> Copy the .sam alignments from a pre-existing repository
-OCCHIO AI PATH
+
 ```
 cp /data/course_backup/7_strainphlan/SRS013951.sam.bz2 .
 cp /data/course_backup/7_strainphlan/SRS014613.sam.bz2 .
@@ -788,7 +788,7 @@ cp /data/course_backup/7_strainphlan/SRS064276.sam.bz2 .
 
 #### Step n.4: Extract for each sample the alignments over its markers
 ```
-mpa_database="/home/ubuntu/shotgun_course/metaphlan_databases/mpa_vJun23_CHOCOPhlAnSGB_202403.pkl"
+mpa_database="/data/metaphlan_databases/mpa_vJan21_CHOCOPhlAnSGB_202103.pkl"
 sample2markers.py -i *.sam.bz2 -o ./ -n 8 -d ${mpa_database}
 ```
 
@@ -803,7 +803,7 @@ extract_markers.py -c t__SGB1877 -o db_markers/ -d ${mpa_database} ## TOO LONG,
 ```
 * Approach n. 2 ==> Copy the pre-built marker files
 ```
-cp /home/ubuntu/course_backup/course/4_strainphlan/db_markers/t__SGB1877.fna db_markers/
+cp /data/course_backup/7_strainphlan/db_markers/t__SGB1877.fna db_markers/
 ```
 
 #### Step n.6: Also include a reference genome ("GCF000273725")
@@ -826,9 +826,10 @@ strainphlan -s *.json.bz2 -m db_markers/t__SGB1877.fna -r reference_genomes/G000
 #### Step n.9: Let's visualize it ! 
 ```
 wget http://cmprod1.cibio.unitn.it/biobakery4/github_strainphlan4/fastq/metadata.txt
-add_metadata_tree.py -t output/RAxML_bestTree.t__SGB1877.StrainPhlAn4.tre -f metadata.txt -m subjectID --string_to_remove .fastq.bz2
+add_metadata_tree.py -t strainphlan_output/RAxML_bestTree.t__SGB1877.StrainPhlAn4.tre -f metadata.txt -m subjectID --string_to_remove .fastq.bz2
 
 conda deactivate
-source ${path}/activate graphlan
-${path}/../envs/mpa/bin/plot_tree_graphlan.py -t output/RAxML_bestTree.t__SGB1877.StrainPhlAn4.tre.metadata -m subjectID
+## conda create -n <graphlan> -c bioconda graphlan
+conda activate graphlan
+/data/anaconda3/envs/mpa/bin/plot_tree_graphlan.py -t strainphlan_output/RAxML_bestTree.t__SGB1877.StrainPhlAn4.tre.metadata -m subjectID
 ```
