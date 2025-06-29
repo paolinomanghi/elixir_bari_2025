@@ -9,7 +9,7 @@
 ```
 pwd
 ```
-did it return /<YOUR-NAME>?
+did it return /data/YOURNAME/?
 
 #### Step n.1: check if your environment is present
 ```
@@ -60,7 +60,7 @@ conda activate trimmomatic
 
 trimmomatic PE -threads 8 -phred33 -trimlog ${s}_trimmomatic.log ${s}1.fastq ${s}2.fastq \
 ${s}_filtered_1.fastq ${s}_unpaired_1.fastq ${s}_filtered_2.fastq ${s}_unpaired_2.fastq \
-ILLUMINACLIP:${path}/../envs/trimmomatic/share/trimmomatic/adapters/TruSeq3-PE-2.fa:2:30:10 \
+ILLUMINACLIP:/data/anaconda3/envs/trimmomatic/share/trimmomatic/adapters/TruSeq3-PE-2.fa:2:30:10 \
 LEADING:20 TRAILING:20 SLIDINGWINDOW:4:15 MINLEN:75
 
 for i in *.fastq; do echo -ne "${i}\t"; cat "$i" | wc -l; done
@@ -112,7 +112,7 @@ conda activate mpa
 
 We move to use it
 ```
-cd /<YOUR-NAME>
+cd ~
 
 mkdir 2_metaphlan
 cd 2_metaphlan
@@ -148,17 +148,16 @@ s="SRS014476-Supragingival_plaque"
 metaphlan ${s}.fasta.gz --input_type fasta --mapout ${s}.bowtie2.bz2 --samout ${s}.sam.bz2 -o ${s}_profile.txt \
     --nproc 8 --db_dir ${mpa_db} --index ${db_version}
 
-s="SRS014494-Posterior_fornix"; metaphlan ${s}.fasta.gz --input_type fasta --mapout ${s}.bowtie2.bz2 --samout ${s}.sam.bz2 -o ${s}_profile.txt \
-    --nproc 8 --db_dir ${mpa_db} --index ${db_version}
-
 for s in SRS014459-Stool SRS014472-Buccal_mucosa SRS014470-Tongue_dorsum SRS014494-Posterior_fornix SRS014476-Supragingival_plaque; do
-    cp /data/2_metaphlan/${s}_profile.txt ${s}_profile.txt; done
+    cp /data/course_backup/2_metaphlan/${s}_profile.txt ${s}_profile.txt; done
 
 ## s="SRS014459-Stool"; metaphlan ${s}.fasta.gz --input_type fasta --mapout ${s}.bowtie2.bz2 --samout ${s}.sam.bz2 -o ${s}_profile.txt \
 ##    --nproc 8 --db_dir ${mpa_db} --index ${db_version}
 ## s="SRS014470-Tongue_dorsum"; metaphlan ${s}.fasta.gz --input_type fasta --mapout ${s}.bowtie2.bz2 --samout ${s}.sam.bz2 -o ${s}_profile.txt \
 ##    --nproc 8 --db_dir ${mpa_db} --index ${db_version}
 ## s="SRS014472-Buccal_mucosa"; metaphlan ${s}.fasta.gz --input_type fasta --mapout ${s}.bowtie2.bz2 --samout ${s}.sam.bz2 -o ${s}_profile.txt \
+##    --nproc 8 --db_dir ${mpa_db} --index ${db_version}
+## s="SRS014494-Posterior_fornix"; metaphlan ${s}.fasta.gz --input_type fasta --mapout ${s}.bowtie2.bz2 --samout ${s}.sam.bz2 -o ${s}_profile.txt \
 ##    --nproc 8 --db_dir ${mpa_db} --index ${db_version}
 
 merge_metaphlan_tables.py *_profile.txt | grep -P "clade_name|UNCLASSIFIED|t__" > metaphlan_table.tsv
@@ -172,7 +171,7 @@ conda deactivate
 ## conda create -n <kraken_+_bracken> -c bioconda kraken2
 conda activate kraken_+_bracken
 
-cd /<YOUR-NAME>
+cd ~
 mkdir 3_kraken
 cd 3_kraken
 
