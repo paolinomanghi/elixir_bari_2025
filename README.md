@@ -219,7 +219,7 @@ jupyter notebook /data/Jupyter/Alpha_diversity.ipynb --allow-root --no-browser -
 
 Next, open up a new terminal and type:
 ```
-ssh -N -L 8888:localhost:8888 root@212.189.202.106
+ssh -N -L 8888:localhost:8888 <YOURNAME>@212.189.202.106
 ```
 
 Note it holds but doesn't do anything. It means that a tunnel is open
@@ -433,11 +433,25 @@ https://www.nextflow.io/
 https://docs.sylabs.io/guides/latest/user-guide/
 
 #### Step 1: Assembly and binning
-
+Let's navigate into the folder:
 ```
-Basic command: 
-
+cd /data/metagenomic_workflows/
 cd mag
+```
+
+Let's activate an environment in which nextflow has been installed:
+```
+conda activate workflows
+```
+
+Let's visualize the nextflow prompt:
+```
+nextflow -help
+nextflow run --help
+```
+
+WARNING: the next command is for showing purposes only !!
+```
  nextflow run metashot/mag-illumina \
    --assembler "megahit" \
    --reads '../fastq/*_R{1,2}.fastq.gz' \
@@ -501,7 +515,11 @@ The table "stats_scaffolds.tsv"
 contains basic assembly statistics
 
 ```
-base) -bash-4.2$ more results/stats_scaffolds.tsv 
+cd ../../
+more results/stats_scaffolds.tsv
+```
+
+```
 n_scaffolds	n_contigs	scaf_bp	contig_bp	gap_pct	scaf_N50	scaf_L50	ctg_N50	ctg_L50	scaf_N90	scaf_L90	
 ctg_N90	ctg_L90	scaf_max	ctg_max	scaf_n_gt50K	scaf_pct_gt50K	gc_avg	gc_std	filename
 723443	723443	583269202	583269202	0.000	99194	960	99194	960	538340	353	538340	353	1283613	1283613	313	
@@ -528,6 +546,7 @@ The next step is to filter bins according to their "quality". Quality is assesse
 * strain heterogeneity, i.e. the fraction of teh genome that comes from a closely related species, possibly the same. 
 
 ```
+cd /data/metagenomic_workflows/
 cd quality
 
 nextflow run metashot/prok-quality \
@@ -593,7 +612,11 @@ Limitations: this (and the following) step of the pileline makes strong assumtio
 This step classifies the genomes passing the qulity filter of the previous step according to the GTDB (https://gtdb.ecogenomic.org/) schema and the GTDB-Tk tookit (https://github.com/Ecogenomics/GTDBTk). In this example we assume that you have downloaded the reference GTDB database in the folder "./release220". See the file "classify.sh" for the actual command run to produce the output
 
 ```
-cd classify 
+cd /data/metagenomic_workflows/
+cd classify
+```
+
+```
 nextflow run compmetagen/prok-classify \
   --genomes "../quality/*.fa" \
   --gtdbtk_db ./release220 \
@@ -622,7 +645,11 @@ Complete documentation in https://github.com/metashot/prok-classify
 This workflow perform gene prediction and functional annotation of prokaryotic genomes. Necessary databases are downloaded automatically
 
 ```
+cd /data/metagenomic_workflows/
 cd annotate
+```
+
+```
 nextflow run metashot/prok-annotate \
   --genomes "../quality/results/*.fa" \
   --outdir results
@@ -683,17 +710,18 @@ The folder results/prokka contains annotated MAGs in several formats. You can lo
 ## Exercises:
 First, set the correct conda environment:
 ```
+conda deactivate
 conda activate school_notebooks
 ```
 
 Next, open jupiter notebook:
 ```
-jupyter notebook /data/Jupyter/Alpha_diversity.ipynb --allow-root --no-browser --port=8888 --ip=127.0.0.1
+jupyter notebook /data/Jupyter/Genome_functions.ipynb --no-browser --port=8888 --ip=127.0.0.1
 ```
 
 Next, open up a new terminal and type:
 ```
-ssh -N -L 8888:localhost:8888 root@212.189.202.106
+ssh -N -L 8888:localhost:8888 <YOURNAME>@212.189.202.106
 ```
 
 Note it holds but doesn't do anything. It means that a tunnel is open
@@ -708,7 +736,8 @@ http://212.189.202.106:8888/tree?token=398cde02036d5c0c4e8162b5e21758c5d7f9fa90d
 #### Step n.1: get into the right place
 
 ```
-cd /<YOUR-NAME>
+cd ~
+conda deactivate
 conda activate mpa
 
 mkdir -p 7_strainphlan/
