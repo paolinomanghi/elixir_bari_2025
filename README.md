@@ -6,6 +6,11 @@
 
 #### Step n.0: log in into your machine and explore the configuration
 ```
+ssh YOUR-NAME@212.189.202.106
+```
+
+Check our yotu current location
+```
 pwd
 ```
 did it return /data/YOURNAME/?
