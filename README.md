@@ -1,6 +1,5 @@
 
 # Elixir Course, Bari, Italy, 2025
-* [link arbitrario](https://github.com/metashot/mag-illumina)
 
 # Hands-on n.1 - Taxonomic and functional profiling using shotgun data
 ## Preprocessing
@@ -209,6 +208,7 @@ sed 's/.bracken_report.txt//g' merged_bracken_table.tsv | grep -P 'Classificatio
 ## Exercises:
 First, set the correct conda environment:
 ```
+conda deactivate 
 conda activate r_notebook
 ```
 
@@ -229,11 +229,12 @@ Es.:
 ```
 http://212.189.202.106:8888/tree?token=398cde02036d5c0c4e8162b5e21758c5d7f9fa90dc4eabad
 ```
+press ctrl + c, type y and exit jupyter
 
 ## HUMAnN 4: functional profiling at the community level
 #### Step n.1: Get into the right directory & install download the necessary files
 ```
-cd /<YOUR-NAME>
+cd ~
 ## conda create -n <humann4> -c bioconda python=3.12 ## DON'T DO IT. WE DID ALREADY
 
 conda deactivate 
@@ -255,7 +256,7 @@ cd 4_humann
 #### Step n.2: test that HUMAnN runs properly and have a look at the HUMAnN parameters
 ```
 humann_test
-humann_config
+## humann_config
 humann -h
 ```
 
@@ -325,7 +326,7 @@ Press q
 
 #### Step n.1: check everything is set up, download a sample, and run Megahit
 ```
-cd /<YOUR-NAME>
+cd ~
 
 ## conda create -n <megahit> -c bioconda megahit ## DON'T DO IT. WE DID ALREADY
 conda activate megahit
