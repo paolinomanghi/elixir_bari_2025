@@ -329,6 +329,7 @@ Press q
 cd ~
 
 ## conda create -n <megahit> -c bioconda megahit ## DON'T DO IT. WE DID ALREADY
+conda deactivate
 conda activate megahit
 
 mkdir 5_assembly
@@ -357,11 +358,14 @@ cp /data/course_backup/5_assembly/${s}.megahit_asm/contigs.fasta  ${s}.megahit_a
 ## WE ALSO NEED TWO CUSTOM SCRIPT:
 cp /data/course_backup/5_assembly/filter_contigs.py .
 cp /data/course_backup/5_assembly/megahit2spades.py .
+
+python megahit2spades.py ${s}.megahit_asm/final.contigs.fa ${s}.megahit_asm/contigs.fasta
+python filter_contigs.py ${s}.megahit_asm/contigs.fasta ${s}.megahit_asm/contigs_filtered.fasta
 ```
 
 #### Step n.2: Binning, i.e. grouping assemblies into genomes using MetaBat2
 ```
-cd /<YOUR-NAME>
+cd ~
 
 mkdir 6_MAG-reconstruction
 cd 6_MAG-reconstruction
@@ -375,9 +379,9 @@ conda activate metabat2
 
 s="SRR341725"
 
-cp ../5_assembly/SRR341725.megahit_asm/contigs_filtered.fasta ./
-cp ../5_assembly/SRR341725_1.fastq.gz ./
-cp ../5_assembly/SRR341725_2.fastq.gz ./
+cp ../5_assembly/${s}.megahit_asm/contigs_filtered.fasta ./
+cp ../5_assembly/${s}_1.fastq.gz ./
+cp ../5_assembly/${s}_2.fastq.gz ./
  
 ## bowtie2-build contigs_filtered.fasta contigs_filtered
 ## bowtie2 -x contigs_filtered -1 ${s}_1.fastq.gz -2 ${s}_2.fastq.gz -S ${s}.sam -p 8 2> ${s}.bowtie2.log
@@ -385,7 +389,7 @@ cp ../5_assembly/SRR341725_2.fastq.gz ./
 ## samtools sort ${s}.bam -o sorted_${s}.bam
 
 ## COPY THE RESULT FOR NOW:
-cp /data/course_backup/6_MAG-reconstruction/sorted_SRR341725.bam .
+cp /data/course_backup/6_MAG-reconstruction/sorted_${s}.bam .
 
 jgi_summarize_bam_contig_depths --outputDepth ${s}_depth.txt sorted_${s}.bam 2> ${s}_depth.log
 ```
@@ -398,7 +402,6 @@ metabat2 -i contigs_filtered.fasta -a ${s}_depth.txt -o ${s}_bins/bin -m 1500 --
 #### Step n.4: Estimate MAG quality using checkM2
 ```
 conda deactivate
-
 ## conda create -n <checkm2> -c bioconda checkm2 ## DON'T DO IT. WE DID ALREADY
 
 conda activate checkm2
@@ -411,12 +414,12 @@ conda activate checkm2
 checkm2_db="/data/CheckM2_database/uniref100.KO.1.dmnd"
 checkm2 testrun --database_path ${checkm2_db} --threads 8
 
-checkm2 predict -i SRR341725_bins -o SRR341725_checkm2 -x .fa --database_path ${checkm2_db} --threads 8
+checkm2 predict -i ${s}_bins -o ${s}_checkm2 -x .fa --database_path ${checkm2_db} --threads 8
 
-awk -F'\t' '$2 > 50 && $3 < 5' SRR341725_checkm2/quality_report.tsv > SRR341725_checkm2/quality_report_filtered.tsv
+awk -F'\t' '$2 > 50 && $3 < 5' ${s}_checkm2/quality_report.tsv > ${s}_checkm2/quality_report_filtered.tsv
 
 mkdir -p ${s}_bins_filtered
-cut -f1 SRR341725_checkm2/quality_report_filtered.tsv | while read -r value; do cp ${s}_bins/${value}.fa ${s}_bins_filtered/; done
+cut -f1 ${s}_checkm2/quality_report_filtered.tsv | while read -r value; do cp ${s}_bins/${value}.fa ${s}_bins_filtered/; done
 ```
 
 ## Approach n. 2: run the nextflow workflow
