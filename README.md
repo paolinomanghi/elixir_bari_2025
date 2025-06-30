@@ -6,8 +6,8 @@
 - [Hands-on n.3 - Taxonomic profiling using k-mers: Kraken + Bracken taxonomic profiling](#user-content-hands-on-n3---taxonomic-profiling-using-k-mers-kraken--bracken-taxonomic-profiling)
 - [Hands-On 4: functional profiling at the community level using HUMAnN 4](#user-content-hands-on-4-functional-profiling-at-the-community-level-using-humann-4)
 - [Hands-on n.5 - Metagenome assembly and binning](#user-content-hands-on-n5---metagenome-assembly-and-binning)
-  * [Approach 1: following a protocol step-by-step](#user-content-approach-1:-following-a-protocol-step-by-step)
-  * [Approach 2: trying Nextflow pipelines](#user-content-approach-2:-trying-nextflow-pipelines)
+  * [Approach 1: following a protocol step-by-step](#user-content-approach-1-following-a-protocol-step-by-step)
+  * [Approach 2: trying Nextflow pipelines](#user-content-approach-2-trying-nextflow-pipelines)
 - [BONUS: Hands-on n.6 - Taxonomic profiling beyond the level of species using StrainPhlAn](#user-content-bonus-hands-on-n6---taxonomic-profiling-beyond-the-level-of-species-using-strainphlan)
 
 # Hands-on n.1 - Preprocessing
