@@ -1,12 +1,12 @@
 
 # Elixir Course, Bari, Italy, 2025
 
-- [Hands-on n.1 - Taxonomic and functional profiling using shotgun data](#Hands-on n.1 - Taxonomic and functional profiling using shotgun data)
-- [Hands-on n.2 - Taxonomic profiling using marker genes with MetaPhlAn 4](#Hands-on n.2 - Taxonomic profiling using marker genes with MetaPhlAn 4)
-- [Hands-on n.3 - Taxonomic profiling using k-mers: Kraken + Bracken taxonomic profiling](#Hands-on n.3 - Taxonomic profiling using k-mers: Kraken + Bracken taxonomic profiling)
-- [Hands-On 4: functional profiling at the community level using HUMAnN 4](#Hands-On 4: functional profiling at the community level using HUMAnN 4)
-- [Hands-on n.5 - Metagenome assembly and binning](#Hands-on n.5 - Metagenome assembly and binning)
-- [BONUS: Hands-on n.6 - Taxonomic profiling beyond the level of species using StrainPhlAn](#BONUS: Hands-on n.6 - Taxonomic profiling beyond the level of species using StrainPhlAn)
+- [Hands-on n.1 - Taxonomic and functional profiling using shotgun data](# Hands-on n.1 - Taxonomic and functional profiling using shotgun data)
+- [Hands-on n.2 - Taxonomic profiling using marker genes with MetaPhlAn 4](# Hands-on n.2 - Taxonomic profiling using marker genes with MetaPhlAn 4)
+- [Hands-on n.3 - Taxonomic profiling using k-mers: Kraken + Bracken taxonomic profiling](# Hands-on n.3 - Taxonomic profiling using k-mers: Kraken + Bracken taxonomic profiling)
+- [Hands-On 4: functional profiling at the community level using HUMAnN 4](# Hands-On 4: functional profiling at the community level using HUMAnN 4)
+- [Hands-on n.5 - Metagenome assembly and binning](# Hands-on n.5 - Metagenome assembly and binning)
+- [BONUS: Hands-on n.6 - Taxonomic profiling beyond the level of species using StrainPhlAn](# BONUS: Hands-on n.6 - Taxonomic profiling beyond the level of species using StrainPhlAn)
 
 # Hands-on n.1 - Preprocessing
 
