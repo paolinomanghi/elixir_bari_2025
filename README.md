@@ -1,7 +1,7 @@
 
 # Elixir Course, Bari, Italy, 2025
 
-- [Hands-on n.1 - Preprocessing](#user-content-hands-on-n1---preprocessing)
+- [Hands-on n.1 - Preprocessing of standard metagenomic data](#user-content-hands-on-n1---preprocessing-of-standard-metagenomic-data)
 - [Hands-on n.2 - Taxonomic profiling using marker genes with MetaPhlAn 4](#user-content-hands-on-n2---taxonomic-profiling-using-marker-genes-with-metaphlan-4)
 - [Hands-on n.3 - Taxonomic profiling using k-mers: Kraken + Bracken taxonomic profiling](#user-content-hands-on-n3---taxonomic-profiling-using-k-mers-kraken--bracken-taxonomic-profiling)
 - [Hands-On 4: functional profiling at the community level using HUMAnN 4](#user-content-hands-on-4-functional-profiling-at-the-community-level-using-humann-4)
@@ -10,7 +10,7 @@
   * [Approach 2: trying Nextflow pipelines](#user-content-approach-2-trying-nextflow-pipelines)
 - [BONUS: Hands-on n.6 - Taxonomic profiling beyond the level of species using StrainPhlAn](#user-content-bonus-hands-on-n6---taxonomic-profiling-beyond-the-level-of-species-using-strainphlan)
 
-# Hands-on n.1 - Preprocessing
+# Hands-on n.1 - Preprocessing of standard metagenomic data
 
 #### Step n.0: log in into your machine and explore the configuration
 ```
