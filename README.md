@@ -1,8 +1,14 @@
 
 # Elixir Course, Bari, Italy, 2025
 
-# Hands-on n.1 - Taxonomic and functional profiling using shotgun data
-## Preprocessing
+- [Hands-on n.1 - Taxonomic and functional profiling using shotgun data](#Hands-on n.1 - Taxonomic and functional profiling using shotgun data)
+- [Hands-on n.2 - Taxonomic profiling using marker genes with MetaPhlAn 4](#Hands-on n.2 - Taxonomic profiling using marker genes with MetaPhlAn 4)
+- [Hands-on n.3 - Taxonomic profiling using k-mers: Kraken + Bracken taxonomic profiling](#Hands-on n.3 - Taxonomic profiling using k-mers: Kraken + Bracken taxonomic profiling)
+- [Hands-On 4: functional profiling at the community level using HUMAnN 4](#Hands-On 4: functional profiling at the community level using HUMAnN 4)
+- [Hands-on n.5 - Metagenome assembly and binning](#Hands-on n.5 - Metagenome assembly and binning)
+- [BONUS: Hands-on n.6 - Taxonomic profiling beyond the level of species using StrainPhlAn](#BONUS: Hands-on n.6 - Taxonomic profiling beyond the level of species using StrainPhlAn)
+
+# Hands-on n.1 - Preprocessing
 
 #### Step n.0: log in into your machine and explore the configuration
 ```
@@ -104,7 +110,7 @@ for i in *.fastq; do echo -ne "${i}\t"; cat "$i" | wc -l; done; echo; for i in *
 ```
 Did the preprocessing produce the same exact number of reads in R1 and R2 ?
 
-## MetaPhlAn 4: taxonomic profiling using marker genes
+# Hands-on n.2 - Taxonomic profiling using marker genes with MetaPhlAn 4
 #### Step n.1: Setup correct variables, activate environment and navigate to the right folders
 
 We create the conda environment **we did it already**
@@ -167,7 +173,7 @@ for s in SRS014459-Stool SRS014472-Buccal_mucosa SRS014470-Tongue_dorsum SRS0144
 merge_metaphlan_tables.py *_profile.txt | grep -P "clade_name|UNCLASSIFIED|t__" > metaphlan_table.tsv
 ```
 
-## Kraken + Bracken: taxonomic profiling using k-mers
+# Hands-on n.3 - Taxonomic profiling using k-mers: Kraken + Bracken taxonomic profiling
 #### Step n.1: Check everything is set up and create kraken + bracken DB
 
 ```
@@ -236,7 +242,7 @@ http://212.189.202.106:8888/tree?token=398cde02036d5c0c4e8162b5e21758c5d7f9fa90d
 ```
 press ctrl + c, type y and exit jupyter
 
-## HUMAnN 4: functional profiling at the community level
+# Hands-On 4: functional profiling at the community level using HUMAnN 4
 #### Step n.1: Get into the right directory & install download the necessary files
 ```
 cd ~
@@ -282,10 +288,7 @@ metaphlan_params="--index mpa_vOct22_CHOCOPhlAnSGB_202403 -t rel_ab_w_read_stats
 
 ## BUT IT TAKES THREE HOURS... OR YOU CAN RUN:
 mkdir -p ${s}
-```
 
-Occhio che qui sistemare le cartelle !!!
-```
 cp /data/course_backup/4_humann/${s}/${s}_2_genefamilies.tsv ${s}/${s}_genefamilies.tsv
 cp /data/course_backup/4_humann/${s}/${s}_4_pathabundance.tsv ${s}/${s}_pathabundance.tsv
 ```
@@ -326,7 +329,7 @@ less -S merged_pathabundance.tsv
 ```
 Press q
 
-# Hands-on n.3 - Metagenome assembly and binning
+# Hands-on n.5 - Metagenome assembly and binning
 ## Approach n. 1: follow the protocol
 
 #### Step n.1: check everything is set up, download a sample, and run Megahit
@@ -737,7 +740,7 @@ Es.:
 http://212.189.202.106:8888/tree?token=398cde02036d5c0c4e8162b5e21758c5d7f9fa90dc4eabad
 ```
 
-# Hands-on n.3 (BONUS) - Taxonomic profiling beyond the level of species
+# BONUS: Hands-on n.6 - Taxonomic profiling beyond the level of species using StrainPhlAn
 #### Step n.1: get into the right place
 
 ```
