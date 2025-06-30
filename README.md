@@ -1,7 +1,7 @@
 
 # Elixir Course, Bari, Italy, 2025
 
-- [Hands-on n.1 - Preprocessing](#-Hands-on-n.1---Preprocessing)
+- [Hands-on n.1 - Preprocessing](#user-content-hands-on-n.1---preprocessing)
 - [Hands-on n.2 - Taxonomic profiling using marker genes with MetaPhlAn 4](# Hands-on n.2 - Taxonomic profiling using marker genes with MetaPhlAn 4)
 - [Hands-on n.3 - Taxonomic profiling using k-mers: Kraken + Bracken taxonomic profiling](# Hands-on n.3 - Taxonomic profiling using k-mers: Kraken + Bracken taxonomic profiling)
 - [Hands-On 4: functional profiling at the community level using HUMAnN 4](# Hands-On 4: functional profiling at the community level using HUMAnN 4)
