@@ -6,6 +6,8 @@
 - [Hands-on n.3 - Taxonomic profiling using k-mers: Kraken + Bracken taxonomic profiling](#user-content-hands-on-n3---taxonomic-profiling-using-k-mers-kraken--bracken-taxonomic-profiling)
 - [Hands-On 4: functional profiling at the community level using HUMAnN 4](#user-content-hands-on-4-functional-profiling-at-the-community-level-using-humann-4)
 - [Hands-on n.5 - Metagenome assembly and binning](#user-content-hands-on-n5---metagenome-assembly-and-binning)
+  * [Approach 1: following a protocol step-by-step](##user-content-approach-1:-following-a-protocol-step-by-step)
+  * [Approach 2: trying Nextflow pipelines](##user-content-approach-2:-trying-nextflow-pipelines)
 - [BONUS: Hands-on n.6 - Taxonomic profiling beyond the level of species using StrainPhlAn](#user-content-bonus-hands-on-n6---taxonomic-profiling-beyond-the-level-of-species-using-strainphlan)
 
 # Hands-on n.1 - Preprocessing
@@ -330,7 +332,7 @@ less -S merged_pathabundance.tsv
 Press q
 
 # Hands-on n.5 - Metagenome assembly and binning
-## Approach n. 1: follow the protocol
+## Approach 1: following a protocol step-by-step
 
 #### Step n.1: check everything is set up, download a sample, and run Megahit
 ```
@@ -430,7 +432,7 @@ mkdir -p ${s}_bins_filtered
 cut -f1 ${s}_checkm2/quality_report_filtered.tsv | while read -r value; do cp ${s}_bins/${value}.fa ${s}_bins_filtered/; done
 ```
 
-## Approach n. 2: run the nextflow workflow
+##Approach 2: trying Nextflow pipelines
 
 Warning: the nextflow commands are here for explanatory purposes only: each of them will require from hours to days to run and considerable computational resouces. The results have been pre-computed and are already present on your workspace.
 
